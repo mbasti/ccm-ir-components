@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<script src="https://kaul.inf.h-brs.de/ccm/ccm.js"></script>
+
+<script type="text/javascript" src="lib/jspos/lexer.js"></script>
+<script type="text/javascript" src="lib/jspos/lexicon.js_"></script>
+<script type="text/javascript" src="lib/jspos/POSTagger.js"></script>
+
+<script src="postagger.js"></script>
+<script src="cooccurrence.js"></script>
+<script src="pagerank.js"></script>
+
+<h3>Sample Text</h3>
+
+<div id="input_text">
+The Romans were to make no more concerted attempts to conquer and permanently hold Germania beyond the river Rhine.
+</div>
+
+<script type="text/javascript">
+
+//var taggedDocs = tagDocs(new Array(document.getElementById("input_text").innerHTML));
+//var cooccurrenceMatrix = cooccurrences(taggedDocs); 
+
+
+matrix = {
+	"w1" : {"w2" : 2, "w3" : 0, "w4" : 3, "w5" : 0},
+	"w2" : {"w1" : 2, "w3" : 1, "w4" : 0, "w5" : 2},
+	"w3" : {"w1" : 0, "w2" : 1, "w4" : 1, "w5" : 0},
+	"w4" : {"w1" : 3, "w2" : 0, "w3" : 1, "w5" : 1},
+	"w5" : {"w1" : 0, "w2" : 2, "w3" : 0, "w4" : 1}
+}
+
+
+var ranks = pageRank(matrix);
+
+//console.log(taggedDocs);
+//console.log(cooccurrenceMatrix);
+console.log(ranks);
+
+</script>
+</html>
