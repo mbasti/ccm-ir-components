@@ -1,9 +1,9 @@
-# ccm-ir-components
-Information Retrieval (IR) components for the ccm framework/runtime for web-applications.
+# CCM IR-Components
 
-Open ```demo.html``` for a demonstration.
+## Demo
+Open ```demo.html``` in your browser for a demonstration of the componentss.
 
-### Component Overview:
+## Component Overview:
 | Component    | What it does     |
 | ------------- |-------------|
 | ```ccm.postagger.js``` | annotates a textcorpus with pos (part-of-speech)-tags |
@@ -11,7 +11,7 @@ Open ```demo.html``` for a demonstration.
 | ```ccm.tfidf.js``` | generates from a textcorpus a tf-idf/adjacency matrix |
 | ```ccm.pagerank.js``` | generates a ranking for each node in an adjacency matrix |
 
-### TODO:
+## TODO:
 * merge-terms-when-adjacent functionality
 * consider plural/singular
 * consider verbs (selectable/parameter for cooccurrence component)?
@@ -23,7 +23,7 @@ Open ```demo.html``` for a demonstration.
 * Bookmarklet?
 * Side-Panel?
 
-### Links:
+## Links:
 * [ccm GitHub repo (mkaul)](https://github.com/mkaul/ccm-components)
 * [ccm GitHub repo (akless)](https://github.com/akless/ccm-components)
 * [POS-Tag Overview](https://www.ling.upenn.edu/courses/Fall_2003/ling001/penn_treebank_pos.html)
