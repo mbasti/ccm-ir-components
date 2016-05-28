@@ -29,7 +29,7 @@
 </style>
 
 <body>
-	<h1>CMM IR-Components Demo</h1>
+	<h1>CCM IR-Components Demo</h1>
 	
 	<h2>Settings</h2>
 	<div id="settings" >
@@ -39,12 +39,12 @@
 			<tr>
 			<td>Text Corpus:</td>
 			<td><select id="storylist">
-				<option value="text1">Mother Hulda</option>
-				<option value="text2">Little Red Riding Hood</option>
+				<option value="text1">Mother Hulda (Grimm Story)</option>
+				<option value="text2">Little Red Riding Hood (Grimm Story)</option>
 				<option value="text3">Donald Trump Rally (BBC News)</option>
 				<option value="text4">Putin Warns Romania (Reuters News)</option>
-				<option value="text5">The Sorrows of Werther</option>
-				<option value="text6">Enigma Machine (Wikipedia Article)</option>
+				<option value="text5">The Sorrows of Werther (Göthe)</option>
+				<option value="text6" selected=true>Enigma Machine (Wikipedia Article)</option>
 				<option value="text7">Owls (Wikipedia Article)</option>
 				<option value="text8">Sequoia National Park (Wikipedia Article)</option>
 			</select></td>
@@ -54,7 +54,7 @@
 			<td>Cooccurrence Window-Size</td>
 			<td><select id="cooccWindowSize">
 				<option value="1">1</option>
-				<option value="2">2</option>
+				<option value="2" selected=true>2</option>
 				<option value="3">3</option>
 				<option value="4">4</option>
 				<option value="5">5</option>
@@ -86,7 +86,7 @@
 			<td>How many tags should be rendered?</td>
 			<td><select id="cloudFilterCount">
 				<option value="5">5</option>
-				<option value="10">10</option>
+				<option value="10" selected=true>10</option>
 				<option value="15">15</option>
 				<option value="20">20</option>
 			</select></td>
@@ -96,7 +96,7 @@
 			<td>Should adjacent terms be merged?</td>
 			<td><select id="mergeTerms" disabled=true>
 				<option value=true>yes</option>
-				<option value=false>no</option>
+				<option value=false selected=true>no</option>
 			</select></td>
 			</tr>
 			
@@ -111,10 +111,10 @@
 	<h2>Cooccurrence-Graph</h2>
 	<div id="ccm-cooccurrences" class="component"></div>
 	
-	<h2>Ranked Words with PageRank</h2>
+	<h2>Ranked words with PageRank-Algorithm</h2>
 	<div id="ccm-pagerank" class="component"></div>
 	
-	<h2>KeyCloud</h2>
+	<h2>Cloud</h2>
 	<div id="ccm-keycloud" class="component"></div>
 
 </body>
