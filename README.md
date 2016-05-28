@@ -12,10 +12,14 @@ Open ```demo.html``` for a demonstration.
 | ```ccm.pagerank.js``` | generates a ranking for each node in an adjacency matrix |
 
 ### TODO:
-* merge terms functionality
+* merge-terms-when-adjacent functionality
+* consider plural/singular
+* consider verbs (selectable/parameter for cooccurrence component)?
+* remove "empty" terms for less space in cooccurrence matrix
+* sort pagerank output
 * refactoring
 * finish tf-idf component
-* add summary component
+* summary component
 * Bookmarklet?
 * Side-Panel?
 
