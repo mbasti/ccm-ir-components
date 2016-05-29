@@ -8,7 +8,7 @@ ccm.component( {
 
 	config: {
 		filtercount : 15,
-		merge_words : true,
+		merge_terms : false,
 		dataset : "demo",
 		cooccurrencekey : 'cooccurrences',
 		keywordkey : 'keywords',
@@ -38,10 +38,10 @@ ccm.component( {
 				var adjacencyMatrix = dataset[self.cooccurrencekey];
 				var ranks = filter_ranks(original_ranks);
 				
-				if(self.merge_words) {
-			//		ranks = merge_words(ranks, ranks);
+				if(self.merge_terms) {
+					ranks = merge_words(ranks, adjacencyMatrix);
 				}
-				
+			
 				// randomize dataset
 				var terms = Object.keys(ranks);
 				var i = 0, j = 0, temp = null;
@@ -93,6 +93,7 @@ ccm.component( {
 			var original_ranks = JSON.parse(JSON.stringify(ranks));
 			var merged_ranks = new Object();
 			var clusters = new Object();
+			
 			for(var node in ranks) {
 				var adjacentNodes = filterarray(Object.keys(adjacencyMatrix[node]), Object.keys(original_ranks));
 				var merged_string = node;
@@ -101,7 +102,7 @@ ccm.component( {
 					merged_string += "-" + adjacentNodes[adjacentNodeIndx];
 					delete ranks[adjacentNodes[adjacentNodeIndx]];
 				}
-				
+
 				delete ranks[node];
 				for(var othernode in ranks) {
 
@@ -121,6 +122,7 @@ ccm.component( {
 					}
 				}
 				merged_ranks[merged_string] = original_ranks[node];
+
 			}
 			return merged_ranks;
 		}

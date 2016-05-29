@@ -94,9 +94,9 @@
 			
 			<tr>
 			<td>Should adjacent terms be merged?</td>
-			<td><select id="mergeTerms" disabled=true>
+			<td><select id="mergeTerms">
 				<option value=true>yes</option>
-				<option value=false selected=true>no</option>
+				<option value=false>no</option>
 			</select></td>
 			</tr>
 			
@@ -141,7 +141,7 @@
 		var selectedWindowSize = $("#cooccWindowSize option:selected").attr("value");
 		var selectedThreshold = $("#cooccThreshold option:selected").attr("value");
 		var selectedFilterCount = $("#cloudFilterCount option:selected").attr("value");
-		var selectedMergeTerms = $("#mergeTerms option:selected").attr("value");
+		var selectedMergeTerms = $("#mergeTerms option:selected").attr("value") === 'true';
 		
 		// render pos-tags
 		ccm.render(
