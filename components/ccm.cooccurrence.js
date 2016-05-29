@@ -27,7 +27,7 @@ ccm.component( {
 			edges: []
 		};
 		
-		this.render = function (callback) {
+		this.render = function(callback) {
 
 			var cooccurrences;
 			this.store.get(self.dataset, function(textcorpus) {
@@ -37,10 +37,11 @@ ccm.component( {
 				storable['key'] = self.dataset;
 				storable[self.destkey] = cooccurrences;
 				self.store.set(storable);
+				
 				// render the graph with sigma lib
 				sigma_graph = new sigma({
 					graph: g,
-					container: 'ccm-cooccurrences'//self.element.selector.replace("#","")
+					container: self.element.selector.replace("#","")
 				});
 			});
 
@@ -63,40 +64,36 @@ ccm.component( {
 				for (var currentWordWithTagIndx = 0; currentWordWithTagIndx < wordsWithTags.length; currentWordWithTagIndx++) {
 				
 					var currentWordWithTag = wordsWithTags[currentWordWithTagIndx];
-				
-					if(isSelectable(currentWordWithTag)) {
-						
-						var currentWord = getCleanString(currentWordWithTag);
-						var windowCount = 1;
-						
-						if(cooccurrences[currentWord] == undefined) {
-							cooccurrences[currentWord] = new Object();
+					var currentWord = getCleanString(currentWordWithTag[0]);
+					var currentPOS = currentWordWithTag[1];
 
-							g.nodes.push({
-								id: currentWord,
-								label: currentWord,
-								x: Math.random(),
-								y: Math.random(),
-								size: 0,
-								color: isAdjective(currentWordWithTag) ? self.color_adjective : self.color_noun
-							});
-							
-						}
+					if(isSelectable(currentWord, currentPOS)) {
+						var windowCount = 1;
 						
 						while(windowCount <= self.windowSize && currentWordWithTagIndx+windowCount < wordsWithTags.length) {
 
 							var otherWordWithTagIndx = currentWordWithTagIndx+windowCount;
 							var otherWordWithTag = wordsWithTags[otherWordWithTagIndx];
-							var otherWord = getCleanString(otherWordWithTag);
-
-							if(isSelectable(otherWordWithTag) && currentWord !== otherWord) {	
-								
-								if(cooccurrences[currentWord][otherWord] == undefined) {
-									cooccurrences[currentWord][otherWord] = 0;
+							var otherWord = getCleanString(otherWordWithTag[0]);
+							var otherPOS = otherWordWithTag[1];
+							
+							if(isSelectable(otherWord, otherPOS) && currentWord !== otherWord) {
+						
+								if(!nodeExist(currentWord, cooccurrences)) {
+									addNode(currentWord, currentPOS, cooccurrences);
 								}
-
-								cooccurrences[currentWord][otherWord] += 1;
-
+								
+								if(!nodeExist(otherWord, cooccurrences)) {
+									addNode(otherWord, otherPOS, cooccurrences);
+								}
+								
+								if(nodesExist(currentWord, otherWord, cooccurrences)) {
+									incrementForBothNodes(currentWord, otherWord, cooccurrences);	
+								} else {
+									cooccurrences[currentWord][otherWord] = 1;
+									cooccurrences[otherWord][currentWord] = 1;
+								}
+								
 							}
 
 							windowCount++;
@@ -104,22 +101,27 @@ ccm.component( {
 					}
 				}
 			}
+			
+			// check if threshold is reached and add edges
+			var words = Object.keys(cooccurrences);
+			for(var word_a_indx = 0; word_a_indx < words.length; word_a_indx++) {
+				
+				var word_a = words[word_a_indx];
+				
+				for(var word_b_indx = word_a_indx+1; word_b_indx < words.length; word_b_indx++) {
+					
+					var word_b = words[word_b_indx];
+					
+					if(!nodesExist(word_a, word_b, cooccurrences)) {
+						continue;
+					}
 
-			// sum counts, check if threshold is reached and mirror matrix
-			var nodes = Object.keys(cooccurrences);
-			for(var node_a_indx = 0; node_a_indx < nodes.length; node_a_indx++) {
-				var node_a = nodes[node_a_indx];
-				for(var node_b_indx = node_a_indx+1; node_b_indx < nodes.length; node_b_indx++) {
-					var node_b = nodes[node_b_indx];
-					var sum = 0;
-					sum = cooccurrences[node_a][node_b]? cooccurrences[node_a][node_b] : 0;
-					sum += cooccurrences[node_b][node_a]? cooccurrences[node_b][node_a] : 0;
+					var sum = cooccurrences[word_a][word_b];
+
 					if(sum >= self.cooccurrence_threshold) {
-						cooccurrences[node_a][node_b] = sum;
-						cooccurrences[node_b][node_a] = sum;
-						
-						var gnode_a = g.nodes[node_a_indx];
-						var gnode_b = g.nodes[node_b_indx];
+						console.log(sum + " >= " + self.cooccurrence_threshold);
+						var gnode_a = g.nodes[word_a_indx];
+						var gnode_b = g.nodes[word_b_indx];
 						
 						var xDiff = Math.abs(gnode_a.x - gnode_b.x)/1.25;
 						var yDiff = Math.abs(gnode_a.y - gnode_b.y)/1.25;
@@ -156,48 +158,87 @@ ccm.component( {
 						}
 						
 						g.edges.push({
-							id: node_a_indx + "," + node_b_indx,
-							source: node_a,
-							target: node_b,
+							id: word_a_indx + "," + word_b_indx,
+							source: word_a,
+							target: word_b,
 							label: sum,
 							size: sum,
 							color: '#ccc'
 						});
 						
 					} else {
-						//cooccurrences[node_a][node_b] = 0;
-						//cooccurrences[node_b][node_a] = 0;
-						delete cooccurrences[node_a][node_b];
-						delete cooccurrences[node_b][node_a];
+						delete cooccurrences[word_a][word_b];
+						delete cooccurrences[word_b][word_a];
+					//	console.log(Object.keys(cooccurrences['action']).length);						
+					console.log('delete');
+						// delete 'empty' nodes for less space usage
+						if(Object.keys(cooccurrences[word_a]).length === 0) {
+							console.log('yes');
+							delete cooccurrences[word_a];
+						}
+						if(Object.keys(cooccurrences[word_b]).length === 0) {
+							console.log('yes');
+							delete cooccurrences[word_b];
+						}
 					}
 				}
 			}
-			
+			console.log(cooccurrences);
 			return cooccurrences;
 		}
 
-		var isSelectable = function(wordWithTag) {
-			return (isAdjective(wordWithTag) || isNoun(wordWithTag) ) && wordWithTag[0].length > 2;
+		var nodeExist = function(word, adjacencyMatrix) {
+			return adjacencyMatrix[word] != undefined;
 		}
 
-		var getCleanString = function(wordWithTag) {
-			return wordWithTag[0].toString().toLowerCase().replace(/[^0-9a-z]/g,"");
+		var nodesExist = function(word_a, word_b, adjacencyMatrix) {
+			return (
+				adjacencyMatrix[word_a] != undefined &&
+				adjacencyMatrix[word_b] != undefined &&
+				adjacencyMatrix[word_a][word_b] != undefined && 
+				adjacencyMatrix[word_b][word_a] != undefined
+			);
+		}
+
+		var addNode = function(word, pos_tag, adjacencyMatrix) {
+			adjacencyMatrix[word] = new Object();
+			g.nodes.push({
+				id: word,
+				label: word,
+				x: Math.random(),
+				y: Math.random(),
+				size: 0,
+				color: isAdjective(pos_tag) ? self.color_adjective : self.color_noun
+			});
+		}
+
+		var incrementForBothNodes = function(word_a, word_b, adjacencyMatrix) {
+			adjacencyMatrix[word_a][word_b] += 1;
+			adjacencyMatrix[word_b][word_a] += 1;
+		}
+
+		var isSelectable = function(word, pos_tag) {
+			return (isAdjective(pos_tag) || isNoun(pos_tag) ) && word.length > 2;
+		}
+
+		var getCleanString = function(word) {
+			return word.toLowerCase().replace(/[^0-9a-z]/g,"");
 		}
 		
-		var isNoun = function(wordWithTag) {
-			return wordWithTag[1].match(/\b(NN|NNS|NNP|NNPS)\b/g) != null;
+		var isNoun = function(word) {
+			return word.match(/\b(NN|NNS|NNP|NNPS)\b/g) != null;
 		}
 
-		var isAdjective = function(wordWithTag) {
-			return wordWithTag[1].match(/\b(JJ|JJR|JJS)\b/g) != null;
+		var isAdjective = function(word) {
+			return word.match(/\b(JJ|JJR|JJS)\b/g) != null;
 		}
 
-		var isVerb = function(wordWithTag) {		
-			return wordWithTag[1].match(/\b(VB|VBP|VBZ|VBG|VBN)\b/g) != null;
+		var isVerb = function(word) {		
+			return word.match(/\b(VB|VBP|VBZ|VBG|VBN)\b/g) != null;
 		}
 
-		var isSymbol = function(wordWithTag) {
-			return wordWithTag[1].match(/(SYM|[\.,:$#"\(\)])/g) != null;
+		var isSymbol = function(word) {
+			return word.match(/(SYM|[\.,:$#"\(\)])/g) != null;
 		}
 		
 	}
