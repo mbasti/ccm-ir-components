@@ -33,8 +33,10 @@ ccm.component( {
 
 				// render ranks as ordered list
 				var element = ccm.helper.element(self);
-				var html_structure = {tag: 'ul', id: self.destkey, inner: []};
-				for (var rank in ranks) {
+				var html_structure = {tag: 'ol', id: self.destkey, inner: []};
+				var nodes = Object.keys(ranks);
+				nodes.sort(function(node_a, node_b){return ranks[node_a] <= ranks[node_b] });
+				for (var rank of nodes) {
 					html_structure.inner.push({tag: 'li', inner: rank + ": " + ranks[rank]});
 				}
 				element.html(ccm.helper.html(html_structure));
