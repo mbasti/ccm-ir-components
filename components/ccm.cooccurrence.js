@@ -67,6 +67,10 @@ ccm.component( {
 					var currentWord = getCleanString(currentWordWithTag[0]);
 					var currentPOS = currentWordWithTag[1];
 
+					if(!nodeExist(currentWord, cooccurrences)) {
+						addNode(currentWord, currentPOS, cooccurrences);
+					}
+
 					if(isSelectable(currentWord, currentPOS)) {
 						var windowCount = 1;
 						
@@ -79,10 +83,6 @@ ccm.component( {
 							
 							if(isSelectable(otherWord, otherPOS) && currentWord !== otherWord) {
 						
-								if(!nodeExist(currentWord, cooccurrences)) {
-									addNode(currentWord, currentPOS, cooccurrences);
-								}
-								
 								if(!nodeExist(otherWord, cooccurrences)) {
 									addNode(otherWord, otherPOS, cooccurrences);
 								}
