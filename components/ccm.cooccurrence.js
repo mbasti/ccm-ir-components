@@ -119,7 +119,6 @@ ccm.component( {
 					var sum = cooccurrences[word_a][word_b];
 
 					if(sum >= self.cooccurrence_threshold) {
-						console.log(sum + " >= " + self.cooccurrence_threshold);
 						var gnode_a = g.nodes[word_a_indx];
 						var gnode_b = g.nodes[word_b_indx];
 						
@@ -169,21 +168,18 @@ ccm.component( {
 					} else {
 						delete cooccurrences[word_a][word_b];
 						delete cooccurrences[word_b][word_a];
-					//	console.log(Object.keys(cooccurrences['action']).length);						
-					console.log('delete');
+
 						// delete 'empty' nodes for less space usage
 						if(Object.keys(cooccurrences[word_a]).length === 0) {
-							console.log('yes');
 							delete cooccurrences[word_a];
 						}
 						if(Object.keys(cooccurrences[word_b]).length === 0) {
-							console.log('yes');
 							delete cooccurrences[word_b];
 						}
 					}
 				}
 			}
-			console.log(cooccurrences);
+
 			return cooccurrences;
 		}
 
