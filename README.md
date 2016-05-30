@@ -1,7 +1,7 @@
 # CCM IR-Components
 
 ## Demo
-Open ```demo.html``` in your browser for a demonstration of the componentss.
+Open ```demo.html``` in your browser for a demonstration.
 
 ## Component Overview:
 | Component    | What it does     |
