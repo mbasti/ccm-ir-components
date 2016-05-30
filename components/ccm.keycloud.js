@@ -36,14 +36,14 @@ ccm.component( {
 
 				var original_ranks = dataset[self.keywordkey];
 				var adjacencyMatrix = dataset[self.cooccurrencekey];
-				var ranks = filter_ranks(original_ranks);
+				var words = selectWords(original_ranks);
 				
 				if(self.merge_terms) {
-					ranks = merge_words(ranks, adjacencyMatrix);
+					words = merge_words(words, adjacencyMatrix);
 				}
-			
+
 				// randomize dataset
-				var terms = Object.keys(ranks);
+				var terms = Object.keys(words);
 				var i = 0, j = 0, temp = null;
 				for (i = terms.length - 1; i > 0; i -= 1) {
 					j = Math.floor(Math.random() * (i + 1));
@@ -56,9 +56,8 @@ ccm.component( {
 				var element = self.element;
 				var html_structure = {tag: 'div', id: self.dataset, inner: []};
 
-				for (var termIndx in terms){
-					var term = terms[termIndx];
-					html_structure.inner.push({tag:'a', rel:ranks[term], inner: ' ' + term + ' '});
+				for (var term of terms){
+					html_structure.inner.push({tag:'a', rel:words[term], inner: ' ' + term + ' '});
 				}
 				element.html(ccm.helper.html(html_structure));
 				element.find('#' + self.dataset + " a").tagcloud();
@@ -68,25 +67,15 @@ ccm.component( {
 			if (callback) callback();
 		}
 
-		var filter_ranks = function(ranks) {
-			var filtered_ranks = new Object();
-			// find next maximal rank
-			for(i = 0; i < self.filtercount; i++) {
-				var maxVal = 0;
-				var maxWord = null;
-				for(word in ranks) {
-					if (ranks[word] >= maxVal) {
-						maxVal = ranks[word];
-						maxWord = word;
-					}
-				}
-
-				if(maxWord == null) {break;}
-
-				filtered_ranks[maxWord] = maxVal;
-				delete ranks[maxWord];
+		var selectWords = function(ranks) {
+			var wordKeys = Object.keys(ranks);
+			var words = new Object();
+			wordKeys.sort(function(word_a, word_b){return ranks[word_a] <= ranks[word_b]});
+			wordKeys = wordKeys.slice(0,self.filtercount-1);
+			for(var wordKey of wordKeys) {
+				words[wordKey] = ranks[wordKey];
 			}
-			return filtered_ranks;
+			return words;
 		}
 		
 		var merge_words = function(ranks,adjacencyMatrix) {

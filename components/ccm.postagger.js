@@ -7,7 +7,7 @@ ccm.component( {
 	name: 'postagger',
 
 	config: {
-		//dataset : 'story1',
+		dataset : 'story1',
 		sourcekey : 'content',
 		destkey : 'keyrank-demo',
 		color_noun : 'red',
