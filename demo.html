@@ -83,6 +83,15 @@
 			</tr>
 
 			<tr>
+			<td>Which type of words are allowed?</td>
+			<td><div id=word_types>
+				<input type="checkbox" value="nouns" checked>nouns<br/>
+				<input type="checkbox" value="adjectives" checked>adjectives<br/>
+				<input type="checkbox" value="verbs">verbs
+			</div></td>
+			</tr>
+
+			<tr>
 			<td>How many tags should be rendered?</td>
 			<td><select id="cloudFilterCount">
 				<option value="5">5</option>
@@ -143,6 +152,11 @@
 		var selectedFilterCount = $("#cloudFilterCount option:selected").attr("value");
 		var selectedMergeTerms = $("#mergeTerms option:selected").attr("value") === 'true';
 		
+		var selectedWordTypes = [];
+		$("#word_types :checked").each(function() {
+			selectedWordTypes.push($(this).val());
+		});
+		
 		// render pos-tags
 		ccm.render(
 		'./components/ccm.postagger.js', {
@@ -162,11 +176,13 @@
 			element: $('#ccm-cooccurrences'),
 			windowSize : selectedWindowSize,
 			cooccurrence_threshold : selectedThreshold,
+			allowedWordTypes : selectedWordTypes,
 			dataset: selectedStory,
 			sourcekey : 'taggedcontent',
 			destkey : 'cooccurrences',
 			color_noun : color_red,
 			color_adjective : color_green,
+			color_verb : color_blue,
 			store : storyStore
 		}, function() {
 				

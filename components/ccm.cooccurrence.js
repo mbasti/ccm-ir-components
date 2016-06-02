@@ -10,10 +10,12 @@ ccm.component( {
 		dataset : 'demo',
 		sourcekey : 'keyrank-demo',
 		destkey : 'keyrank-demo',
+		allowedWordTypes : ['nouns', 'adjectives'],
 		windowSize : 2,
 		cooccurrence_threshold : 1,
 		color_noun : 'red',
 		color_adjective : 'green',
+		color_verb : 'blue',
 		store : [ccm.store, './json/textcorpus.json'],
 		lib_graph : [ccm.load, './lib/sigma/sigma.min.js']
 	},
@@ -200,7 +202,7 @@ ccm.component( {
 				x: Math.random(),
 				y: Math.random(),
 				size: 0,
-				color: isAdjective(pos_tag) ? self.color_adjective : self.color_noun
+				color: getColor(pos_tag)
 			});
 		}
 
@@ -208,9 +210,37 @@ ccm.component( {
 			adjacencyMatrix[word_a][word_b] += 1;
 			adjacencyMatrix[word_b][word_a] += 1;
 		}
-
+		
 		var isSelectable = function(word, pos_tag) {
-			return (isAdjective(pos_tag) || isNoun(pos_tag)) && word.length > 2;
+			if(word.length > 2) {
+				
+				if(isNoun(pos_tag)) {
+					return (self.allowedWordTypes.indexOf('nouns') > -1);
+					
+				} else if(isAdjective(pos_tag)) {
+					return (self.allowedWordTypes.indexOf('adjectives') > -1);
+					
+				} else if(isVerb(pos_tag)) {
+					return (self.allowedWordTypes.indexOf('verbs') > -1);
+					
+				}
+				
+			}
+
+		}
+
+		var getColor = function(pos_tag) {
+			
+			if(isNoun(pos_tag)) {
+				return self.color_noun;
+						
+			} else if(isAdjective(pos_tag)) {
+				return self.color_adjective;
+					
+			} else if(isVerb(pos_tag)) {
+				return self.color_verb;	
+			}
+			
 		}
 
 		var getCleanString = function(word) {
