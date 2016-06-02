@@ -66,22 +66,21 @@ ccm.component( {
 					var currentWordWithTag = wordsWithTags[currentWordWithTagIndx];
 					var currentWord = getCleanString(currentWordWithTag[0]);
 					var currentPOS = currentWordWithTag[1];
-
-					if(!nodeExist(currentWord, cooccurrences)) {
-						addNode(currentWord, currentPOS, cooccurrences);
-					}
-
+					
 					if(isSelectable(currentWord, currentPOS)) {
-						var windowCount = 1;
 						
-						while(windowCount <= self.windowSize && currentWordWithTagIndx+windowCount < wordsWithTags.length) {
+						if(!nodeExist(currentWord, cooccurrences)) {
+							addNode(currentWord, currentPOS, cooccurrences);
+						}
+						
+						for(var windowCount = 1; (windowCount <= self.windowSize) && (currentWordWithTagIndx+windowCount < wordsWithTags.length); windowCount++) {
 
 							var otherWordWithTagIndx = currentWordWithTagIndx+windowCount;
 							var otherWordWithTag = wordsWithTags[otherWordWithTagIndx];
 							var otherWord = getCleanString(otherWordWithTag[0]);
 							var otherPOS = otherWordWithTag[1];
 							
-							if(isSelectable(otherWord, otherPOS) && currentWord !== otherWord) {
+							if(isSelectable(otherWord, otherPOS) && (currentWord !== otherWord)) {
 						
 								if(!nodeExist(otherWord, cooccurrences)) {
 									addNode(otherWord, otherPOS, cooccurrences);
@@ -92,11 +91,8 @@ ccm.component( {
 								} else {
 									cooccurrences[currentWord][otherWord] = 1;
 									cooccurrences[otherWord][currentWord] = 1;
-								}
-								
+								}	
 							}
-
-							windowCount++;
 						}
 					}
 				}
@@ -214,7 +210,7 @@ ccm.component( {
 		}
 
 		var isSelectable = function(word, pos_tag) {
-			return (isAdjective(pos_tag) || isNoun(pos_tag) ) && word.length > 2;
+			return (isAdjective(pos_tag) || isNoun(pos_tag)) && word.length > 2;
 		}
 
 		var getCleanString = function(word) {
