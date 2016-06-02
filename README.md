@@ -1,25 +1,22 @@
 # CCM IR-Components
 
 ## Demo
-Open ```demo.html``` in your browser for a demonstration of the componentss.
+Open ```demo.html``` in your browser for a demonstration.
 
 ## Component Overview:
 | Component    | What it does     |
 | ------------- |-------------|
 | ```ccm.postagger.js``` | annotates a textcorpus with pos (part-of-speech)-tags |
 | ```ccm.cooccurrence.js``` | generates from a pos-tagged textcorpus a cooccurrence/adjacency matrix |
-| ```ccm.tfidf.js``` | generates from a textcorpus a tf-idf/adjacency matrix |
+| ```ccm.tfidf.js``` | generates from a pos-tagged textcorpus a tf-idf/adjacency matrix |
 | ```ccm.pagerank.js``` | generates a ranking for each node in an adjacency matrix |
 
 ## TODO:
-* merge-terms-when-adjacent functionality
 * consider plural/singular
 * consider verbs (selectable/parameter for cooccurrence component)?
-* remove "empty" terms for less space in cooccurrence matrix
-* sort pagerank output
 * refactoring
-* finish tf-idf component
-* summary component
+* tf-idf component
+* Summary component
 * Bookmarklet?
 * Side-Panel?
 
