@@ -100,84 +100,109 @@ ccm.component( {
 				}
 			}
 			
-			// check if threshold is reached and add edges
-			var words = Object.keys(cooccurrences);
-			for(var word_a_indx = 0; word_a_indx < words.length; word_a_indx++) {
-				
-				var word_a = words[word_a_indx];
-				
-				for(var word_b_indx = word_a_indx+1; word_b_indx < words.length; word_b_indx++) {
+			var foundPlural = false;
+			var word_a_indx = 0;
+			do {
+				foundPlural = false;
+				// check if threshold is reached and add edges
+				var words = Object.keys(cooccurrences);
+				for(; word_a_indx < words.length; word_a_indx++) {
 					
-					var word_b = words[word_b_indx];
+					var word_a = words[word_a_indx];
 					
-					if(!nodesExist(word_a, word_b, cooccurrences)) {
-						continue;
+					// check for plural
+					var singular = getSingular(word_a);
+					if(isPlural(word_a) && nodeExist(singular, cooccurrences)) {
+
+						for(var adjacentWord of Object.keys(cooccurrences[word_a])) {
+							
+							delete cooccurrences[adjacentWord][word_a];
+							
+							if(adjacentWord == singular) {
+								continue;
+							}
+													
+							cooccurrences[singular][adjacentWord] += cooccurrences[word_a][adjacentWord];
+							cooccurrences[adjacentWord][singular] += cooccurrences[adjacentWord][word_a];
+						}
+						
+						foundPlural = true;
+						delete cooccurrences[word_a];
+						break;
 					}
+					
+					for(var word_b_indx = word_a_indx+1; word_b_indx < words.length; word_b_indx++) {
+						
+						var word_b = words[word_b_indx];
 
-					var sum = cooccurrences[word_a][word_b];
+						if(!nodesExist(word_a, word_b, cooccurrences)) {
+							continue;
+						}
 
-					if(sum >= self.cooccurrence_threshold) {
-						var gnode_a = g.nodes[word_a_indx];
-						var gnode_b = g.nodes[word_b_indx];
-						
-						var xDiff = Math.abs(gnode_a.x - gnode_b.x)/1.25;
-						var yDiff = Math.abs(gnode_a.y - gnode_b.y)/1.25;
-						
-						gnode_a.size += sum;
-						gnode_b.size += sum;
-						
-						if(gnode_a.size > gnode_b.size) {	
+						var sum = cooccurrences[word_a][word_b];
+
+						if(sum >= self.cooccurrence_threshold) {
+							var gnode_a = g.nodes[word_a_indx];
+							var gnode_b = g.nodes[word_b_indx];
 							
-							if(gnode_a.x > gnode_b.x) {	
-								gnode_b.x += xDiff;
+							var xDiff = Math.abs(gnode_a.x - gnode_b.x)/1.25;
+							var yDiff = Math.abs(gnode_a.y - gnode_b.y)/1.25;
+							
+							gnode_a.size += sum;
+							gnode_b.size += sum;
+							
+							if(gnode_a.size > gnode_b.size) {	
+								
+								if(gnode_a.x > gnode_b.x) {	
+									gnode_b.x += xDiff;
+								} else {
+									gnode_b.x -= xDiff;
+								}
+								
+								if(gnode_a.y > gnode_b.y) {	
+									gnode_b.y += yDiff;
+								} else {
+									gnode_b.y -= yDiff;
+								}
+								
 							} else {
-								gnode_b.x -= xDiff;
+								if(gnode_b.x > gnode_a.x) {	
+									gnode_a.x += xDiff;
+								} else {
+									gnode_a.x -= xDiff;
+								}
+								
+								if(gnode_b.y > gnode_a.y) {	
+									gnode_a.y += yDiff;
+								} else {
+									gnode_a.y -= yDiff;
+								}
 							}
 							
-							if(gnode_a.y > gnode_b.y) {	
-								gnode_b.y += yDiff;
-							} else {
-								gnode_b.y -= yDiff;
-							}
+							g.edges.push({
+								id: word_a_indx + "," + word_b_indx,
+								source: word_a,
+								target: word_b,
+								label: sum,
+								size: sum,
+								color: '#ccc'
+							});
 							
 						} else {
-							if(gnode_b.x > gnode_a.x) {	
-								gnode_a.x += xDiff;
-							} else {
-								gnode_a.x -= xDiff;
-							}
-							
-							if(gnode_b.y > gnode_a.y) {	
-								gnode_a.y += yDiff;
-							} else {
-								gnode_a.y -= yDiff;
-							}
-						}
-						
-						g.edges.push({
-							id: word_a_indx + "," + word_b_indx,
-							source: word_a,
-							target: word_b,
-							label: sum,
-							size: sum,
-							color: '#ccc'
-						});
-						
-					} else {
-						delete cooccurrences[word_a][word_b];
-						delete cooccurrences[word_b][word_a];
+							delete cooccurrences[word_a][word_b];
+							delete cooccurrences[word_b][word_a];
 
-						// delete 'empty' nodes for less space usage
-						if(Object.keys(cooccurrences[word_a]).length === 0) {
-							delete cooccurrences[word_a];
-						}
-						if(Object.keys(cooccurrences[word_b]).length === 0) {
-							delete cooccurrences[word_b];
+							// delete 'empty' nodes for less space usage
+							if(Object.keys(cooccurrences[word_a]).length == 0) {
+								delete cooccurrences[word_a];
+							}
+							if(Object.keys(cooccurrences[word_b]).length == 0) {
+								delete cooccurrences[word_b];
+							}
 						}
 					}
 				}
-			}
-
+			}while(foundPlural);
 			return cooccurrences;
 		}
 
@@ -261,6 +286,14 @@ ccm.component( {
 
 		var isSymbol = function(word) {
 			return word.match(/(SYM|[\.,:$#"\(\)])/g) != null;
+		}
+		
+		var isPlural = function(word) {
+			return word.match(/s\b/) != null;
+		}
+		
+		var getSingular = function(word) {
+			return word.replace(/s\b/, "");
 		}
 		
 	}
