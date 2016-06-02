@@ -12,10 +12,9 @@ Open ```demo.html``` in your browser for a demonstration.
 | ```ccm.pagerank.js``` | generates a ranking for each node in an adjacency matrix |
 
 ## TODO:
-* consider plural/singular
-* consider verbs (selectable/parameter for cooccurrence component)?
 * refactoring
 * tf-idf component
+* stemmer/lemmatize component
 * Summary component
 * Bookmarklet?
 * Side-Panel?
