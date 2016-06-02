@@ -100,7 +100,6 @@ ccm.component( {
 				}
 			}
 			
-			/*
 			// check for plural forms, which also appears in their
 			// singular form. Merge and keep the plural form
 			for(word of Object.keys(cooccurrences)) {
@@ -122,7 +121,7 @@ ccm.component( {
 						delete cooccurrences[singular];
 					}
 			}
-			*/		
+		
 			var words = Object.keys(cooccurrences);
 			for(var word_a_indx = 0; word_a_indx < words.length; word_a_indx++) {
 				
