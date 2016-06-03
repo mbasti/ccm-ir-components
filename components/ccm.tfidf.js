@@ -29,11 +29,7 @@ ccm.component( {
 				
 				for (var document1 = 0; document1 < corpus.length; document1++) {
 					for (var document2 = document1+1; document2 < corpus.length; document2++) {
-						
-						if(document1 == document2) {
-							continue;
-						}
-						
+
 						var cosine;
 						
 						var dotProduct = 0;
@@ -67,7 +63,7 @@ ccm.component( {
 						} else {
 							gnode_a.y += yDiff;
 						}
-							console.log(cosine);
+
 					}
 					
 				}
