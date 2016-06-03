@@ -52,7 +52,7 @@
 			
 			<tr>
 			<td>Cooccurrence Window-Size</td>
-			<td><select id="cooccWindowSize">
+			<td><select id="coocccoocc_windowSize">
 				<option value="1">1</option>
 				<option value="2" selected=true>2</option>
 				<option value="3">3</option>
@@ -117,6 +117,9 @@
 	<h2>POS-Tags</h2>
 	<div id="ccm-postags" class="component"></div>
 	
+	<h2>TF-IDF</h2>
+	<div id="ccm-tfidf" class="component"></div>
+	
 	<h2>Cooccurrence-Graph</h2>
 	<div id="ccm-cooccurrences" class="component"></div>
 	
@@ -145,9 +148,10 @@
 		$("#ccm-cooccurrences").html("");
 		$("#ccm-pagerank").html("");
 		$("#ccm-keycloud").html("");
+		$("#ccm-tfidf").html("");
 
 		var selectedStory = $("#storylist option:selected").attr("value");
-		var selectedWindowSize = $("#cooccWindowSize option:selected").attr("value");
+		var selectedcoocc_windowSize = $("#coocccoocc_windowSize option:selected").attr("value");
 		var selectedThreshold = $("#cooccThreshold option:selected").attr("value");
 		var selectedFilterCount = $("#cloudFilterCount option:selected").attr("value");
 		var selectedMergeTerms = $("#mergeTerms option:selected").attr("value") === 'true';
@@ -161,9 +165,9 @@
 		ccm.render(
 		'./components/ccm.postagger.js', {
 			element: $('#ccm-postags'),
-			dataset: selectedStory,
-			sourcekey : 'content',
-			destkey : 'taggedcontent',
+			store_dataset: selectedStory,
+			store_src_key : 'content',
+			store_dst_key : 'taggedcontent',
 			color_noun : color_red,
 			color_adjective : color_green,
 			color_verb : color_blue,
@@ -174,12 +178,12 @@
 		ccm.render(
 		'./components/ccm.cooccurrence.js', {
 			element: $('#ccm-cooccurrences'),
-			windowSize : selectedWindowSize,
-			cooccurrence_threshold : selectedThreshold,
-			allowedWordTypes : selectedWordTypes,
-			dataset: selectedStory,
-			sourcekey : 'taggedcontent',
-			destkey : 'cooccurrences',
+			coocc_windowSize : selectedcoocc_windowSize,
+			coocc_threshold : selectedThreshold,
+			coocc_wordtypes : selectedWordTypes,
+			store_dataset: selectedStory,
+			store_src_key : 'taggedcontent',
+			store_dst_key : 'cooccurrences',
 			color_noun : color_red,
 			color_adjective : color_green,
 			color_verb : color_blue,
@@ -190,9 +194,9 @@
 		ccm.render(
 		'./components/ccm.pagerank.js', {
 			element: $('#ccm-pagerank'),
-			dataset: selectedStory,
-			sourcekey : 'cooccurrences',
-			destkey : 'ranking',
+			store_dataset: selectedStory,
+			store_src_key : 'cooccurrences',
+			store_dst_key : 'ranking',
 			store : storyStore
 		}, function() {
 					
@@ -200,13 +204,23 @@
 		ccm.render(
 		'./components/ccm.keycloud.js', {
 			element: $('#ccm-keycloud'),
-			filtercount : selectedFilterCount,
-			merge_terms : selectedMergeTerms,
-			dataset: selectedStory,
-			cooccurrencekey : 'cooccurrences',
-			keywordkey : 'ranking',
+			cloud_renderLimit : selectedFilterCount,
+			cloud_mergeTerms : selectedMergeTerms,
+			store_dataset: selectedStory,
+			store_matrix_key : 'cooccurrences',
+			store_ranking_key : 'ranking',
 			store : storyStore
 		}, function() {
+			
+			// render tfidf
+			ccm.render(
+			'./components/ccm.tfidf.js', {
+				element: $('#ccm-tfidf'),
+				store_dataset: selectedStory,
+				store_src_key : 'taggedcontent',
+				store_dst_key : 'tfidf',
+				store : storyStore
+			});
 			
 			$("#storybutton").attr("disabled",false);
 		}); }); }); });

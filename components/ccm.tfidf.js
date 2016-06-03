@@ -7,124 +7,181 @@ ccm.component( {
 	name: 'tfidf',
 
 	config: {
-		dataset : 'demo',
-		sourcekey : 'keyrank-demo',
-		destkey : 'keyrank-demo',
-		store : [ccm.store, './json/textcorpus.json']
-		//style : [ccm.load, './css/tfidf.css'],
-		//lib_graph : [ccm.load, './lib/sigma/sigma.min.js']
+		lib_graph 		: [ccm.load, './lib/sigma/sigma.min.js'],
+		store			: [ccm.store, './json/textcorpus.json'],
+		store_dataset	: 'demo',
+		store_src_key	: 'demo',
+		store_dst_key	: 'demo',
+		tfidf_wordtypes	: ['nouns', 'adjectives']
 	},
 	  
 	Instance: function () {
 		
 		var self = this;
-		/*
-		var g = {
-			nodes: [],
-			edges: []
-		};
-		*/
+		var sigma_graph = {nodes:[], edges:[]};
+		
 		this.render = function (callback) {
 
-			this.setAdjacencyMatrixInStore(function() {
-/*
-				// render the graph with sigma lib
-				var element = ccm.helper.element(self);
-				sigma_graph = new sigma({
-					graph: g,
-					container: element[0].id,
+			this.store.get(self.store_dataset, function(data) {
+				
+				var corpus = data[self.store_src_key];
+				var matrix = calculateTFIDFMatrix(corpus);
+				
+				for (var document1 = 0; document1 < corpus.length; document1++) {
+					for (var document2 = document1+1; document2 < corpus.length; document2++) {
+						
+						if(document1 == document2) {
+							continue;
+						}
+						
+						var cosine;
+						
+						var dotProduct = 0;
+						for(var word of Object.keys(matrix[document1])) {
+							dotProduct += matrix[document1][word]*matrix[document2][word];
+						}
+
+						var norm1 = 0, norm2 = 0;
+						for(var word of Object.keys(matrix[document1])) {
+							norm1 += matrix[document1][word]*matrix[document1][word];
+							norm2 += matrix[document2][word]*matrix[document2][word];
+						}
+						norm1 = Math.sqrt(norm1);
+						norm2 = Math.sqrt(norm2);
+						
+						cosine = dotProduct / (norm1 * norm2);
+						var gnode_a = sigma_graph.nodes[document1];
+						var gnode_b = sigma_graph.nodes[document2];
+						
+						var xDiff = Math.abs(gnode_a.x - gnode_b.x)/(cosine+0.5);
+						var yDiff = Math.abs(gnode_a.y - gnode_b.y)/(cosine+0.5);
+						
+						if(gnode_a.x > gnode_b.x) {	
+							gnode_a.x -= xDiff;
+						} else {
+							gnode_a.x += xDiff;
+						}
+						
+						if(gnode_a.y > gnode_b.y) {	
+							gnode_a.y -= yDiff;
+						} else {
+							gnode_a.y += yDiff;
+						}
+							console.log(cosine);
+					}
+					
+				}
+				
+				// render 'sigma_graph'
+				new sigma({
+					graph: sigma_graph,
+					container: self.element.selector.replace("#","")
 				});
-*/
-			});
-
-			if (callback) callback();
-		}
-		
-		this.setAdjacencyMatrixInStore = function(callback) {
-
-			var matrix;
-			this.store.get(self.dataset, function(textcorpus) {
-				matrix = calculateTFIDFMatrix(textcorpus[self.sourcekey]);
+				
+				// store tf-idf matrix
 				var storable = new Object();
-				storable['key'] = self.dataset;
-				storable[self.destkey] = matrix;
+				storable['key'] = self.store_dataset;
+				storable[self.store_dst_key] = matrix;
 				self.store.set(storable,callback);
 			});
+
 		}
 		
-		/*
-		 * ============================================================
-		 * PRIVATE FUNCTIONS
-		 * ============================================================
-		 */
-		var calculateTFIDFMatrix = function(docs) {
+		// ===================== PRIVATE FUNCTIONS =====================
+		
+		var calculateTFIDFMatrix = function(corpus) {
 
-			var highestFrequencyInDoc = new Object();
+			var maxFreqForDocument = new Object();
 			var matrix = new Object();
-
-			for (var doc = 0; doc < docs.length; doc++) {
-
-				highestFrequencyInDoc[doc] = 0;
-
-				var wordsWithTags = docs[doc];
-
-				for (var currentWordWithTagIndx = 0; currentWordWithTagIndx < wordsWithTags.length; currentWordWithTagIndx++) {
+			var sumForWord = new Object();
+	
+			for (var document = 0; document < corpus.length; document++) {
 				
-					var currentWordWithTag = wordsWithTags[currentWordWithTagIndx];
+					sigma_graph.nodes.push({
+						id: document,
+						label: 'document ' + document,
+						size: 10,
+						x: Math.random(),
+						y: Math.random(),
+						color: 'black'
+					});
 				
-					if(isSelectable(currentWordWithTag)) {
+				matrix[document] = new Object();
+				maxFreqForDocument[document] = 0;
+				
+				for (var taggedWord of corpus[document]) {
+				
+					var word = getCleanString(taggedWord[0]);
+					var pos_tag = taggedWord[1];
+				
+					if(isSelectable(word, pos_tag)) {					
 						
-						var cleanTerm = getCleanString(currentWordWithTag);
-						
-						if(matrix[cleanTerm]) {
-							 matrix[cleanTerm][doc] += 1;
-							 matrix[cleanTerm]['_sum'] += 1;
-						 } else {
-							 matrix[cleanTerm] = new Object();
-							 matrix[cleanTerm][doc] = 1;
-							 matrix[cleanTerm]['_sum'] = 1;
+						if(matrix[document][word]) {
+							matrix[document][word] += 1;
+							 sumForWord[word] += 1;
+						 } else {			 
+							 matrix[document][word] = 1;
+							 sumForWord[word] = 1;
 						 }
 						 
-						 if(matrix[cleanTerm][doc] > highestFrequencyInDoc[doc]) {
-							highestFrequencyInDoc[doc] = matrix[cleanTerm][doc];
+						 if(matrix[document][word] > maxFreqForDocument[document]) {
+							maxFreqForDocument[document] = matrix[document][word];
 						 }
 						 
 					}
 				}
 			}
 
-			var terms = Object.keys(matrix);
-			for (var doc = 0; doc < docs.length; doc++) {
-				for(var termIndx in terms) {
-					var term = terms[termIndx];
-					var tf = (matrix[term][doc]? matrix[term][doc] : 0) /highestFrequencyInDoc[doc];
-					var idf = Math.log(docs.length)/matrix[term]['_sum'];
-					matrix[term][doc] = tf*idf;
+			// weight terms
+			var words = Object.keys(sumForWord);
+			for (var document = 0; document < corpus.length; document++) {
+				for(var word of words) {
+					var tf = (matrix[document][word]? matrix[document][word] : 0) / maxFreqForDocument[document];
+					var idf = Math.log(corpus.length)/sumForWord[word];
+					matrix[document][word] = tf*idf;
 				}
 				
 			}
-			
+
 			return matrix;
 		}
 
-		var getCleanString = function(wordWithTag) {
-			return wordWithTag[0].toString().toLowerCase().replace(/[^0-9a-z]/g,"");
+		var getCleanString = function(word) {
+			return word.toLowerCase().replace(/[^0-9a-z-]/g,"");
 		}
 
-		var isSelectable = function(wordWithTag) {
-			return (wordWithTag[1].match(/(NN|NNP|NNPS|NNS)/g) || wordWithTag[1].match(/(JJ|JJR|JJS)/g)) && wordWithTag[0].length > 2
+		var isSelectable = function(word, pos_tag) {
+			if(word.length > 2) {
+				
+				if(isNoun(pos_tag)) {
+					return (self.tfidf_wordtypes.indexOf('nouns') > -1);
+					
+				} else if(isAdjective(pos_tag)) {
+					return (self.tfidf_wordtypes.indexOf('adjectives') > -1);
+					
+				} else if(isVerb(pos_tag)) {
+					return (self.tfidf_wordtypes.indexOf('verbs') > -1);
+					
+				}
+				
+			}
+
 		}
 
-		var isNoun = function(wordWithTag) {
-			return wordWithTag[1].match(/(NN|NNP|NNPS|NNS)/g);
+		var isNoun = function(pos_tag) {
+			return pos_tag.match(/\b(NN|NNS|NNP|NNPS)\b/g) != null;
 		}
 
-		var isAdjective = function(wordWithTag) {
-			return wordWithTag[1].match(/(JJ|JJR|JJS)/g);
+		var isAdjective = function(pos_tag) {
+			return pos_tag.match(/\b(JJ|JJR|JJS)\b/g) != null;
 		}
 
-		var isSymbol = function(wordWithTag) {
-			return wordWithTag[1].match(/(SYM|[\.,:$#"\(\)])/g);
+		var isVerb = function(pos_tag) {		
+			return pos_tag.match(/\b(VB|VBP|VBZ|VBG|VBN)\b/g) != null;
+		}
+
+		var isSymbol = function(pos_tag) {
+			return pos_tag.match(/(SYM|[\.,:$#"\(\)])/g) != null;
 		}
 		
 	}

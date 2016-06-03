@@ -7,49 +7,44 @@ ccm.component( {
 	name: 'pagerank',
 
 	config: {
-		dataset : 'demo',
-		sourcekey : 'keyrank-demo',
-		destkey : 'keyrank-demo',
-		store : [ccm.store, './json/textcorpus.json'],
-		dumpingFactor : 0.85,
-		convergenceThreshold : 0.0001
+		store 							: [ccm.store, './json/textcorpus.json'],
+		store_dataset					: 'demo',
+		store_src_key					: 'demo',
+		store_dst_key					: 'demo',
+		ranking_dumpingFactor	 		: 0.85,
+		ranking_convergenceThreshold	: 0.0001
 	},
 	  
 	Instance: function () {
 		
 		var self = this;
 		
-		var keywords;
-		
 		this.render = function (callback) {
 
-			this.store.get(self.dataset, function(textcorpus) {
-				ranks = calculateRanks(textcorpus[self.sourcekey]);
+			this.store.get(self.store_dataset, function(data) {
+				var ranks = calculateRanks(data[self.store_src_key]);
 				
+				// store ranks
 				var storable = new Object();
-				storable['key'] = self.dataset;
-				storable[self.destkey] = ranks;
-				self.store.set(storable);
+				storable['key'] = self.store_dataset;
+				storable[self.store_dst_key] = ranks;
+				self.store.set(storable, callback);
 
 				// render ranks as ordered list
 				var element = ccm.helper.element(self);
-				var html_structure = {tag: 'ol', id: self.destkey, inner: []};
+				var html_content = {tag: 'ol', id: self.store_dst_key, inner: []};
 				var nodes = Object.keys(ranks);
 				nodes.sort(function(node_a, node_b){return ranks[node_a] <= ranks[node_b]});
 				for (var rank of nodes) {
-					html_structure.inner.push({tag: 'li', inner: rank + ": " + ranks[rank]});
+					html_content.inner.push({tag: 'li', inner: rank + ": " + ranks[rank]});
 				}
-				element.html(ccm.helper.html(html_structure));
+				element.html(ccm.helper.html(html_content));
 			});
 
-			if (callback) callback();
 		}
 		
-		/*
-		 * ============================================================
-		 * PRIVATE FUNCTIONS
-		 * ============================================================
-		 */
+		// ===================== PRIVATE FUNCTIONS =====================
+		
 		var calculateRanks = function(adjacencyMatrix) {
 			
 			// set ranking settings
@@ -90,10 +85,10 @@ ccm.component( {
 					}
 
 					// update rank
-					ranks[node_a] = ((1 - self.dumpingFactor)/nodeCount) + (self.dumpingFactor*sum);
+					ranks[node_a] = ((1 - self.ranking_dumpingFactor)/nodeCount) + (self.ranking_dumpingFactor*sum);
 
 					// check if convergenced
-					if(!convergenced && Math.abs(ranks[node_a]-previousRanks[node_a]) <= self.convergenceThreshold) {
+					if(!convergenced && Math.abs(ranks[node_a]-previousRanks[node_a]) <= self.ranking_convergenceThreshold) {
 						convergenced = true;
 					}
 				}

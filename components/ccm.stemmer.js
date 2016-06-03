@@ -7,12 +7,12 @@ ccm.component( {
 	name: 'stemmer',
 
 	config: {
-		dataset : 'demo',
-		sourcekey : 'content',
-		destkey : 'keyrank-demo',
-		language : 'english',
-		store : [ccm.store, './json/textcorpus.json'],
-		lib_stemmer : [ccm.load, './lib/Snowball.min.js'],
+		lib_stemmer 	: [ccm.load, './lib/Snowball.min.js'],
+		store 			: [ccm.store, './json/textcorpus.json'],
+		store_dataset	: 'demo',
+		store_src_key	: 'demo',
+		store_dst_key	: 'demo',
+		language		: 'english'
 	},
 	  
 	Instance: function () {
@@ -27,36 +27,35 @@ ccm.component( {
 
 		this.render = function (callback) {
 			
-			var stemmedContent = new Array();
+			this.store.get(this.store_dataset, function(data) {
 			
-			this.store.get(this.dataset, function (textcorpus) {
+				var stemmedContent = new Array();	
+				var html_content = "";
 				
-				var htmltext = "";
-				
-				for (doc of textcorpus[self.sourcekey]) {
-
-					var stemmedDoc = "";
+				for (var document of data[self.store_src_key]) {
 					
-					for(word of doc.split(/ +/)) {
+					var stemmedDocument = "";
+					for(var word of document.split(/ +/)) {
 						stemmer.setCurrent(word);
 						stemmer.stem();
-						stemmedDoc += stemmer.getCurrent() + " ";
+						stemmedDocument += stemmer.getCurrent() + " ";
 					}
+					stemmedContent.push(stemmedDocument);
 					
-					stemmedContent.push(stemmedDoc);
-					htmltext += "<p>" + stemmedDoc + "</p>";
+					html_content += "<p>" + stemmedDocument + "</p>";
 				}
 
+				// render stemmed data
 				var element = ccm.helper.element(self);
-				element.html(ccm.helper.html(htmltext));
+				element.html(ccm.helper.html(html_content));
 
+				// store stemmed data
 				var storable = new Object();
-				storable['key'] = self.dataset;
-				storable[self.destkey] = stemmedContent;
-				self.store.set(storable);
+				storable['key'] = self.store_dataset;
+				storable[self.store_dst_key] = stemmedContent;
+				self.store.set(storable, callback);
 			});
 			
-			if(callback) callback();
 		}
 		
 	}

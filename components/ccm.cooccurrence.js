@@ -7,92 +7,90 @@ ccm.component( {
 	name: 'cooccurrence',
 
 	config: {
-		dataset : 'demo',
-		sourcekey : 'keyrank-demo',
-		destkey : 'keyrank-demo',
-		allowedWordTypes : ['nouns', 'adjectives'],
-		windowSize : 2,
-		cooccurrence_threshold : 1,
-		color_noun : 'red',
-		color_adjective : 'green',
-		color_verb : 'blue',
-		store : [ccm.store, './json/textcorpus.json'],
-		lib_graph : [ccm.load, './lib/sigma/sigma.min.js']
+		lib_graph 			: [ccm.load, './lib/sigma/sigma.min.js'],
+		store 				: [ccm.store, './json/textcorpus.json'],
+		store_dataset 		: 'demo',
+		store_src_key 		: 'demo',
+		store_dst_key		: 'demo',
+		coocc_wordtypes		: ['nouns', 'adjectives'],
+		coocc_windowSize 	: 2,
+		coocc_threshold		: 1,
+		color_noun 			: 'red',
+		color_adjective 	: 'green',
+		color_verb 			: 'blue'
 	},
 	  
 	Instance: function () {
 		
 		var self = this;
-		
-		var g = {
-			nodes: [],
-			edges: []
-		};
+		var sigma_graph = {nodes:[], edges:[]};
+		var json_graph = new Object();
 		
 		this.render = function(callback) {
 
-			var cooccurrences;
-			this.store.get(self.dataset, function(textcorpus) {
-				cooccurrences = calculateCooccurrences(textcorpus[self.sourcekey]);
-
-				var storable = new Object();
-				storable['key'] = self.dataset;
-				storable[self.destkey] = cooccurrences;
-				self.store.set(storable);
+			this.store.get(self.store_dataset, function(data) {
 				
-				// render the graph with sigma lib
-				sigma_graph = new sigma({
-					graph: g,
+				// update 'sigma_graph' and 'json_graph'
+				calculateCooccurrences(data[self.store_src_key]);
+
+				// render 'sigma_graph'
+				new sigma({
+					graph: sigma_graph,
 					container: self.element.selector.replace("#","")
 				});
+				
+				// store 'json_graph'
+				var storable = new Object();
+				storable['key'] = self.store_dataset;
+				storable[self.store_dst_key] = json_graph;
+				self.store.set(storable, callback);
 			});
 
-			if (callback) callback();
 		}
 
-		/*
-		 * ============================================================
-		 * PRIVATE FUNCTIONS
-		 * ============================================================
-		 */
+		// ===================== PRIVATE FUNCTIONS =====================
+		
 		var calculateCooccurrences = function(corpus) {
-			
-			var cooccurrences = new Object();
-
+		
 			for (var doc = 0; doc < corpus.length; doc++) {
 
-				var wordsWithTags = corpus[doc];
+				var taggedWords = corpus[doc];
 
-				for (var currentWordWithTagIndx = 0; currentWordWithTagIndx < wordsWithTags.length; currentWordWithTagIndx++) {
+				for (var currentWordWithTagIndx = 0;
+					currentWordWithTagIndx < taggedWords.length;
+					currentWordWithTagIndx++) {
 				
-					var currentWordWithTag = wordsWithTags[currentWordWithTagIndx];
+					var currentWordWithTag = taggedWords[currentWordWithTagIndx];
 					var currentWord = getCleanString(currentWordWithTag[0]);
 					var currentPOS = currentWordWithTag[1];
 					
 					if(isSelectable(currentWord, currentPOS)) {
 						
-						if(!nodeExist(currentWord, cooccurrences)) {
-							addNode(currentWord, currentPOS, cooccurrences);
+						if(!nodeExist(currentWord)) {
+							addNode(currentWord, currentPOS);
 						}
 						
-						for(var windowCount = 1; (windowCount <= self.windowSize) && (currentWordWithTagIndx+windowCount < wordsWithTags.length); windowCount++) {
+						for(var lookupCounter = 1;
+						(lookupCounter <= self.coocc_windowSize) && 
+						(currentWordWithTagIndx+lookupCounter < taggedWords.length);
+						lookupCounter++) {
 
-							var otherWordWithTagIndx = currentWordWithTagIndx+windowCount;
-							var otherWordWithTag = wordsWithTags[otherWordWithTagIndx];
+							var otherWordWithTagIndx = currentWordWithTagIndx+lookupCounter;
+							var otherWordWithTag = taggedWords[otherWordWithTagIndx];
 							var otherWord = getCleanString(otherWordWithTag[0]);
 							var otherPOS = otherWordWithTag[1];
 							
 							if(isSelectable(otherWord, otherPOS) && (currentWord !== otherWord)) {
 						
-								if(!nodeExist(otherWord, cooccurrences)) {
-									addNode(otherWord, otherPOS, cooccurrences);
+								if(!nodeExist(otherWord)) {
+									addNode(otherWord, otherPOS);
 								}
 								
-								if(nodesExist(currentWord, otherWord, cooccurrences)) {
-									incrementForBothNodes(currentWord, otherWord, cooccurrences);	
+								if(nodesExist(currentWord, otherWord)) {
+									incrementForBothNodes(currentWord, otherWord);	
 								} else {
-									cooccurrences[currentWord][otherWord] = 1;
-									cooccurrences[otherWord][currentWord] = 1;
+									json_graph[currentWord][otherWord] = 1;
+									json_graph[otherWord][currentWord] = 1;
 								}	
 							}
 						}
@@ -102,50 +100,56 @@ ccm.component( {
 			
 			// check for plural forms, which also appears in their
 			// singular form. Merge and keep the plural form
-			for(word of Object.keys(cooccurrences)) {
+			for(word of Object.keys(json_graph)) {
 				var singular = getSingular(word);
-					if(isPlural(word) && nodeExist(singular, cooccurrences)) {
+					if(isPlural(word) && nodeExist(singular)) {
 
-						for(var adjacentWord of Object.keys(cooccurrences[singular])) {
+						for(var adjacentWord of Object.keys(json_graph[singular])) {
 							
-							delete cooccurrences[adjacentWord][singular];
+							delete json_graph[adjacentWord][singular];
 							
 							if(adjacentWord == singular) {
 								continue;
 							}
 													
-							cooccurrences[word][adjacentWord] += cooccurrences[singular][adjacentWord];
-							cooccurrences[adjacentWord][word] += cooccurrences[adjacentWord][singular];
+							json_graph[word][adjacentWord] += json_graph[singular][adjacentWord];
+							json_graph[adjacentWord][word] += json_graph[adjacentWord][singular];
 						}
 						
-						delete cooccurrences[singular];
+						delete json_graph[singular];
 					}
 			}
 		
-			var words = Object.keys(cooccurrences);
-			for(var word_a_indx = 0; word_a_indx < words.length; word_a_indx++) {
+			// check if thresholds are reached, set edges
+			// and remove 'empty' nodes for less space usage
+			var words = Object.keys(json_graph);
+			for(var word_a_indx = 0;
+			word_a_indx < words.length;
+			word_a_indx++) {
 				
 				var word_a = words[word_a_indx];
 				
-				for(var word_b_indx = word_a_indx+1; word_b_indx < words.length; word_b_indx++) {
+				for(var word_b_indx = word_a_indx+1;
+				word_b_indx < words.length;
+				word_b_indx++) {
 					
 					var word_b = words[word_b_indx];
 
-					if(!nodesExist(word_a, word_b, cooccurrences)) {
+					if(!nodesExist(word_a, word_b, json_graph)) {
 						continue;
 					}
 
-					var sum = cooccurrences[word_a][word_b];
+					var cooccurrences = json_graph[word_a][word_b];
 
-					if(sum >= self.cooccurrence_threshold) {
-						var gnode_a = g.nodes[word_a_indx];
-						var gnode_b = g.nodes[word_b_indx];
+					if(cooccurrences >= self.coocc_threshold) {
+						var gnode_a = sigma_graph.nodes[word_a_indx];
+						var gnode_b = sigma_graph.nodes[word_b_indx];
 						
 						var xDiff = Math.abs(gnode_a.x - gnode_b.x)/1.25;
 						var yDiff = Math.abs(gnode_a.y - gnode_b.y)/1.25;
 						
-						gnode_a.size += sum;
-						gnode_b.size += sum;
+						gnode_a.size += cooccurrences;
+						gnode_b.size += cooccurrences;
 						
 						if(gnode_a.size > gnode_b.size) {	
 							
@@ -175,49 +179,47 @@ ccm.component( {
 							}
 						}
 						
-						g.edges.push({
+						sigma_graph.edges.push({
 							id: word_a_indx + "," + word_b_indx,
 							source: word_a,
 							target: word_b,
-							label: sum,
-							size: sum,
+							label: cooccurrences,
+							size: cooccurrences,
 							color: '#ccc'
 						});
 						
 					} else {
-						delete cooccurrences[word_a][word_b];
-						delete cooccurrences[word_b][word_a];
+						delete json_graph[word_a][word_b];
+						delete json_graph[word_b][word_a];
 
 						// delete 'empty' nodes for less space usage
-						if(Object.keys(cooccurrences[word_a]).length == 0) {
-							delete cooccurrences[word_a];
+						if(Object.keys(json_graph[word_a]).length == 0) {
+							delete json_graph[word_a];
 						}
-						if(Object.keys(cooccurrences[word_b]).length == 0) {
-							delete cooccurrences[word_b];
+						if(Object.keys(json_graph[word_b]).length == 0) {
+							delete json_graph[word_b];
 						}
 					}
 				}
 			}
-
-			return cooccurrences;
 		}
 
-		var nodeExist = function(word, adjacencyMatrix) {
-			return adjacencyMatrix[word] != undefined;
+		var nodeExist = function(word) {
+			return json_graph[word] != undefined;
 		}
 
-		var nodesExist = function(word_a, word_b, adjacencyMatrix) {
+		var nodesExist = function(word_a, word_b) {
 			return (
-				adjacencyMatrix[word_a] != undefined &&
-				adjacencyMatrix[word_b] != undefined &&
-				adjacencyMatrix[word_a][word_b] != undefined && 
-				adjacencyMatrix[word_b][word_a] != undefined
+				json_graph[word_a] != undefined &&
+				json_graph[word_b] != undefined &&
+				json_graph[word_a][word_b] != undefined && 
+				json_graph[word_b][word_a] != undefined
 			);
 		}
 
-		var addNode = function(word, pos_tag, adjacencyMatrix) {
-			adjacencyMatrix[word] = new Object();
-			g.nodes.push({
+		var addNode = function(word, pos_tag) {
+			json_graph[word] = new Object();
+			sigma_graph.nodes.push({
 				id: word,
 				label: word,
 				x: Math.random(),
@@ -227,22 +229,22 @@ ccm.component( {
 			});
 		}
 
-		var incrementForBothNodes = function(word_a, word_b, adjacencyMatrix) {
-			adjacencyMatrix[word_a][word_b] += 1;
-			adjacencyMatrix[word_b][word_a] += 1;
+		var incrementForBothNodes = function(word_a, word_b) {
+			json_graph[word_a][word_b] += 1;
+			json_graph[word_b][word_a] += 1;
 		}
 		
 		var isSelectable = function(word, pos_tag) {
 			if(word.length > 2) {
 				
 				if(isNoun(pos_tag)) {
-					return (self.allowedWordTypes.indexOf('nouns') > -1);
+					return (self.coocc_wordtypes.indexOf('nouns') > -1);
 					
 				} else if(isAdjective(pos_tag)) {
-					return (self.allowedWordTypes.indexOf('adjectives') > -1);
+					return (self.coocc_wordtypes.indexOf('adjectives') > -1);
 					
 				} else if(isVerb(pos_tag)) {
-					return (self.allowedWordTypes.indexOf('verbs') > -1);
+					return (self.coocc_wordtypes.indexOf('verbs') > -1);
 					
 				}
 				
@@ -265,7 +267,7 @@ ccm.component( {
 		}
 
 		var getCleanString = function(word) {
-			return word.toLowerCase().replace(/[^0-9a-z]/g,"");
+			return word.toLowerCase().replace(/[^0-9a-z-]/g,"");
 		}
 		
 		var isNoun = function(word) {
