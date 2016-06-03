@@ -34,10 +34,12 @@ ccm.component( {
 				calculateCooccurrences(data[self.store_src_key]);
 
 				// render 'sigma_graph'
-				new sigma({
-					graph: sigma_graph,
-					container: self.element.selector.replace("#","")
-				});
+				if(self.render_element) {
+					new sigma({
+						graph: sigma_graph,
+						container: self.render_element.selector.replace("#","")
+					});
+				}
 				
 				// store 'json_graph'
 				var storable = new Object();

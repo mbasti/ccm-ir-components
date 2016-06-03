@@ -46,8 +46,9 @@ ccm.component( {
 				}
 
 				// render stemmed data
-				var element = ccm.helper.element(self);
-				element.html(ccm.helper.html(html_content));
+				if(self.render_element)	{
+					self.render_element.html(ccm.helper.html(html_content));
+				}
 
 				// store stemmed data
 				var storable = new Object();

@@ -33,7 +33,6 @@ ccm.component( {
 		}
 
 		this.render = function(callback) {
-			
 			this.store.get(this.store_dataset, function(data) {
 				
 				var taggedCorpus = new Array();
@@ -57,16 +56,17 @@ ccm.component( {
 				}
 				
 				// render tagged data
-				var element = ccm.helper.element(self);
-				element.html(ccm.helper.html(html_content));
-			
+				if(self.render_element) {
+					self.render_element.html(ccm.helper.html(html_content));
+				}
 				// store tagged data
 				var storable = new Object();
 				storable['key'] = self.store_dataset;
 				storable[self.store_dst_key] = taggedCorpus;
-				self.store.set(storable, callback);
+				self.store.set(storable,callback);
 				
 			});
+	
 		}
 		
 		// ===================== PRIVATE FUNCTIONS =====================

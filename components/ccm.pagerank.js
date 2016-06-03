@@ -31,14 +31,15 @@ ccm.component( {
 				self.store.set(storable, callback);
 
 				// render ranks as ordered list
-				var element = ccm.helper.element(self);
-				var html_content = {tag: 'ol', id: self.store_dst_key, inner: []};
-				var nodes = Object.keys(ranks);
-				nodes.sort(function(node_a, node_b){return ranks[node_a] <= ranks[node_b]});
-				for (var rank of nodes) {
-					html_content.inner.push({tag: 'li', inner: rank + ": " + ranks[rank]});
+				if(self.render_element) {
+					var html_content = {tag: 'ol', id: self.store_dst_key, inner: []};
+					var nodes = Object.keys(ranks);
+					nodes.sort(function(node_a, node_b){return ranks[node_a] <= ranks[node_b]});
+					for (var rank of nodes) {
+						html_content.inner.push({tag: 'li', inner: rank + ": " + ranks[rank]});
+					}
+					self.render_element.html(ccm.helper.html(html_content));
 				}
-				element.html(ccm.helper.html(html_content));
 			});
 
 		}

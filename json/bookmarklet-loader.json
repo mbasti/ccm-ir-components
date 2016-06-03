@@ -1,0 +1,279 @@
+ccm.callback[ "market_html.json" ](
+{
+  "main":
+  [
+    {
+      "tag": "div",
+      "class": "header",
+      "inner":
+      [
+        {
+          "tag": "div",
+          "class": "title",
+          "inner": "lang#title"
+        },
+        {
+          "tag": "div",
+          "class": "nav",
+          "inner":
+          [
+            {
+              "tag": "div",
+              "class": "buttons"
+            },
+            {
+              "tag": "div",
+              "class": "fontresizer"
+            },
+            {
+              "tag": "div",
+              "class": "langmenu"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "tag": "div",
+      "class": "content"
+    }
+  ],
+
+  "entry":
+  {
+    "tag": "div",
+    "class": "entry",
+    "title": "%tooltip%",
+    "inner":
+    [
+      {
+        "tag": "div",
+        "class": "left",
+        "inner":
+        {
+          "tag": "div",
+          "class": "icon fa fa-%icon% fa-3x"
+        }
+      },
+      {
+        "tag": "div",
+        "class": "right",
+        "inner":
+        [
+          {
+            "tag": "div",
+            "class": "title",
+            "inner": "%title%"
+          },
+          {
+            "tag": "div",
+            "class": "developer",
+            "inner": "%developer%"
+          },
+          {
+            "tag": "div",
+            "class": "rating",
+            "inner":
+            [
+              {
+                "tag": "span",
+                "class": "stars"
+              },
+              " (%votes%)"
+            ]
+          }
+        ]
+      }
+    ],
+    "onclick": "%click%"
+  },
+
+  "component":
+  {
+    "tag": "div",
+    "class": "component",
+    "inner":
+    [
+      {
+        "tag": "div",
+        "class": "header",
+        "inner":
+        [
+          {
+            "tag": "div",
+            "class": "left",
+            "ondblclick": "%dblclick%",
+            "inner":
+            {
+              "tag": "div",
+              "class": "icon fa fa-%icon% fa-3x"
+            }
+          },
+          {
+            "tag": "div",
+            "class": "right",
+            "inner":
+            [
+              {
+                "tag": "div",
+                "class": "title",
+                "inner": "%title%"
+              },
+              {
+                "tag": "div",
+                "class": "abstract",
+                "inner": "%abstract%"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "tag": "div",
+        "class": "details"
+      }
+    ]
+  },
+
+  "section":
+  {
+    "tag": "div",
+    "class": "section",
+    "inner":
+    [
+      {
+        "tag": "div",
+        "class": "title",
+        "inner": "%title%"
+      },
+      {
+        "tag": "div",
+        "class": "content"
+      }
+    ]
+  },
+
+  "info":
+  {
+    "tag": "div",
+    "class": "info",
+    "inner":
+    [
+      {
+        "tag": "div",
+        "inner":
+        [
+          {
+            "tag": "div",
+            "inner": "lang#name"
+          },
+          {
+            "tag": "div",
+            "inner": "%name%"
+          }
+        ]
+      },
+      {
+        "tag": "div",
+        "inner":
+        [
+          {
+            "tag": "div",
+            "inner": "lang#version"
+          },
+          {
+            "tag": "div",
+            "inner": "%version%"
+          }
+        ]
+      },
+      {
+        "tag": "div",
+        "inner":
+        [
+          {
+            "tag": "div",
+            "inner": "lang#developer"
+          },
+          {
+            "tag": "div",
+            "inner": "%developer%"
+          }
+        ]
+      },
+      {
+        "tag": "div",
+        "inner":
+        [
+          {
+            "tag": "div",
+            "inner": "lang#rightholder"
+          },
+          {
+            "tag": "td",
+            "inner": "%rightholder%"
+          }
+        ]
+      },
+      {
+        "tag": "div",
+        "inner":
+        [
+          {
+            "tag": "div",
+            "inner": "lang#licence"
+          },
+          {
+            "tag": "div",
+            "inner": "%licence%"
+          }
+        ]
+      }
+    ]
+  },
+
+  "draggable":
+  {
+    "tag": "div",
+    "class": "ccm-market-draggable",
+    "inner":
+    {
+      "tag": "div",
+      "class": "draggable",
+      "inner":
+      {
+        "tag": "div",
+        "class": "resizable",
+        "inner":
+        [
+          {
+            "tag": "div",
+            "class": "header",
+            "inner":
+            [
+              {
+                "tag": "div",
+                "class": "title",
+                "inner": "%title%"
+              },
+              {
+                "tag": "div",
+                "class": "close fa fa-close"
+              }
+            ]
+          },
+          {
+            "tag": "div",
+            "id": "%id%",
+            "class": "content"
+          },
+          {
+            "tag": "div",
+            "class": "footer"
+          }
+        ]
+      }
+    }
+  }
+}
+);

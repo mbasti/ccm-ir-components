@@ -164,7 +164,7 @@
 		// render pos-tags
 		ccm.render(
 		'./components/ccm.postagger.js', {
-			element: $('#ccm-postags'),
+			render_element: $('#ccm-postags'),
 			store_dataset: selectedStory,
 			store_src_key : 'content',
 			store_dst_key : 'taggedcontent',
@@ -177,7 +177,7 @@
 		// render cooccurrences
 		ccm.render(
 		'./components/ccm.cooccurrence.js', {
-			element: $('#ccm-cooccurrences'),
+			render_element: $('#ccm-cooccurrences'),
 			coocc_windowSize : selectedcoocc_windowSize,
 			coocc_threshold : selectedThreshold,
 			coocc_wordtypes : selectedWordTypes,
@@ -193,7 +193,7 @@
 		// render rankings
 		ccm.render(
 		'./components/ccm.pagerank.js', {
-			element: $('#ccm-pagerank'),
+			render_element: $('#ccm-pagerank'),
 			store_dataset: selectedStory,
 			store_src_key : 'cooccurrences',
 			store_dst_key : 'ranking',
@@ -203,7 +203,7 @@
 		// render keycloud
 		ccm.render(
 		'./components/ccm.keycloud.js', {
-			element: $('#ccm-keycloud'),
+			render_element: $('#ccm-keycloud'),
 			cloud_renderLimit : selectedFilterCount,
 			cloud_mergeTerms : selectedMergeTerms,
 			store_dataset: selectedStory,
@@ -215,7 +215,7 @@
 			// render tfidf
 			ccm.render(
 			'./components/ccm.tfidf.js', {
-				element: $('#ccm-tfidf'),
+				render_element: $('#ccm-tfidf'),
 				store_dataset: selectedStory,
 				store_src_key : 'taggedcontent',
 				store_dst_key : 'tfidf',

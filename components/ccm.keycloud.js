@@ -54,14 +54,14 @@ ccm.component( {
 				}
 
 				// render selectedRanks
-				var element = self.element;
-				var div_id = self.element.selector.replace("#","") + "-cloud";
+				var render_element = self.render_element;
+				var div_id = self.render_element.selector.replace("#","") + "-cloud";
 				var html_structure = {tag: 'div', id: div_id, inner: []};
 				for (var key of keys){
 					html_structure.inner.push({tag:'a', rel:selectedRanks[key], inner: ' ' + key + ' '});
 				}
-				element.html(ccm.helper.html(html_structure));
-				element.find('#' + div_id + ' a').tagcloud();
+				render_element.html(ccm.helper.html(html_structure));
+				render_element.find('#' + div_id + ' a').tagcloud();
 
 			});
 

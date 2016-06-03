@@ -69,10 +69,12 @@ ccm.component( {
 				}
 				
 				// render 'sigma_graph'
-				new sigma({
-					graph: sigma_graph,
-					container: self.element.selector.replace("#","")
-				});
+				if(self.render_element)
+					new sigma({
+						graph: sigma_graph,
+						container: self.render_element.selector.replace("#","")
+					});
+				}
 				
 				// store tf-idf matrix
 				var storable = new Object();
