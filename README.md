@@ -6,17 +6,17 @@ Open ```demo.html``` in your browser for a demonstration.
 ## Component Overview:
 | Component    | What it does     |
 | ------------- |-------------|
+| ```ccm.stemmer.js``` | stemms the words from a textcorpus with a Snowball stemmer |
 | ```ccm.postagger.js``` | annotates a textcorpus with pos (part-of-speech)-tags |
 | ```ccm.cooccurrence.js``` | generates from a pos-tagged textcorpus a cooccurrence/adjacency matrix |
 | ```ccm.tfidf.js``` | generates from a pos-tagged textcorpus a tf-idf/adjacency matrix |
 | ```ccm.pagerank.js``` | generates a ranking for each node in an adjacency matrix |
 
 ## TODO:
-* refactoring
 * tf-idf component
-* stemmer/lemmatize component
 * Summary component
-* Bookmarklet?
+* Refactoring
+* Bookmarklet
 * Side-Panel?
 
 ## Links:
