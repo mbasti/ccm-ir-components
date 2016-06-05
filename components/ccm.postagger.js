@@ -14,10 +14,10 @@ ccm.component( {
 		store_dataset 	: 'demo',
 		store_src_key 	: 'demo',
 		store_dst_key	: 'demo',
-		color_noun 		: 'red',
-		color_adjective : 'green',
-		color_verb 		: 'blue',
-		color_default 	: 'black'
+		color_noun 		: '#ff6061',
+		color_adjective : '#006639',
+		color_verb 		: '#0089b7',
+		color_default 	: '#000000'
 	},
 	  
 	Instance: function () {
@@ -33,6 +33,7 @@ ccm.component( {
 		}
 
 		this.render = function(callback) {
+	
 			this.store.get(this.store_dataset, function(data) {
 				
 				var taggedCorpus = new Array();

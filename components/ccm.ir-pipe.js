@@ -7,112 +7,130 @@ ccm.component( {
 	name: 'ir-pipe',
 
 	config: {
-		jquery_ui_js:[ccm.load,"https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"],
-		jquery_ui_css:[ccm.load,"https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"],
-		html			: [ccm.store, { local: './json/bookmarklet_html.json'}],
+		jquery_ui_js	: [ccm.load,"https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"],
+		jquery_ui_css	: [ccm.load,"https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"],
+		html			: [ccm.store, {local: './json/bookmarklet_html.json'}],
 		style			: [ccm.load, './css/ir-pipe.css'],
 		store 			: [ccm.store, './json/components.json'],
-		store_dataset 	: 'demo',
-		store_src_key 	: 'demo',
-		store_dst_key	: 'demo'
+		store_dataset 	: 'default',
+		init_src_key 	: 'content'
 	},
 	  
 	Instance: function () {
 		
 		var self = this;
-		var rendercount = 0;
-		var selectedComponents = [];
-		var components;
-		var color_red = '#ff6061';
-		var color_green = '#006639';
-		var color_blue = '#0089b7';
-
-		var storyStore = ccm.store();
 		
-		this.init = function(callback) {
-			if(callback) callback();
-		}
-
+		// used by ui
+		var components;
+		var prevSelectedComponent;
+	
+		// used by components in pipe
+		var selectedComponents = [];
+		var contentStore = ccm.store();	
+		var rendercount = 0;
+		
 		this.render = function(callback) {
 			
-			var element = ccm.helper.element(this);
 			var main = this.html.get('main');
-			
+			var element = ccm.helper.element(this);
 			var availableComponents = main.inner[0].inner;
 			
-			var oldSelectedComponent;
-			
-			this.store.get("components", function(data) {
+			this.store.get(self.store_dataset, function(data) {
 				self.components = data;
 				
 				var componentNames = Object.keys(self.components);
-				for(var component of componentNames) {
+				for(var componentName of componentNames) {
 					var component_html = self.html.get('component');		
-					component_html.value = component;
-					component_html.inner = component.toString();
+					component_html.value = componentName;
+					component_html.inner = componentName;
 					availableComponents.push(component_html);
 				}
-					
+			
 				element.html(ccm.helper.html(main));
-								
+						
 				$("#availableComponents").sortable({
-					scrollSensitivity: 10,
-					forceHelperSize: true,
+					scrollSensitivity: 15,
 					connectWith: "#selectedComponents"
 				});
 
 				$("#selectedComponents").sortable({
-					 scrollSensitivity: 10,
-					 forceHelperSize: true,
+					scrollSensitivity: 15,
 					connectWith: "#availableComponents"
 				});
 
 				$(".component").hover(
 				
-					// hover
+					// hover over component
 					function() {
 						updateComponentColorSelected(this);
 						updateDescription(this);
 					},
 					
-					// hover away
+					// hover away from component
 					function() {
-						if(this != oldSelectedComponent) {
+						if(this != prevSelectedComponent) {
 							updateComponentColorUnselected(this);
-							updateDescription(oldSelectedComponent);
+							if(prevSelectedComponent) {
+								updateDescription(prevSelectedComponent);
+							}
 						}
 					}
 				);
 
 				$(".component").mousedown(function() {
-					if(this != oldSelectedComponent) {
+					if(this != prevSelectedComponent) {
 						updateDescription(this);
 						// hover will update the color for 'this'
-						updateComponentColorUnselected(oldSelectedComponent);
-						oldSelectedComponent = this;
+						updateComponentColorUnselected(prevSelectedComponent);
+						prevSelectedComponent = this;
 					}
 				});
 
-				$("#ccm-render-button").click(function() {
-					var anchorOffset = document.getSelection().anchorOffset;
-					var focusOffset = document.getSelection().focusOffset;
-					var text = document.getSelection().focusNode.textContent.slice(anchorOffset, focusOffset);
-					storyStore.set({key : selectedStory, "content" : [text]});
+				$("#pipe-button").click(function() {
+					var selection = document.getSelection();
+					if(selection.focusNode != null && selection.anchorNode != null) {
+						
+						var text = selection.focusNode.textContent.slice(selection.anchorOffset, selection.focusOffset);
+						
+						// reset result div
+						$("#pipe-result").html("");
+
+						var prev_src_key = self.init_src_key;
+						$("#selectedComponents li").each(function() {
+							var componentName = $(this).attr('value');
+							var component = ccm.helper.clone(self.components[componentName]);
+							component.config.store = contentStore;
+							component.config.store_dataset = self.store_dataset;
+							component.config.store_src_key = prev_src_key;
+							component.config.store_dst_key = componentName;
+							prev_src_key = componentName;
+							selectedComponents.push(component);
+						});
 					
-					var old_src_key = "content";
-					$("#usedComponents li").each(function() {
-						var name = $(this).attr('value');
-						var component = self.components[name];
-						component.config.store_src_key = old_src_key;
-						component.config.store_dst_key = name;
-						old_src_key = name;
-						selectedComponents.push(component);
-					});
-					
-					if(selectedComponents.length > 0) {
-						selectedComponents[selectedComponents.length-1].config.render_element = $('#ccm-result');
-						ccm.render(selectedComponents[0]['path'],selectedComponents[0]['config'], renderNext);
+						if(selectedComponents.length > 0) {
+							
+							// configure that last component should actually render
+							selectedComponents[selectedComponents.length-1].config.render_element = $('#pipe-result');
+							
+							var storable = new Object();
+							storable[self.init_src_key] = [text];
+							storable['key'] = self.store_dataset;
+							
+							contentStore.set(storable, function() {
+								
+								// render first component
+								rendercount = 0;
+								ccm.render(
+									selectedComponents[0].path,
+									selectedComponents[0].config,
+									renderNext
+								);	
+								
+							});
+						}
+						
 					}
+					
 				});	
 				
 			});
@@ -129,17 +147,23 @@ ccm.component( {
 		}
 		
 		var updateComponentColorSelected = function(component) {
-			$(component).animate({backgroundColor: "#F2F2F2"},100);
+			//$(component).animate({backgroundColor: "#F2F2F2"},100);
+			$(component).css("background" , "#F2F2F2");
 		}
 		
 		var updateComponentColorUnselected = function(component) {
-			$(component).animate({backgroundColor: "#81BEF7"},100);
+			//$(component).animate({backgroundColor: "#81BEF7"},100);
+			$(component).css("background" , "#81BEF7");
 		}
 		
 		var renderNext = function() {
 			rendercount++;
 			if(rendercount < selectedComponents.length) {
-				ccm.render(selectedComponents[rendercount]['path'],selectedComponents[rendercount]['config'],renderNext);
+				ccm.render(
+					selectedComponents[rendercount].path,
+					selectedComponents[rendercount].config,
+					renderNext
+				);
 			}
 		}
 		

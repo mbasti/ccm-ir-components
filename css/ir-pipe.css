@@ -8,8 +8,10 @@
 	#pipe-button {
 		width: 100px;
 		height: 30px;
+		margin-top: 70px;
 		border: thin groove #000000;
 		vertical-align: bottom;
+		float: left;
 		font: bold 15px;
 	}
 	
@@ -25,8 +27,7 @@
 	}
 	
 	#descriptionWrapper th {
-		padding: 0px;
-		margin: 0px;
+		padding-right: 10px;
 		text-align: right;
 		font-style: italic;
 		width: 60px;
@@ -36,7 +37,7 @@
 	#descriptionWrapper tr {
 		padding: 0px;
 		margin: 0px;
-		width: 180px;
+		width: 170px;
 		height: 40px;
 		font-size: 10pt;
 	}
@@ -48,29 +49,31 @@
 		border-width: thin;
 		margin: 15px;
 		padding: 0px;
-		height: 130px;
+		height: 140px;
 		width: 240px;
 		overflow: auto;
 	}
 	
 	.pipe-box li {
 		text-align: center;
+		vertical-align: middle;
 		font-size: 14px;
-		height: 30px;
+		height: 20px;
 		margin: 10px;
-		cursor : pointer;
+		cursor : move;
+		padding-top: 8px;
+	}
+	
+	#pipe-result li {
+		cursor: auto;
+		text-align : left;
 	}
 	
 	.component {
 		background: #81BEF7;
 		border: thin groove #000000;
 	}
-	
+
 	#pipe-result {
-		border: solid;
-		border-color: lightblue;
-		margin: auto;
-		width: 500px;
-		height: 500px;
-		overflow:auto;
+		text-align: left;
 	}

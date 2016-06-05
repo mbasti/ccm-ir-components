@@ -23,7 +23,7 @@
 		]} ]},
 		
 		{"id" : "pipe-button", "tag" : "button", "inner" : "render"},
-		{"id" : "result", "class" : "pipe-box", "tag" : "div"}
+		{"id" : "pipe-result", "class" : "pipe-box", "tag" : "div"}
 		
 	]},
 	

@@ -15,9 +15,9 @@ ccm.component( {
 		coocc_wordtypes		: ['nouns', 'adjectives'],
 		coocc_windowSize 	: 2,
 		coocc_threshold		: 1,
-		color_noun 			: 'red',
-		color_adjective 	: 'green',
-		color_verb 			: 'blue'
+		color_noun 			: '#ff6061',
+		color_adjective 	: '#006639',
+		color_verb 			: '#0089b7'
 	},
 	  
 	Instance: function () {
