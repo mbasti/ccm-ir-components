@@ -1,64 +1,76 @@
-	#main {
-		text-align: center;
+	.ccm-ir-pipe {
 		margin-left: auto;
 		margin-right: auto;
 		width: 100%;
 		height: 100%;
 	}
 	
-	table {
-		width: 100%;
+	#pipe-button {
+		width: 100px;
+		height: 30px;
+		border: thin groove #000000;
+		vertical-align: bottom;
+		font: bold 15px;
+	}
+	
+	#availableComponents {
+	}
+	
+	#selectedComponents {
+	}
+	
+	#descriptionWrapper {
+		overflow: auto;
 		padding: 0px;
 	}
 	
-	#ccm-result {
-		border: solid;
-		border-color: lightblue;
-		margin: auto;
-		width: 500px;
-		height: 500px;
-		overflow:auto;
-	}
-
-	button {
-		width: 100px;
-		height: 30px;
-	}
-
-	th, td {
-		text-align : center;
-	}
-
-	.componentSelector {
-		list-style-type: none;
-		border : ridge;
-		border-width: small;
-		margin: auto;
+	#descriptionWrapper th {
 		padding: 0px;
-		height: 100px;
-		width: 210px;
+		margin: 0px;
+		text-align: right;
+		font-style: italic;
+		width: 60px;
+		height: 40px;
+	}
+	
+	#descriptionWrapper tr {
+		padding: 0px;
+		margin: 0px;
+		width: 180px;
+		height: 40px;
+		font-size: 10pt;
+	}
+
+	.pipe-box {
+		float: left;
+		list-style-type: none;
+		border : groove;
+		border-width: thin;
+		margin: 15px;
+		padding: 0px;
+		height: 130px;
+		width: 240px;
 		overflow: auto;
 	}
 	
-	.componentSelector li {
+	.pipe-box li {
 		text-align: center;
 		font-size: 14px;
 		height: 30px;
 		margin: 10px;
 		cursor : pointer;
 	}
-
-	#description {
-		border : ridge;
-		border-width: small;
-		margin: auto; 
-		padding: 0px;
-		height: 100px;
-		overflow: auto;
-	}
-
+	
 	.component {
-		background: #cedc98;
-		border: 1px solid #DDDDDD;
-		color: #333333;
+		background: #81BEF7;
+		border: thin groove #000000;
+	}
+	
+	#pipe-result {
+		border: solid;
+		border-color: lightblue;
+		margin: auto;
+		width: 500px;
+		height: 500px;
+		overflow:auto;
 	}

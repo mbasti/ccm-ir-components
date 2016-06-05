@@ -1,65 +1,31 @@
 {
   "main": {
 	"id" : "main",
+	"class" : "ccm-ir-pipe",
     "tag": "div",
     "inner": [
-    
-		{"tag" : "table", "inner" :[ 
-			
+		{"id" : "availableComponents", "class" : "pipe-box", "tag" : "ul", "inner" : []},
+		{"id" : "selectedComponents", "class" : "pipe-box", "tag" : "ul", "inner" : []},
+		{"id" : "descriptionWrapper", "class" : "pipe-box", "tag" : "div", "inner" : [
+		{"id" : "description", "tag" : "table", "inner" : [
 			{"tag" : "tr", "inner" : [
-				{"tag" : "th", "inner" : "Available Components"},
-				{"tag" : "th", "inner" : "Selected Components"},
-				{"tag" : "th", "inner" : "Description"}
+				{"tag" : "th", "inner" : "path"},
+				{"id" : "descPath", "tag" : "td", "inner" :""}
 			]},
-			
 			{"tag" : "tr", "inner" : [
-				
-				{"tag" : "td", "inner" : {	
-					"id" : "availableComponents",
-					"tag": "ol",
-					"class" : "componentSelector",
-					"inner" : []
-				}},
-				
-				{"tag" : "td", "inner" : {
-					"id" : "selectedComponents",
-					"tag": "ol",
-					"class": "componentSelector",
-					"inner" : []
-				}},
-				
-				{"tag" : "td", "inner" : {
-					"id" : "description",
-					"tag" : "div",
-					"inner" : [
-						{"class" : "desc_header", "tag" : "div", "inner" : "expects"},
-						{"class" : "desc_header", "tag" : "div", "inner" : "result"},
-						{"id" : "desc_expecs", "tag" : "div"},
-						{"id" : "desc_result", "tag" : "div"}
-					]
-				}}
+				{"tag" : "th", "inner" : "expects"},
+				{"id" : "descExpects", "tag" : "td", "inner" :""}
 			]},
-			
 			{"tag" : "tr", "inner" : [
-				{"tag" : "td"},
-				{"tag" : "td", "inner" : {
-					"tag" : "button",
-					"id" : "ccm-render-button",
-					"inner" : "render"
-					}
-				}
+				{"tag" : "th", "inner" : "result"},
+				{"id" : "descResult", "tag" : "td", "inner" :""}
 			]}
-		]}
+		]} ]},
 		
-	]
+		{"id" : "pipe-button", "tag" : "button", "inner" : "render"},
+		{"id" : "result", "class" : "pipe-box", "tag" : "div"}
+		
+	]},
 	
-  },
-  
-  "component" : {
-	  "tag" : "li",
-	  "class" : "component",
-	  "value" : "",
-	  "inner" : ""
-  }
-  
+	"component" : {"class" : "component", "tag" : "li"}
 }

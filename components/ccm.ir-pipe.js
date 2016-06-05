@@ -22,7 +22,7 @@ ccm.component( {
 		var self = this;
 		var rendercount = 0;
 		var selectedComponents = [];
-		
+		var components;
 		var color_red = '#ff6061';
 		var color_green = '#006639';
 		var color_blue = '#0089b7';
@@ -34,23 +34,27 @@ ccm.component( {
 		}
 
 		this.render = function(callback) {
+			
 			var element = ccm.helper.element(this);
 			var main = this.html.get('main');
-			var availableComponents = main.inner[0].inner[1].inner[0].inner.inner;
+			
+			var availableComponents = main.inner[0].inner;
 			
 			var oldSelectedComponent;
 			
-			this.store.get("components", function(components) {
-				var componentNames = Object.keys(components);
+			this.store.get("components", function(data) {
+				self.components = data;
+				
+				var componentNames = Object.keys(self.components);
 				for(var component of componentNames) {
 					var component_html = self.html.get('component');		
 					component_html.value = component;
 					component_html.inner = component.toString();
 					availableComponents.push(component_html);
 				}
-				
+					
 				element.html(ccm.helper.html(main));
-				
+								
 				$("#availableComponents").sortable({
 					scrollSensitivity: 10,
 					forceHelperSize: true,
@@ -63,11 +67,30 @@ ccm.component( {
 					connectWith: "#availableComponents"
 				});
 
+				$(".component").hover(
+				
+					// hover
+					function() {
+						updateComponentColorSelected(this);
+						updateDescription(this);
+					},
+					
+					// hover away
+					function() {
+						if(this != oldSelectedComponent) {
+							updateComponentColorUnselected(this);
+							updateDescription(oldSelectedComponent);
+						}
+					}
+				);
+
 				$(".component").mousedown(function() {
-					$(oldSelectedComponent).animate({backgroundColor: "#cedc98"},200);
-					$(this).animate({backgroundColor: "red"},200);
-					$("#description").html(components[$(this).attr("value")].expects);
-					oldSelectedComponent = this;
+					if(this != oldSelectedComponent) {
+						updateDescription(this);
+						// hover will update the color for 'this'
+						updateComponentColorUnselected(oldSelectedComponent);
+						oldSelectedComponent = this;
+					}
 				});
 
 				$("#ccm-render-button").click(function() {
@@ -79,7 +102,7 @@ ccm.component( {
 					var old_src_key = "content";
 					$("#usedComponents li").each(function() {
 						var name = $(this).attr('value');
-						var component = components[name];
+						var component = self.components[name];
 						component.config.store_src_key = old_src_key;
 						component.config.store_dst_key = name;
 						old_src_key = name;
@@ -97,6 +120,21 @@ ccm.component( {
 		}
 		
 		// ===================== PRIVATE FUNCTIONS =====================
+		
+		var updateDescription = function(jquerySelector) {
+			var selectedComponent = self.components[$(jquerySelector).attr("value")];
+			$("#descPath").html(selectedComponent.path);
+			$("#descExpects").html(selectedComponent.expects);
+			$("#descResult").html(selectedComponent.result);
+		}
+		
+		var updateComponentColorSelected = function(component) {
+			$(component).animate({backgroundColor: "#F2F2F2"},100);
+		}
+		
+		var updateComponentColorUnselected = function(component) {
+			$(component).animate({backgroundColor: "#81BEF7"},100);
+		}
 		
 		var renderNext = function() {
 			rendercount++;
