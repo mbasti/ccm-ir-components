@@ -9,7 +9,7 @@ ccm.component( {
 	config: {
 		jquery_ui_js:[ccm.load,"https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"],
 		jquery_ui_css:[ccm.load,"https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"],
-		html			: [ccm.store, { local: './json/bookmarklet-loader.json'}],
+		html			: [ccm.store, { local: './json/bookmarklet_html.json'}],
 		style			: [ccm.load, './css/ir-pipe.css'],
 		store 			: [ccm.store, './json/components.json'],
 		store_dataset 	: 'demo',
