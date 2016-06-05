@@ -10,8 +10,11 @@ ccm.component( {
 		jquery_ui_js	: [ccm.load,"https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"],
 		jquery_ui_css	: [ccm.load,"https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"],
 		html			: [ccm.store, {local: './json/bookmarklet_html.json'}],
+		//html			: [ccm.store, 'https://raw.githubusercontent.com/mbasti/ccm-ir-components/master/json/bookmarklet_html.json'],
 		style			: [ccm.load, './css/ir-pipe.css'],
+		//style			: [ccm.load, 'https://raw.githubusercontent.com/mbasti/ccm-ir-components/master/css/ir-pipe.css'],
 		store 			: [ccm.store, './json/components.json'],
+		//store 			: [ccm.store, 'https://raw.githubusercontent.com/mbasti/ccm-ir-components/master/json/components.json'],
 		store_dataset 	: 'default',
 		init_src_key 	: 'content'
 	},

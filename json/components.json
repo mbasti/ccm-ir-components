@@ -4,7 +4,7 @@
 		"ccm-stemmer" : {
 			"path" : "./components/ccm.stemmer.js",
 			"config" : {
-
+				
 			},
 			"expects": "raw text",
 			"result" : "stemmed raw text"
@@ -13,7 +13,7 @@
 		"ccm-postagger" : {
 			"path" : "./components/ccm.postagger.js",
 			"config" : {
-
+				
 			},
 			"expects": "raw text",
 			"result" : "pos-tagged text of the format [word, POS]"
