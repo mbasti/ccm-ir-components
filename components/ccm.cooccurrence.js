@@ -7,7 +7,7 @@ ccm.component( {
 	name: 'cooccurrence',
 
 	config: {
-		lib_graph 			: [ccm.load, './lib/sigma/sigma.min.js'],
+		lib_graph 			: [ccm.load, 'home.inf.fh-bonn-rhein-sieg.de/~bmager2s/lib/sigma/sigma.min.js'],
 		store 				: [ccm.store, './json/textcorpus.json'],
 		store_dataset 		: 'demo',
 		store_src_key 		: 'demo',

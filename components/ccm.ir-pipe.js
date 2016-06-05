@@ -9,12 +9,9 @@ ccm.component( {
 	config: {
 		jquery_ui_js	: [ccm.load,"https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"],
 		jquery_ui_css	: [ccm.load,"https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"],
-		//html			: [ccm.store, {local: './json/bookmarklet_html.json'}],
-		html			: [ccm.store, 'https://raw.githubusercontent.com/mbasti/ccm-ir-components/master/json/bookmarklet_html.json'],
-		style			: [ccm.load, './css/ir-pipe.css'],
-		style			: [ccm.load, 'https://raw.githubusercontent.com/mbasti/ccm-ir-components/master/css/ir-pipe.css'],
-		//store 			: [ccm.store, './json/components.json'],
-		store 			: [ccm.store, 'https://raw.githubusercontent.com/mbasti/ccm-ir-components/master/json/components.json'],
+		html			: [ccm.store, 'http://home.inf.fh-bonn-rhein-sieg.de/~bmager2s/json/bookmarklet_html.json'],
+		style			: [ccm.load, 'http://home.inf.fh-bonn-rhein-sieg.de/~bmager2s/css/ir-pipe.css'],
+		store 		: [ccm.store, 'http://home.inf.fh-bonn-rhein-sieg.de/~bmager2s/json/components.json'],
 		store_dataset 	: 'default',
 		init_src_key 	: 'content'
 	},

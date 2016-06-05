@@ -7,12 +7,9 @@ ccm.component( {
 	name: 'postagger',
 
 	config: {
-		lib_lexer 		: [ccm.load, './lib/jspos/lexer.js'],
-		//lib_lexer 		: [ccm.load, 'https://raw.githubusercontent.com/mbasti/ccm-ir-components/master/lib/jspos/lexer.js'],
-		lib_lexicon 	: [ccm.load, './lib/jspos/lexicon.js'],
-		//lib_lexicon 	: [ccm.load, 'https://raw.githubusercontent.com/mbasti/ccm-ir-components/master/lib/jspos/lexicon.js'],
-		lib_postagger	: [ccm.load, './lib/jspos/POSTagger.js'],
-		//lib_postagger	: [ccm.load, 'https://raw.githubusercontent.com/mbasti/ccm-ir-components/master/lib/jspos/POSTagger.js'],
+		lib_lexer 		: [ccm.load, 'home.inf.fh-bonn-rhein-sieg.de/~bmager2s/lib/jspos/lexer.js'],
+		lib_lexicon 	: [ccm.load, 'home.inf.fh-bonn-rhein-sieg.de/~bmager2s/lib/jspos/lexicon.js'],
+		lib_postagger	: [ccm.load, 'home.inf.fh-bonn-rhein-sieg.de/~bmager2s/lib/jspos/POSTagger.js'],
 		store 			: [ccm.store, './json/textcorpus.json'],
 		store_dataset 	: 'demo',
 		store_src_key 	: 'demo',

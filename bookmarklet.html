@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
 <style>
+	
+	#ccm-components {
+		background: #000000;
+	}
+	
 .button {
 	background-color: #81BEF7;
 	color: #fff;
@@ -35,7 +40,7 @@
 	ccmscript.onload = function() {
 	
 	jQuery('body').prepend('<div id=\'ccm-components\' style=\'display: false; height: 11em; overflow: auto; border-bottom: 0.1em solid black;\'></div>').hide().fadeIn('slow'),
-	ccm.render('https://raw.githubusercontent.com/mbasti/ccm-ir-components/master/components/ccm.ir-pipe.js',jQuery('#ccm-components'))
+	ccm.render('http://home.inf.fh-bonn-rhein-sieg.de/~bmager2s/components/ccm.ir-pipe.js',jQuery('#ccm-components'))
 	   
 	}}};void(0);"
   >ccm ir-pipe</a>
