@@ -1,0 +1,40 @@
+{
+	"components" : {
+		
+		"ccm-stemmer" : {
+			"path" : "./components/ccm.stemmer.js",
+			"config" : {
+
+			},
+			"expects": "raw text",
+			"result" : "stemmed raw text"
+		},
+
+		"ccm-postagger" : {
+			"path" : "./components/ccm.postagger.js",
+			"config" : {
+
+			},
+			"expects": "raw text",
+			"result" : "pos-tagged text of the format [word, POS]"
+		},
+		
+		"ccm-cooccurrence" : {
+			"path" : "./components/ccm.cooccurrence.js",
+			"config" : {
+
+			},
+			"expects": "pos-tagged text",
+			"result" : "cooccurrence adjacency matrix"
+		},
+
+		"ccm-pagerank" : {
+			"path" : "./components/ccm.pagerank.js",
+			"config" : {
+
+			},
+			"expects": "adjacency matrix",
+			"result" : "ranking of the nodes in the matrix"
+		}
+	}
+}

@@ -1,0 +1,65 @@
+{
+  "main": {
+	"id" : "main",
+    "tag": "div",
+    "inner": [
+    
+		{"tag" : "table", "inner" :[ 
+			
+			{"tag" : "tr", "inner" : [
+				{"tag" : "th", "inner" : "Available Components"},
+				{"tag" : "th", "inner" : "Selected Components"},
+				{"tag" : "th", "inner" : "Description"}
+			]},
+			
+			{"tag" : "tr", "inner" : [
+				
+				{"tag" : "td", "inner" : {	
+					"id" : "availableComponents",
+					"tag": "ol",
+					"class" : "componentSelector",
+					"inner" : []
+				}},
+				
+				{"tag" : "td", "inner" : {
+					"id" : "selectedComponents",
+					"tag": "ol",
+					"class": "componentSelector",
+					"inner" : []
+				}},
+				
+				{"tag" : "td", "inner" : {
+					"id" : "description",
+					"tag" : "div",
+					"inner" : [
+						{"class" : "desc_header", "tag" : "div", "inner" : "expects"},
+						{"class" : "desc_header", "tag" : "div", "inner" : "result"},
+						{"id" : "desc_expecs", "tag" : "div"},
+						{"id" : "desc_result", "tag" : "div"}
+					]
+				}}
+			]},
+			
+			{"tag" : "tr", "inner" : [
+				{"tag" : "td"},
+				{"tag" : "td", "inner" : {
+					"tag" : "button",
+					"id" : "ccm-render-button",
+					"inner" : "render"
+					}
+				}
+			]}
+		]}
+		
+	]
+	
+  },
+  
+  "component" : {
+	  "tag" : "li",
+	  "class" : "component",
+	  "value" : "",
+	  "inner" : ""
+  }
+  
+}

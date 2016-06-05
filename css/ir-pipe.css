@@ -1,0 +1,64 @@
+	#main {
+		text-align: center;
+		margin-left: auto;
+		margin-right: auto;
+		width: 100%;
+		height: 100%;
+	}
+	
+	table {
+		width: 100%;
+		padding: 0px;
+	}
+	
+	#ccm-result {
+		border: solid;
+		border-color: lightblue;
+		margin: auto;
+		width: 500px;
+		height: 500px;
+		overflow:auto;
+	}
+
+	button {
+		width: 100px;
+		height: 30px;
+	}
+
+	th, td {
+		text-align : center;
+	}
+
+	.componentSelector {
+		list-style-type: none;
+		border : ridge;
+		border-width: small;
+		margin: auto;
+		padding: 0px;
+		height: 100px;
+		width: 210px;
+		overflow: auto;
+	}
+	
+	.componentSelector li {
+		text-align: center;
+		font-size: 14px;
+		height: 30px;
+		margin: 10px;
+		cursor : pointer;
+	}
+
+	#description {
+		border : ridge;
+		border-width: small;
+		margin: auto; 
+		padding: 0px;
+		height: 100px;
+		overflow: auto;
+	}
+
+	.component {
+		background: #cedc98;
+		border: 1px solid #DDDDDD;
+		color: #333333;
+	}

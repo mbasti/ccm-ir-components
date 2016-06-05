@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+.button {
+	background-color: #900;
+	border-color: #900;
+	color: #fff;
+	cursor: pointer;
+	border-width: 1px;
+	border-style: solid;
+	border-radius: 4px;
+	padding: 4px 8px;
+	text-decoration: none;
+	font-weight: bold;
+	text-align: center;
+}
+</style>
+<title>CCM IR-PIPE Bookmarklet</title>
+<body>
+<div>To install, click and drag the button to your browser's bookmarks toolbar.
+  <a class="button" href="javascript:
+	if(window.ccm) {
+		if($('#ccm-components').css('display') == 'none') {
+			$('#ccm-components').fadeIn('slow')
+		} else {
+			$('#ccm-components').fadeOut('slow')
+		}
+	} else {
+	jqscript=document.createElement('script'),
+	jqscript.setAttribute('src','https://code.jquery.com/jquery-2.2.3.min.js'),
+	document.head.appendChild(jqscript),
+	jqscript.onload = function() {
+		
+	ccmscript=document.createElement('script'),
+	ccmscript.setAttribute('src','https://kaul.inf.h-brs.de/ccm/ccm.js'),
+	document.head.appendChild(ccmscript),
+	ccmscript.onload = function() {
+	
+	jQuery('body').prepend('<div id=\'ccm-components\' style=\'display: false; height: 11em; overflow: auto; border-bottom: 0.1em solid black;\'></div>').hide().fadeIn('slow'),
+	ccm.render('./components/ccm.ir-pipe.js',jQuery('#ccm-components'))
+	   
+	}}};void(0);"
+  >ccm ir-pipe</a>
+</div>
+</body>
+</html>
