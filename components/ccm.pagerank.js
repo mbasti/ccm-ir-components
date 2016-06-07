@@ -7,7 +7,7 @@ ccm.component( {
 	name: 'pagerank',
 
 	config: {
-		store 							: [ccm.store, './json/textcorpus.json'],
+		store 							: [ccm.store, 'http://home.inf.fh-bonn-rhein-sieg.de/~bmager2s/json/textcorpus.json'],
 		store_dataset					: 'demo',
 		store_src_key					: 'demo',
 		store_dst_key					: 'demo',

@@ -7,11 +7,11 @@ ccm.component( {
 	name: 'ir-pipe',
 
 	config: {
-		jquery_ui_js	: [ccm.load,"https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"],
-		jquery_ui_css	: [ccm.load,"https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"],
+		jquery_ui_js	: [ccm.load, 'https://code.jquery.com/ui/1.11.4/jquery-ui.min.js'],
+		jquery_ui_css	: [ccm.load, 'https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css'],
 		html			: [ccm.store, 'http://home.inf.fh-bonn-rhein-sieg.de/~bmager2s/json/bookmarklet_html.json'],
 		style			: [ccm.load, 'http://home.inf.fh-bonn-rhein-sieg.de/~bmager2s/css/ir-pipe.css'],
-		store 		: [ccm.store, 'http://home.inf.fh-bonn-rhein-sieg.de/~bmager2s/json/components.json'],
+		store 			: [ccm.store, 'http://home.inf.fh-bonn-rhein-sieg.de/~bmager2s/json/components.json'],
 		store_dataset 	: 'default',
 		init_src_key 	: 'content'
 	},
@@ -25,7 +25,7 @@ ccm.component( {
 		var prevSelectedComponent;
 	
 		// used by components in pipe
-		var selectedComponents = [];
+		var selectedComponents;
 		var contentStore = ccm.store();	
 		var rendercount = 0;
 		
@@ -46,7 +46,7 @@ ccm.component( {
 					availableComponents.push(component_html);
 				}
 			
-				element.html(ccm.helper.html(main));
+				element.html(ccm.helper.html(main.inner));
 						
 				$("#availableComponents").sortable({
 					scrollSensitivity: 15,
@@ -86,14 +86,16 @@ ccm.component( {
 					}
 				});
 
-				$("#pipe-button").click(function() {
+				$("#render").click(function() {
+					selectedComponents = [];
 					var selection = document.getSelection();
+					console.log(selection);
 					if(selection.focusNode != null && selection.anchorNode != null) {
 						
 						var text = selection.focusNode.textContent.slice(selection.anchorOffset, selection.focusOffset);
 						
 						// reset result div
-						$("#pipe-result").html("");
+						$("#ir-pipe-result").html("");
 
 						var prev_src_key = self.init_src_key;
 						$("#selectedComponents li").each(function() {
@@ -110,7 +112,7 @@ ccm.component( {
 						if(selectedComponents.length > 0) {
 							
 							// configure that last component should actually render
-							selectedComponents[selectedComponents.length-1].config.render_element = $('#pipe-result');
+							selectedComponents[selectedComponents.length-1].config.render_element = $('#ir-pipe-result');
 							
 							var storable = new Object();
 							storable[self.init_src_key] = [text];
@@ -147,13 +149,11 @@ ccm.component( {
 		}
 		
 		var updateComponentColorSelected = function(component) {
-			//$(component).animate({backgroundColor: "#F2F2F2"},100);
 			$(component).css("background" , "#F2F2F2");
 		}
 		
 		var updateComponentColorUnselected = function(component) {
-			//$(component).animate({backgroundColor: "#81BEF7"},100);
-			$(component).css("background" , "#81BEF7");
+			$(component).css("background" , "#c0d6e4");
 		}
 		
 		var renderNext = function() {

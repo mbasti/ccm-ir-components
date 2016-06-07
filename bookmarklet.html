@@ -1,47 +1,42 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
 <style>
-	
-	#ccm-components {
-		background: #000000;
-	}
-	
 .button {
-	background-color: #81BEF7;
-	color: #fff;
+	background-color: #c0d6e4;
+	color: black;
 	cursor: pointer;
-	border: thin groove #000000;
+	border: thin solid black;
 	padding: 4px 8px;
 	text-decoration: none;
 	margin:auto;
-	font-weight: bold;
+	font-family: Century Gothic,CenturyGothic,AppleGothic,sans-serif;
 	text-align: center;
 }
+
 </style>
-<title>CCM IR-PIPE Bookmarklet</title>
+<title>ccm ir-pipe Bookmarklet</title>
 <body>
-<div>To install, click and drag the button to your browser's bookmarks toolbar.
+<div id="bookmarklet-installer">To install, click and drag the button to your browser's bookmarks toolbar.
   <a class="button" href="javascript:
 	if(window.ccm) {
-		if($('#ccm-components').css('display') == 'none') {
-			$('#ccm-components').fadeIn('slow')
+		if($('#ccm-ir-pipe-wrapper').css('display') == 'none') {
+			$('#ccm-ir-pipe-wrapper').fadeIn('slow')
 		} else {
-			$('#ccm-components').fadeOut('slow')
+			$('#ccm-ir-pipe-wrapper').fadeOut('slow')
 		}
 	} else {
 	jqscript=document.createElement('script'),
 	jqscript.setAttribute('src','https://code.jquery.com/jquery-2.2.3.min.js'),
 	document.head.appendChild(jqscript),
 	jqscript.onload = function() {
-		
 	ccmscript=document.createElement('script'),
 	ccmscript.setAttribute('src','https://kaul.inf.h-brs.de/ccm/ccm.js'),
 	document.head.appendChild(ccmscript),
 	ccmscript.onload = function() {
-	
-	jQuery('body').prepend('<div id=\'ccm-components\' style=\'display: false; height: 11em; overflow: auto; border-bottom: 0.1em solid black;\'></div>').hide().fadeIn('slow'),
-	ccm.render('http://home.inf.fh-bonn-rhein-sieg.de/~bmager2s/components/ccm.ir-pipe.js',jQuery('#ccm-components'))
-	   
+	jQuery('body').wrapInner('<div id=\'content-wrapper\'></div>'),
+	jQuery('body').wrapInner('<div id=\'body-wrapper\'></div>'),
+	jQuery('#body-wrapper').prepend('<div id=\'ccm-ir-pipe-wrapper\'></div>').hide().fadeIn('slow'),
+	ccm.render('http://home.inf.fh-bonn-rhein-sieg.de/~bmager2s/components/ccm.ir-pipe.js', jQuery('#ccm-ir-pipe-wrapper'))
 	}}};void(0);"
   >ccm ir-pipe</a>
 </div>

@@ -1,17 +1,11 @@
-{
+ccm.callback['bookmarklet_html.json']({
   "main": {
-	"id" : "main",
-	"class" : "ccm-ir-pipe",
-    "tag": "div",
     "inner": [
-		{"id" : "availableComponents", "class" : "pipe-box", "tag" : "ul", "inner" : []},
-		{"id" : "selectedComponents", "class" : "pipe-box", "tag" : "ul", "inner" : []},
-		{"id" : "descriptionWrapper", "class" : "pipe-box", "tag" : "div", "inner" : [
+		{"id" : "availableComponents", "class" : "ir-pipe-box", "tag" : "ul", "inner" : []},
+		{"id" : "component-arrow", "tag" : "img", "src" : "./css/right-arrow.png"},
+		{"id" : "selectedComponents", "class" : "ir-pipe-box", "tag" : "ul", "inner" : []},
+		{"id" : "descriptionWrapper", "class" : "ir-pipe-box", "tag" : "div", "inner" : [
 		{"id" : "description", "tag" : "table", "inner" : [
-			{"tag" : "tr", "inner" : [
-				{"tag" : "th", "inner" : "path"},
-				{"id" : "descPath", "tag" : "td", "inner" :""}
-			]},
 			{"tag" : "tr", "inner" : [
 				{"tag" : "th", "inner" : "expects"},
 				{"id" : "descExpects", "tag" : "td", "inner" :""}
@@ -19,13 +13,19 @@
 			{"tag" : "tr", "inner" : [
 				{"tag" : "th", "inner" : "result"},
 				{"id" : "descResult", "tag" : "td", "inner" :""}
+			]},
+			{"tag" : "tr", "inner" : [
+				{"tag" : "th", "inner" : "path"},
+				{"id" : "descPath", "tag" : "td", "inner" :""}
 			]}
 		]} ]},
+		{"id" : "button-panel", "class" : "ir-pipe-box", "tag" : "div", "inner" : [
+			{"id" : "render", "class" : "ir-pipe-button", "tag" : "button", "inner" : "render"}
+		]},
 		
-		{"id" : "pipe-button", "tag" : "button", "inner" : "render"},
-		{"id" : "pipe-result", "class" : "pipe-box", "tag" : "div"}
+		{"id" : "ir-pipe-result", "class" : "ir-pipe-box", "tag" : "div"}
 		
 	]},
 	
 	"component" : {"class" : "component", "tag" : "li"}
-}
+});
