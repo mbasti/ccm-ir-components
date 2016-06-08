@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>CCM IR-Components Demo</title>
+
+<style>
+    h1 {
+        text-align: center;
+    }
+
+    h2 {
+        text-align: center;
+    }
+
+    div.component {
+		border: solid;
+        border-color: lightblue;
+        margin: auto;
+        width: 500px;
+		height: 500px;
+		overflow:auto;
+    }
+    
+    #settings {
+		border: solid;
+        border-color: lightblue;
+        margin: auto;
+		overflow:auto;
+    }
+</style>
+
+<body>
+	<h1>CCM IR-Components Demo</h1>
+	
+	<h2>Settings</h2>
+	<div id="settings" >
+		
+		<table>
+			
+			<tr>
+			<td>Text Corpus:</td>
+			<td><select id="storylist">
+				<option value="text1">Mother Hulda (Grimm Story)</option>
+				<option value="text2">Little Red Riding Hood (Grimm Story)</option>
+				<option value="text3">Donald Trump Rally (BBC News)</option>
+				<option value="text4">Putin Warns Romania (Reuters News)</option>
+				<option value="text5">The Sorrows of Werther (Göthe)</option>
+				<option value="text6" selected=true>Enigma Machine (Wikipedia Article)</option>
+				<option value="text7">Owls (Wikipedia Article)</option>
+				<option value="text8">Sequoia National Park (Wikipedia Article)</option>
+			</select></td>
+			</tr>
+			
+			<tr>
+			<td>Cooccurrence Window-Size</td>
+			<td><select id="coocccoocc_windowSize">
+				<option value="1">1</option>
+				<option value="2" selected=true>2</option>
+				<option value="3">3</option>
+				<option value="4">4</option>
+				<option value="5">5</option>
+				<option value="6">6</option>
+				<option value="7">7</option>
+				<option value="8">8</option>
+				<option value="9">9</option>
+				<option value="10">10</option>
+			</select></td>
+			</tr>
+
+			<tr>
+			<td>Cooccurrence Threshold</td>
+			<td><select id="cooccThreshold">
+				<option value="1">1</option>
+				<option value="2">2</option>
+				<option value="3">3</option>
+				<option value="4">4</option>
+				<option value="5">5</option>
+				<option value="6">6</option>
+				<option value="7">7</option>
+				<option value="8">8</option>
+				<option value="9">9</option>
+				<option value="10">10</option>
+			</select></td>
+			</tr>
+
+			<tr>
+			<td>Which type of words are allowed?</td>
+			<td><div id=word_types>
+				<input type="checkbox" value="nouns" checked>nouns<br/>
+				<input type="checkbox" value="adjectives" checked>adjectives<br/>
+				<input type="checkbox" value="verbs">verbs
+			</div></td>
+			</tr>
+
+			<tr>
+			<td>How many tags should be rendered?</td>
+			<td><select id="cloudFilterCount">
+				<option value="5">5</option>
+				<option value="10" selected=true>10</option>
+				<option value="15">15</option>
+				<option value="20">20</option>
+			</select></td>
+			</tr>
+			
+			<tr>
+			<td>Should adjacent terms be merged?</td>
+			<td><select id="mergeTerms">
+				<option value=true>yes</option>
+				<option value=false selected=true>no</option>
+			</select></td>
+			</tr>
+			
+		</table> 
+		
+	   <button id="storybutton" onClick="render()">render</button>
+	</div>
+	
+	<h2>POS-Tags</h2>
+	<div id="ccm-postags" class="component"></div>
+	
+	<h2>TF-IDF</h2>
+	<div id="ccm-tfidf" class="component"></div>
+	
+	<h2>Cooccurrence-Graph</h2>
+	<div id="ccm-cooccurrences" class="component"></div>
+	
+	<h2>Ranked words with PageRank-Algorithm</h2>
+	<div id="ccm-pagerank" class="component"></div>
+	
+	<h2>Cloud</h2>
+	<div id="ccm-keycloud" class="component"></div>
+
+</body>
+
+<script src="http://akless.github.io/ccm-developer/libs/ccm.min.js"></script>
+<script language="javascript">
+
+	var color_red = '#ff6061';
+	var color_green = '#006639';
+	var color_blue = '#0089b7';
+
+	var storyStore = [ccm.store, './json/textcorpus.json'];
+
+	function render() {
+
+		$("#storybutton").attr("disabled",true);
+
+		$("#ccm-pos-tags").html("");
+		$("#ccm-cooccurrences").html("");
+		$("#ccm-pagerank").html("");
+		$("#ccm-keycloud").html("");
+		$("#ccm-tfidf").html("");
+
+		var selectedStory = $("#storylist option:selected").attr("value");
+		var selectedcoocc_windowSize = $("#coocccoocc_windowSize option:selected").attr("value");
+		var selectedThreshold = $("#cooccThreshold option:selected").attr("value");
+		var selectedFilterCount = $("#cloudFilterCount option:selected").attr("value");
+		var selectedMergeTerms = $("#mergeTerms option:selected").attr("value") === 'true';
+		
+		var selectedWordTypes = [];
+		$("#word_types :checked").each(function() {
+			selectedWordTypes.push($(this).val());
+		});
+		
+		// render pos-tags
+		ccm.render(
+		'./components/ccm.postagger.js', {
+			render_element: $('#ccm-postags'),
+			store_dataset: selectedStory,
+			store_src_key : 'content',
+			store_dst_key : 'taggedcontent',
+			color_noun : color_red,
+			color_adjective : color_green,
+			color_verb : color_blue,
+			store : storyStore
+		}, function() {
+			
+		// render cooccurrences
+		ccm.render(
+		'./components/ccm.cooccurrence.js', {
+			render_element: $('#ccm-cooccurrences'),
+			coocc_windowSize : selectedcoocc_windowSize,
+			coocc_threshold : selectedThreshold,
+			coocc_wordtypes : selectedWordTypes,
+			store_dataset: selectedStory,
+			store_src_key : 'taggedcontent',
+			store_dst_key : 'cooccurrences',
+			color_noun : color_red,
+			color_adjective : color_green,
+			color_verb : color_blue,
+			store : storyStore
+		}, function() {
+				
+		// render rankings
+		ccm.render(
+		'./components/ccm.pagerank.js', {
+			render_element: $('#ccm-pagerank'),
+			store_dataset: selectedStory,
+			store_src_key : 'cooccurrences',
+			store_dst_key : 'ranking',
+			store : storyStore
+		}, function() {
+					
+		// render keycloud
+		ccm.render(
+		'./components/ccm.keycloud.js', {
+			render_element: $('#ccm-keycloud'),
+			cloud_renderLimit : selectedFilterCount,
+			cloud_mergeTerms : selectedMergeTerms,
+			store_dataset: selectedStory,
+			store_matrix_key : 'cooccurrences',
+			store_ranking_key : 'ranking',
+			store : storyStore
+		}, function() {
+			
+			// render tfidf
+			ccm.render(
+			'./components/ccm.tfidf.js', {
+				render_element: $('#ccm-tfidf'),
+				store_dataset: selectedStory,
+				store_src_key : 'taggedcontent',
+				store_dst_key : 'tfidf',
+				store : storyStore
+			});
+			
+			$("#storybutton").attr("disabled",false);
+		}); }); }); });
+	
+	}
+
+</script>
+
+</html>

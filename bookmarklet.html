@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+.button {
+	background-color: #c0d6e4;
+	color: black;
+	cursor: pointer;
+	border: thin solid black;
+	padding: 4px 8px;
+	text-decoration: none;
+	margin:auto;
+	font-family: Century Gothic,CenturyGothic,AppleGothic,sans-serif;
+	text-align: center;
+}
+
+</style>
+<title>ccm ir-pipe Bookmarklet</title>
+<body>
+<div id="bookmarklet-installer">To install, click and drag the button to your browser's bookmarks toolbar.
+  <a class="button" href="javascript:
+	if(window.ccm) {
+		if($('#ccm-ir-pipe-wrapper').css('display') == 'none') {
+			$('#ccm-ir-pipe-wrapper').fadeIn('slow')
+		} else {
+			$('#ccm-ir-pipe-wrapper').fadeOut('slow')
+		}
+	} else {
+	jqscript=document.createElement('script'),
+	jqscript.setAttribute('src','https://code.jquery.com/jquery-2.2.3.min.js'),
+	document.head.appendChild(jqscript),
+	jqscript.onload = function() {
+	ccmscript=document.createElement('script'),
+	ccmscript.setAttribute('src','https://kaul.inf.h-brs.de/ccm/ccm.js'),
+	document.head.appendChild(ccmscript),
+	ccmscript.onload = function() {
+	jQuery('body').wrapInner('<div id=\'ccm-ir-pipe-content-wrapper\'></div>'),
+	jQuery('body').wrapInner('<div id=\'ccm-ir-pipe-body-wrapper\'></div>'),
+	jQuery('#ccm-ir-pipe-body-wrapper').prepend('<div id=\'ccm-ir-pipe-wrapper\'></div>').hide().fadeIn('slow'),
+	ccm.render('http://mbasti.github.io/components/ccm.ir-pipe.js', jQuery('#ccm-ir-pipe-wrapper'))
+	}}};void(0);"
+  >ccm ir-pipe</a>
+</div>
+</body>
+</html>
