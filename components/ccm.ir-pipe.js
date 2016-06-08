@@ -9,9 +9,9 @@ ccm.component( {
 	config: {
 		jquery_ui_js	: [ccm.load, 'https://code.jquery.com/ui/1.11.4/jquery-ui.min.js'],
 		jquery_ui_css	: [ccm.load, 'https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css'],
-		html_template	: [ccm.store, 'http://mbasti.github.io/json/ccm.ir-pipe_html.json'],
-		style			: [ccm.load, 'http://mbasti.github.io/css/ccm.ir-pipe.css'],
-		store 			: [ccm.store, 'http://mbasti.github.io/json/ccm.ir-components.json'],
+		html_template	: [ccm.store, 'https://mbasti.github.io/json/ccm.ir-pipe_html.json'],
+		style			: [ccm.load, 'https://mbasti.github.io/css/ccm.ir-pipe.css'],
+		store 			: [ccm.store, 'https://mbasti.github.io/json/ccm.ir-components.json'],
 		store_dataset 	: 'default',
 		init_src_key 	: 'content'
 	},
