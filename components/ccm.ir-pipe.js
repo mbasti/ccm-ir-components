@@ -24,7 +24,7 @@ ccm.component( {
 		var selectorAllComponents = ".ccm-ir-pipe-components";
 		var selectorSelectedComponents = "#selectedComponents li";
 		var selectorDescResult = "#ccm-ir-pipe-descResult";
-		var selectorDescExpects = "ccm-ir-pipe-descExpects";
+		var selectorDescExpects = "#ccm-ir-pipe-descExpects";
 		var selectorDescPath = "#ccm-ir-pipe-descPath";
 		var selectorPipeResult = "#ccm-ir-pipe-result";
 		var colorSelected = "#F2F2F2";
@@ -70,7 +70,7 @@ ccm.component( {
 					connectWith: selectorAvailableList
 				});
 
-				$(selectorAllComponents.hover(
+				$(selectorAllComponents).hover(
 				
 					// hover over component
 					function() {
