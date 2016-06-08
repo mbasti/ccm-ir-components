@@ -21,8 +21,8 @@ ccm.component( {
 		var selectorRenderButton = "#ccm-ir-pipe-render-button";
 		var selectorAvailableList = "#ccm-ir-pipe-availableComponents";
 		var selectorSelectedList = "#ccm-ir-pipe-selectedComponents";
-		var selectorAllComponents = ".ccm-ir-pipe-components";
-		var selectorSelectedComponents = "#selectedComponents li";
+		var selectorAllComponents = ".ccm-ir-pipe-component";
+		var selectorSelectedComponents = "#ccm-ir-pipe-selectedComponents li";
 		var selectorDescResult = "#ccm-ir-pipe-descResult";
 		var selectorDescExpects = "#ccm-ir-pipe-descExpects";
 		var selectorDescPath = "#ccm-ir-pipe-descPath";
@@ -101,7 +101,7 @@ ccm.component( {
 				$(selectorRenderButton).click(function() {
 					selectedComponents = [];
 					var selection = document.getSelection();
-					console.log(selection);
+
 					if(selection.focusNode != null && selection.anchorNode != null) {
 						
 						var text = selection.focusNode.textContent.slice(selection.anchorOffset, selection.focusOffset);
