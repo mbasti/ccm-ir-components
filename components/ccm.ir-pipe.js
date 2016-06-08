@@ -43,8 +43,6 @@ ccm.component( {
 		
 		this.render = function(callback) {
 			
-			// TODO: call callback ?
-			
 			var main = this.html_template.get('main');
 			var element = ccm.helper.element(this);
 			var availableComponents = main.inner[0].inner;
@@ -102,7 +100,7 @@ ccm.component( {
 
 				$(selectorRenderButton).click(function() {
 					
-					$(this).css('disabled',true);
+					$(this).disabled(true);
 					
 					selectedComponents = [];
 					var selection = document.getSelection();
@@ -152,6 +150,8 @@ ccm.component( {
 					
 				});	
 				
+				if(callback) callback();
+				
 			});
 			
 		}
@@ -182,7 +182,7 @@ ccm.component( {
 					renderNext
 				);
 			} else {
-				$(selectorRenderButton).css('disabled',false);
+				$(selectorRenderButton).disabled(false);
 			}
 		}
 		

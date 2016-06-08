@@ -115,12 +115,11 @@
 
 #ccm-ir-pipe-result {
 	list-style-type: none;
-	margin:auto;
-	padding:0px;
 }
 
 #ccm-ir-pipe-result li {
 	cursor: auto;
 	text-align : left;
 	border: none;
+	padding:0px;
 }

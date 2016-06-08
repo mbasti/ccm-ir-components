@@ -20,7 +20,7 @@ ccm.callback['ccm.ir-pipe_html.json']({
 			]}
 		]} ]},
 		{"id" : "ccm-ir-pipe-button-panel", "class" : "ccm-ir-pipe-box", "tag" : "div", "inner" : [
-			{"id" : "ccm-ir-pipe-render-button", "class" : "ccm-ir-pipe-button", "tag" : "button", "inner" : "render"}
+			{"id" : "ccm-ir-pipe-render-button", "class" : "ccm-ir-pipe-button", "tag" : "button", "type" : "button", "inner" : "render"}
 		]},
 		
 		{"id" : "ccm-ir-pipe-result", "class" : "ccm-ir-pipe-box", "tag" : "div"}
