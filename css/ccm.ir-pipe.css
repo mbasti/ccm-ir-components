@@ -116,7 +116,7 @@
 #ccm-ir-pipe-result {
 	list-style-type: none;
 	margin:auto;
-	padding:auto;
+	padding:0px;
 }
 
 #ccm-ir-pipe-result li {
