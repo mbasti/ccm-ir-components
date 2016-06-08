@@ -144,8 +144,12 @@ ccm.component( {
 								);	
 								
 							});
+						} else {
+							$(selectorRenderButton).prop('disabled',false);
 						}
 						
+					} else {
+						$(selectorRenderButton).prop('disabled',false);
 					}
 					
 				});	
