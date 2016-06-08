@@ -2,7 +2,7 @@ ccm.callback['ccm.ir-pipe_html.json']({
   "main": {
     "inner": [
 		{"id" : "ccm-ir-pipe-availableComponents", "class" : "ccm-ir-pipe-box", "tag" : "ul", "inner" : []},
-		{"id" : "ccm-ir-pipe-component-arrow", "tag" : "img", "src" : "./css/ccm.right-arrow.png"},
+		{"id" : "ccm-ir-pipe-component-arrow", "tag" : "img", "src" : "http://mbasti.github.io/css/ccm.right-arrow.png"},
 		{"id" : "ccm-ir-pipe-selectedComponents", "class" : "ccm-ir-pipe-box", "tag" : "ul", "inner" : []},
 		{"id" : "ccm-ir-pipe-descriptionWrapper", "class" : "ccm-ir-pipe-box", "tag" : "div", "inner" : [
 		{"id" : "ccm-ir-pipe-description", "tag" : "table", "inner" : [
