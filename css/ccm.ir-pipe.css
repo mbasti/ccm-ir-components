@@ -46,7 +46,7 @@
 }
 
 #ccm-ir-pipe-availableComponents {
-	background:red;
+
 }
 
 #ccm-ir-pipe-selectedComponents {
@@ -113,10 +113,14 @@
 	padding-top: 6px;
 }
 
+#ccm-ir-pipe-result {
+	list-style-type: none;
+	margin:auto;
+	padding:auto;
+}
+
 #ccm-ir-pipe-result li {
 	cursor: auto;
 	text-align : left;
-	margin:0px;
-	padding:0px;
 	border: none;
 }
