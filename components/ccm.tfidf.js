@@ -69,7 +69,7 @@ ccm.component( {
 				}
 				
 				// render 'sigma_graph'
-				if(self.render_element)
+				if(self.render_element) {
 					new sigma({
 						graph: sigma_graph,
 						container: self.render_element.selector.replace("#","")
@@ -181,5 +181,7 @@ ccm.component( {
 		var isSymbol = function(pos_tag) {
 			return pos_tag.match(/(SYM|[\.,:$#"\(\)])/g) != null;
 		}
+		
+	}
 	
 });
