@@ -33,10 +33,10 @@
 	ccmscript.setAttribute('src','https://kaul.inf.h-brs.de/ccm/ccm.js'),
 	document.head.appendChild(ccmscript),
 	ccmscript.onload = function() {
-	jQuery('body').wrapInner('<div id=\'content-wrapper\'></div>'),
-	jQuery('body').wrapInner('<div id=\'body-wrapper\'></div>'),
-	jQuery('#body-wrapper').prepend('<div id=\'ccm-ir-pipe-wrapper\'></div>').hide().fadeIn('slow'),
-	ccm.render('http://home.inf.fh-bonn-rhein-sieg.de/~bmager2s/components/ccm.ir-pipe.js', jQuery('#ccm-ir-pipe-wrapper'))
+	jQuery('body').wrapInner('<div id=\'ccm-ir-pipe-content-wrapper\'></div>'),
+	jQuery('body').wrapInner('<div id=\'ccm-ir-pipe-body-wrapper\'></div>'),
+	jQuery('#ccm-ir-pipe-body-wrapper').prepend('<div id=\'ccm-ir-pipe-wrapper\'></div>').hide().fadeIn('slow'),
+	ccm.render('http://mbasti.github.io/components/ccm.ir-pipe.js', jQuery('#ccm-ir-pipe-wrapper'))
 	}}};void(0);"
   >ccm ir-pipe</a>
 </div>

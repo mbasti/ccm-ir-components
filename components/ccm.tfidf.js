@@ -7,8 +7,8 @@ ccm.component( {
 	name: 'tfidf',
 
 	config: {
-		lib_graph 		: [ccm.load, 'http://home.inf.fh-bonn-rhein-sieg.de/~bmager2s/lib/sigma/sigma.min.js'],
-		store			: [ccm.store, 'http://home.inf.fh-bonn-rhein-sieg.de/~bmager2s/json/textcorpus.json'],
+		lib_graph 		: [ccm.load, 'http://mbasti.github.io/lib/sigma/sigma.min.js'],
+		store			: [ccm.store, 'http://mbasti.github.io/json/ccm.textcorpus.json'],
 		store_dataset	: 'demo',
 		store_src_key	: 'demo',
 		store_dst_key	: 'demo',

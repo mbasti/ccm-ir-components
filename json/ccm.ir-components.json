@@ -1,4 +1,4 @@
-ccm.callback['components.json']({
+ccm.callback['ccm.ir-components.json']({
 	"default" : {
 		
 		"ccm-stemmer" : {

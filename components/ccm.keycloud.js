@@ -7,8 +7,8 @@ ccm.component( {
 	name: 'keycloud',
 
 	config: {
-		lib_tagcloud			: [ccm.load, 'http://home.inf.fh-bonn-rhein-sieg.de/~bmager2s/lib/jquery.tagcloud.js'],
-		store 					: [ccm.store, 'http://home.inf.fh-bonn-rhein-sieg.de/~bmager2s/json/textcorpus.json'],
+		lib_tagcloud			: [ccm.load, 'http://mbasti.github.io/lib/jquery.tagcloud.js'],
+		store 					: [ccm.store, 'http://mbasti.github.io/json/ccm.textcorpus.json'],
 		store_dataset 			: 'demo',
 		store_ranking_key		: 'demo',
 		store_matrix_key		: 'demo',

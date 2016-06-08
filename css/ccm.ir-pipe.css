@@ -1,4 +1,4 @@
-#content-wrapper {
+#ccm-ir-pipe-content-wrapper {
 	position: relative;
 	top: 15em;
 	z-index:1;
@@ -25,17 +25,17 @@
 	
 }
 
-#component-arrow {
+#ccm-ir-pipe-component-arrow {
 	float: left;
 	margin-top: 6em;
 }
 
-#button-panel {
+#ccm-ir-pipe-button-panel {
 	width: 120px;
 	border: none;
 }
 
-.ir-pipe-button {
+.ccm-ir-pipe-button {
 	vertical-align: middle;
 	width: 100px;
 	height: 30px;
@@ -45,30 +45,30 @@
 	font: bold 15px;
 }
 
-#availableComponents {
+#ccm-ir-pipe-availableComponents {
 
 }
 
-#selectedComponents {
+#ccm-ir-pipe-selectedComponents {
 
 }
 
-.component {
+.ccm-ir-pipe-component {
 	background: #c0d6e4;
 	border : thin groove black;
 	font-size: 12pt;
 }
 
-#descriptionWrapper {
+#ccm-ir-pipe-descriptionWrapper {
 	border: none;
 	margin-left: 0px;
 }
 
-#description {
+#ccm-ir-pipe-description {
 	margin-left: 0px;
 }
 
-#descriptionWrapper th {
+#ccm-ir-pipe-descriptionWrapper th {
 	margin-left: 0px;
 	padding-right: 10px;
 	text-align: right;
@@ -77,22 +77,22 @@
 	height: 40px;
 }
 
-#descriptionWrapper tr {
+#ccm-ir-pipe-descriptionWrapper tr {
 	margin: 0px;
 	width: 170px;
 	height: 40px;
 	font-size: 8pt;
 }
 
-#descriptionWrapper td {
+#ccm-pipe-descriptionWrapper td {
 	text-align:left;
 }
 
-#ir-pipe-result {
+#ccm-ir-pipe-result {
 	text-align: left;
 }
 
-.ir-pipe-box {
+.ccm-ir-pipe-ir-pipe-box {
 	float: left;
 	list-style-type: none;
 	border : thin solid grey;
@@ -103,7 +103,7 @@
 	overflow: auto;
 }
 
-.ir-pipe-box li {
+.ccm-ir-pipe-box li {
 	border : thin solid grey;
 	text-align: center;
 	vertical-align: middle;
@@ -113,7 +113,7 @@
 	padding-top: 6px;
 }
 
-#ir-pipe-result li {
+#ccm-ir-pipe-result li {
 	cursor: auto;
 	text-align : left;
 	margin:0px;

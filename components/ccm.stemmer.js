@@ -7,8 +7,8 @@ ccm.component( {
 	name: 'stemmer',
 
 	config: {
-		lib_stemmer 	: [ccm.load, 'http://home.inf.fh-bonn-rhein-sieg.de/~bmager2s/lib/Snowball.min.js'],
-		store 			: [ccm.store, 'http://home.inf.fh-bonn-rhein-sieg.de/~bmager2s/json/textcorpus.json'],
+		lib_stemmer 	: [ccm.load, 'http://mbasti.github.io/lib/Snowball.min.js'],
+		store 			: [ccm.store, 'http://mbasti.github.io/json/ccm.textcorpus.json'],
 		store_dataset	: 'demo',
 		store_src_key	: 'demo',
 		store_dst_key	: 'demo',

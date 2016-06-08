@@ -9,14 +9,26 @@ ccm.component( {
 	config: {
 		jquery_ui_js	: [ccm.load, 'https://code.jquery.com/ui/1.11.4/jquery-ui.min.js'],
 		jquery_ui_css	: [ccm.load, 'https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css'],
-		html			: [ccm.store, 'http://home.inf.fh-bonn-rhein-sieg.de/~bmager2s/json/bookmarklet_html.json'],
-		style			: [ccm.load, 'http://home.inf.fh-bonn-rhein-sieg.de/~bmager2s/css/ir-pipe.css'],
-		store 			: [ccm.store, 'http://home.inf.fh-bonn-rhein-sieg.de/~bmager2s/json/components.json'],
+		html_template	: [ccm.store, 'http://mbasti.github.io/json/ccm.ir-pipe_html.json'],
+		style			: [ccm.load, 'http://mbasti.github.io/css/ccm.ir-pipe.css'],
+		store 			: [ccm.store, 'http://mbasti.github.io/json/ccm.ir-components.json'],
 		store_dataset 	: 'default',
 		init_src_key 	: 'content'
 	},
 	  
 	Instance: function () {
+		
+		var selectorRenderButton = "#ccm-ir-pipe-render-button";
+		var selectorAvailableList = "#ccm-ir-pipe-availableComponents";
+		var selectorSelectedList = "#ccm-ir-pipe-selectedComponents";
+		var selectorAllComponents = ".ccm-ir-pipe-components";
+		var selectorSelectedComponents = "#selectedComponents li";
+		var selectorDescResult = "#ccm-ir-pipe-descResult";
+		var selectorDescExpects = "ccm-ir-pipe-descExpects";
+		var selectorDescPath = "#ccm-ir-pipe-descPath";
+		var selectorPipeResult = "#ccm-ir-pipe-result";
+		var colorSelected = "#F2F2F2";
+		var colorUnSelected = "#c0d6e4";
 		
 		var self = this;
 		
@@ -31,7 +43,7 @@ ccm.component( {
 		
 		this.render = function(callback) {
 			
-			var main = this.html.get('main');
+			var main = this.html_template.get('main');
 			var element = ccm.helper.element(this);
 			var availableComponents = main.inner[0].inner;
 			
@@ -48,17 +60,17 @@ ccm.component( {
 			
 				element.html(ccm.helper.html(main.inner));
 						
-				$("#availableComponents").sortable({
-					scrollSensitivity: 15,
-					connectWith: "#selectedComponents"
+				$(selectorAvailableList).sortable({
+					scrollSensitivity: 20,
+					connectWith: selectorSelectedList
 				});
 
-				$("#selectedComponents").sortable({
-					scrollSensitivity: 15,
-					connectWith: "#availableComponents"
+				$(selectorSelectedList).sortable({
+					scrollSensitivity: 20,
+					connectWith: selectorAvailableList
 				});
 
-				$(".component").hover(
+				$(selectorAllComponents.hover(
 				
 					// hover over component
 					function() {
@@ -77,7 +89,7 @@ ccm.component( {
 					}
 				);
 
-				$(".component").mousedown(function() {
+				$(selectorAllComponents).mousedown(function() {
 					if(this != prevSelectedComponent) {
 						updateDescription(this);
 						// hover will update the color for 'this'
@@ -86,7 +98,7 @@ ccm.component( {
 					}
 				});
 
-				$("#render").click(function() {
+				$(selectorRenderButton).click(function() {
 					selectedComponents = [];
 					var selection = document.getSelection();
 					console.log(selection);
@@ -95,10 +107,10 @@ ccm.component( {
 						var text = selection.focusNode.textContent.slice(selection.anchorOffset, selection.focusOffset);
 						
 						// reset result div
-						$("#ir-pipe-result").html("");
+						$(selectorPipeResult).html("");
 
 						var prev_src_key = self.init_src_key;
-						$("#selectedComponents li").each(function() {
+						$(selectorSelectedComponents).each(function() {
 							var componentName = $(this).attr('value');
 							var component = ccm.helper.clone(self.components[componentName]);
 							component.config.store = contentStore;
@@ -112,7 +124,7 @@ ccm.component( {
 						if(selectedComponents.length > 0) {
 							
 							// configure that last component should actually render
-							selectedComponents[selectedComponents.length-1].config.render_element = $('#ir-pipe-result');
+							selectedComponents[selectedComponents.length-1].config.render_element = $(selectorPipeResult);
 							
 							var storable = new Object();
 							storable[self.init_src_key] = [text];
@@ -143,17 +155,17 @@ ccm.component( {
 		
 		var updateDescription = function(jquerySelector) {
 			var selectedComponent = self.components[$(jquerySelector).attr("value")];
-			$("#descPath").html(selectedComponent.path);
-			$("#descExpects").html(selectedComponent.expects);
-			$("#descResult").html(selectedComponent.result);
+			$(selectorDescPath).html(selectedComponent.path);
+			$(selectorDescExpects).html(selectedComponent.expects);
+			$(selectorDescResult).html(selectedComponent.result);
 		}
 		
 		var updateComponentColorSelected = function(component) {
-			$(component).css("background" , "#F2F2F2");
+			$(component).css("background" , colorSelected);
 		}
 		
 		var updateComponentColorUnselected = function(component) {
-			$(component).css("background" , "#c0d6e4");
+			$(component).css("background" , colorUnSelected);
 		}
 		
 		var renderNext = function() {
