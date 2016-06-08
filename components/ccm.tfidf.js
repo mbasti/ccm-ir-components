@@ -181,7 +181,5 @@ ccm.component( {
 		var isSymbol = function(pos_tag) {
 			return pos_tag.match(/(SYM|[\.,:$#"\(\)])/g) != null;
 		}
-		
-	}
 	
 });
