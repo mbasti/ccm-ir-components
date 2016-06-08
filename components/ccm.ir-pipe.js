@@ -52,7 +52,7 @@ ccm.component( {
 				
 				var componentNames = Object.keys(self.components);
 				for(var componentName of componentNames) {
-					var component_html = self.html.get('component');		
+					var component_html = self.html_template.get('component');		
 					component_html.value = componentName;
 					component_html.inner = componentName;
 					availableComponents.push(component_html);
