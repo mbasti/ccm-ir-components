@@ -7,7 +7,7 @@ ccm.component( {
 	name: 'summary',
 
 	config: {
-		store 			: [ccm.store, 'http://mbasti.github.io/json/ccm.textcorpus.json'],
+		store 			: [ccm.store, 'https://mbasti.github.io/json/ccm.textcorpus.json'],
 		store_dataset	: 'demo',
 		store_src_key	: 'demo',
 		store_dst_key	: 'demo'
