@@ -2,7 +2,7 @@ ccm.callback['ccm.ir-components.json']({
 	"default" : {
 		
 		"ccm-stemmer" : {
-			"path" : "http://home.inf.fh-bonn-rhein-sieg.de/~bmager2s/components/ccm.stemmer.js",
+			"path" : "http://mbasti.github.io/components/ccm.stemmer.js",
 			"config" : {
 				
 			},
@@ -11,7 +11,7 @@ ccm.callback['ccm.ir-components.json']({
 		},
 
 		"ccm-postagger" : {
-			"path" : "http://home.inf.fh-bonn-rhein-sieg.de/~bmager2s/components/ccm.postagger.js",
+			"path" : "http://mbasti.github.io/components/ccm.postagger.js",
 			"config" : {
 				
 			},
@@ -20,7 +20,7 @@ ccm.callback['ccm.ir-components.json']({
 		},
 		
 		"ccm-cooccurrence" : {
-			"path" : "http://home.inf.fh-bonn-rhein-sieg.de/~bmager2s/components/ccm.cooccurrence.js",
+			"path" : "http://mbasti.github.io/components/ccm.cooccurrence.js",
 			"config" : {
 
 			},
@@ -29,7 +29,7 @@ ccm.callback['ccm.ir-components.json']({
 		},
 
 		"ccm-pagerank" : {
-			"path" : "http://home.inf.fh-bonn-rhein-sieg.de/~bmager2s/components/ccm.pagerank.js",
+			"path" : "http://mbasti.github.io/components/ccm.pagerank.js",
 			"config" : {
 
 			},
