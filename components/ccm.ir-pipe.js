@@ -100,7 +100,7 @@ ccm.component( {
 
 				$(selectorRenderButton).click(function() {
 					
-					$(this).disabled(true);
+					$(this).prop('disabled',true);
 					
 					selectedComponents = [];
 					var selection = document.getSelection();
@@ -182,7 +182,7 @@ ccm.component( {
 					renderNext
 				);
 			} else {
-				$(selectorRenderButton).disabled(false);
+				$(selectorRenderButton).prop('disabled',false);
 			}
 		}
 		
