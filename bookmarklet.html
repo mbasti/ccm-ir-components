@@ -37,7 +37,8 @@
 	jQuery('body').wrapInner('<div id=\'ccm-ir-pipe-body-wrapper\'></div>'),
 	jQuery('#ccm-ir-pipe-body-wrapper').prepend('<div id=\'ccm-ir-pipe-wrapper\'></div>').hide(),
 	ccm.render('http://mbasti.github.io/components/ccm.ir-pipe.js', jQuery('#ccm-ir-pipe-wrapper'), function() {
-		jQuery('#ccm-ir-pipe-wrapper').fadeIn('slow');
+		console.log('callback'),
+		jQuery('#ccm-ir-pipe-wrapper').fadeIn('slow')
 	})
 	}}};void(0);"
   >ccm ir-pipe</a>
