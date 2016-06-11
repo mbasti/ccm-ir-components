@@ -25,13 +25,15 @@ ccm.component( {
 				var matrix = data[self.store_matrix_key];
 				var words = Object.keys(matrix[0]);
 				
-				
+				console.log(matrix);
 				// create pseudo document
 				var pseudoDocument = new Object();
 				
 				for(var word of words) {
 					var mean = 0;
+					console.log(word);
 					for(var document of Object.keys(matrix)) {
+						console.log(document);
 						mean += matrix[document][word];
 					}
 					mean /= documents.length;
@@ -40,6 +42,7 @@ ccm.component( {
 			
 				var similarities = [];
 				for(var document of Object.keys(matrix)) {
+					
 					similarities.push(centrality(pseudoDocument, document, matrix));
 				}
 				
