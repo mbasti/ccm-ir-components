@@ -7,6 +7,7 @@ ccm.component( {
 	name: 'stemmer',
 
 	config: {
+		lib_lexer 		: [ccm.load, 'https://mbasti.github.io/ccm-ir-components/lib/jspos/lexer.js'],
 		lib_stemmer 	: [ccm.load, 'https://mbasti.github.io/ccm-ir-components/lib/Snowball.min.js'],
 		store 			: [ccm.store, 'https://mbasti.github.io/ccm-ir-components/json/ccm.textcorpus.json'],
 		store_dataset	: 'demo',
@@ -32,10 +33,13 @@ ccm.component( {
 				var stemmedContent = new Array();	
 				var html_content = "";
 				
-				for (var document of data[self.store_src_key]) {
+				var documents = data[self.store_src_key];
+				
+				for (var documentIndx in documents) {
+					var document = documents[documentIndx];
 					
 					var stemmedDocument = "";
-					for(var word of document.split(/ +/)) {
+					for(var word of lexer.lex(document)) {
 						stemmer.setCurrent(word);
 						stemmer.stem();
 						stemmedDocument += stemmer.getCurrent() + " ";
@@ -43,6 +47,10 @@ ccm.component( {
 					stemmedContent.push(stemmedDocument);
 					
 					html_content += "<p>" + stemmedDocument + "</p>";
+					
+					if(documentIndx < documents.length-1) {
+							html_content += "<hr>";
+					}
 				}
 
 				// render stemmed data
