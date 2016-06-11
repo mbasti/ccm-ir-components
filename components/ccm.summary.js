@@ -40,7 +40,7 @@ ccm.component( {
 			
 				var similarities = [];
 				for(var document of Object.keys(matrix)) {
-					similarities.push(calculateSimilarity(pseudoDocument, document, matrix));
+					similarities.push(centrality(pseudoDocument, document, matrix));
 				}
 				
 				console.log(similarities);
