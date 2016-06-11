@@ -39,7 +39,7 @@ ccm.component( {
 					mean /= documents.length;
 					pseudoDocument[word] = mean;
 				}
-			
+			console.log('check');
 				var similarities = [];
 				for(var document of Object.keys(matrix)) {
 					
