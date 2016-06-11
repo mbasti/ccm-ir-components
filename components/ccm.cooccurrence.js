@@ -7,8 +7,8 @@ ccm.component( {
 	name: 'cooccurrence',
 
 	config: {
-		lib_graph 			: [ccm.load, 'https://mbasti.github.io/lib/sigma/sigma.min.js'],
-		store 				: [ccm.store, 'https://mbasti.github.io/json/ccm.textcorpus.json'],
+		lib_graph 			: [ccm.load, 'https://mbasti.github.io/ccm-ir-components/lib/sigma/sigma.min.js'],
+		store 				: [ccm.store, 'https://mbasti.github.io/ccm-ir-components/json/ccm.textcorpus.json'],
 		store_dataset 		: 'demo',
 		store_src_key 		: 'demo',
 		store_dst_key		: 'demo',
