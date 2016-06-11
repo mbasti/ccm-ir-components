@@ -1,7 +1,10 @@
 # CCM IR-Components
 
 ## Demo
-Open ```demo.html``` in your browser for a demonstration.
+Open ```demo.html``` or [http://mbasti.github.io/demo.html](http://mbasti.github.io/demo.html)  in your browser for a demonstration.
+
+## Bookmarklet
+Open ```bookmarklet.html``` or [http://mbasti.github.io/bookmarklet.html](http://mbasti.github.io/bookmarklet.html) in your browser and drag the button into your bookmarks.
 
 ## Component Overview:
 | Component    | What it does     |
@@ -9,15 +12,9 @@ Open ```demo.html``` in your browser for a demonstration.
 | ```ccm.stemmer.js``` | stemms the words from a textcorpus with a Snowball stemmer |
 | ```ccm.postagger.js``` | annotates a textcorpus with pos (part-of-speech)-tags |
 | ```ccm.cooccurrence.js``` | generates from a pos-tagged textcorpus a cooccurrence/adjacency matrix |
-| ```ccm.tfidf.js``` | generates from a pos-tagged textcorpus a tf-idf/adjacency matrix |
+| ```ccm.tfidf.js``` | generates from a pos-tagged textcorpus a tf-idf/adjacency matrix *TODO*|
+| ```ccm.summary.js``` | generatres from a summary text, based on tf-idf matrix *TODO*|
 | ```ccm.pagerank.js``` | generates a ranking for each node in an adjacency matrix |
-
-## TODO:
-* tf-idf component
-* Summary component
-* Refactoring
-* Bookmarklet
-* Side-Panel?
 
 ## Links:
 * [ccm GitHub repo (mkaul)](https://github.com/mkaul/ccm-components)
