@@ -56,7 +56,7 @@ ccm.component( {
 			
 		}
 		
-		var centrality(document1, document2, matrix) {
+		var centrality = function(document1, document2, matrix) {
 			var cosine;
 						
 			var dotProduct = 0;
