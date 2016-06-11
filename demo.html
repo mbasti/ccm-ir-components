@@ -229,13 +229,13 @@
 				store_corpus_key	: 'content',
 				store_matrix_key	: 'tfidf',
 				store : storyStore	
-			}
+			}, function() {
+				$("#storybutton").attr("disabled",false);
+			});
 				
 			});
 			
 			
-			
-			$("#storybutton").attr("disabled",false);
 		}); }); }); });
 	
 	}
