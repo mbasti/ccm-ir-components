@@ -49,7 +49,7 @@ ccm.component( {
 					html_content += "<p>" + stemmedDocument + "</p>";
 					
 					if(documentIndx < documents.length-1) {
-							html_content += "<hr>";
+						html_content += "<hr>";
 					}
 				}
 

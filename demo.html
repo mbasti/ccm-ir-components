@@ -163,8 +163,7 @@
 		
 		// render pos-tags
 		ccm.render(
-		//'http://mbasti.github.io/ccm-ir-components/components/ccm.postagger.js', {
-		'./components/ccm.postagger.js', {
+		'http://mbasti.github.io/ccm-ir-components/components/ccm.postagger.js', {
 			render_element: $('#ccm-postags'),
 			store_dataset: selectedStory,
 			store_src_key : 'content',
@@ -220,8 +219,21 @@
 				store_dataset: selectedStory,
 				store_src_key : 'taggedcontent',
 				store_dst_key : 'tfidf',
-				store : storyStore
+				store : storyStore	
+			}, function() {
+			
+			
+			ccm.render(
+			'http://mbasti.github.io/ccm-ir-components/components/ccm.summary.js', {
+				store_dataset: selectedStory,
+				store_corpus_key	: 'content',
+				store_matrix_key	: 'tfidf',
+				store : storyStore	
+			}
+				
 			});
+			
+			
 			
 			$("#storybutton").attr("disabled",false);
 		}); }); }); });
