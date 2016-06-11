@@ -57,7 +57,7 @@ ccm.component( {
 					
 					html_content += "<p>" + html_content + "</p>";
 					
-					if(documentIndx < documents.length()) {
+					if(documentIndx < documents.length) {
 							html_content += "<hr>";
 					}
 					
