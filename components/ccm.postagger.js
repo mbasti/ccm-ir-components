@@ -7,10 +7,10 @@ ccm.component( {
 	name: 'postagger',
 
 	config: {
-		lib_lexer 		: [ccm.load, 'http://mbasti.github.io/lib/jspos/lexer.js'],
-		lib_lexicon 	: [ccm.load, 'http://mbasti.github.io/lib/jspos/lexicon.js'],
-		lib_postagger	: [ccm.load, 'http://mbasti.github.io/lib/jspos/POSTagger.js'],
-		store 			: [ccm.store, 'http://mbasti.github.io/json/ccm.textcorpus.json'],
+		lib_lexer 		: [ccm.load, 'https://mbasti.github.io/lib/jspos/lexer.js'],
+		lib_lexicon 	: [ccm.load, 'https://mbasti.github.io/lib/jspos/lexicon.js'],
+		lib_postagger	: [ccm.load, 'https://mbasti.github.io/lib/jspos/POSTagger.js'],
+		store 			: [ccm.store, 'https://mbasti.github.io/json/ccm.textcorpus.json'],
 		store_dataset 	: 'demo',
 		store_src_key 	: 'demo',
 		store_dst_key	: 'demo',

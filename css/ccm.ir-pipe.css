@@ -84,7 +84,7 @@
 	font-size: 8pt;
 }
 
-#ccm-pipe-descriptionWrapper td {
+#ccm-ir-pipe-descriptionWrapper td {
 	text-align:left;
 }
 
@@ -92,7 +92,7 @@
 	text-align: left;
 }
 
-.ccm-ir-pipe-ir-pipe-box {
+.ccm-ir-pipe-box {
 	float: left;
 	list-style-type: none;
 	border : thin solid grey;
@@ -113,10 +113,13 @@
 	padding-top: 6px;
 }
 
+#ccm-ir-pipe-result {
+
+}
+
 #ccm-ir-pipe-result li {
 	cursor: auto;
 	text-align : left;
-	margin:0px;
-	padding:0px;
 	border: none;
+	padding:0px;
 }

@@ -138,7 +138,7 @@
 	var color_green = '#006639';
 	var color_blue = '#0089b7';
 
-	var storyStore = [ccm.store, './json/textcorpus.json'];
+	var storyStore = [ccm.store, 'https://mbasti.github.io/json/ccm.textcorpus.json'];
 
 	function render() {
 
@@ -163,7 +163,7 @@
 		
 		// render pos-tags
 		ccm.render(
-		'./components/ccm.postagger.js', {
+		'http://mbasti.github.io/components/ccm.postagger.js', {
 			render_element: $('#ccm-postags'),
 			store_dataset: selectedStory,
 			store_src_key : 'content',
@@ -176,7 +176,7 @@
 			
 		// render cooccurrences
 		ccm.render(
-		'./components/ccm.cooccurrence.js', {
+		'http://mbasti.github.io/components/ccm.cooccurrence.js', {
 			render_element: $('#ccm-cooccurrences'),
 			coocc_windowSize : selectedcoocc_windowSize,
 			coocc_threshold : selectedThreshold,
@@ -192,7 +192,7 @@
 				
 		// render rankings
 		ccm.render(
-		'./components/ccm.pagerank.js', {
+		'http://mbasti.github.io/components/ccm.pagerank.js', {
 			render_element: $('#ccm-pagerank'),
 			store_dataset: selectedStory,
 			store_src_key : 'cooccurrences',
@@ -202,7 +202,7 @@
 					
 		// render keycloud
 		ccm.render(
-		'./components/ccm.keycloud.js', {
+		'http://mbasti.github.io/components/ccm.keycloud.js', {
 			render_element: $('#ccm-keycloud'),
 			cloud_renderLimit : selectedFilterCount,
 			cloud_mergeTerms : selectedMergeTerms,
@@ -214,7 +214,7 @@
 			
 			// render tfidf
 			ccm.render(
-			'./components/ccm.tfidf.js', {
+			'http://mbasti.github.io/components/ccm.tfidf.js', {
 				render_element: $('#ccm-tfidf'),
 				store_dataset: selectedStory,
 				store_src_key : 'taggedcontent',

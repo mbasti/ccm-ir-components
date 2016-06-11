@@ -2,7 +2,7 @@ ccm.callback['ccm.ir-pipe_html.json']({
   "main": {
     "inner": [
 		{"id" : "ccm-ir-pipe-availableComponents", "class" : "ccm-ir-pipe-box", "tag" : "ul", "inner" : []},
-		{"id" : "ccm-ir-pipe-component-arrow", "tag" : "img", "src" : "./css/right-arrow.png"},
+		{"id" : "ccm-ir-pipe-component-arrow", "tag" : "img", "src" : "https://mbasti.github.io/css/ccm.right-arrow.png"},
 		{"id" : "ccm-ir-pipe-selectedComponents", "class" : "ccm-ir-pipe-box", "tag" : "ul", "inner" : []},
 		{"id" : "ccm-ir-pipe-descriptionWrapper", "class" : "ccm-ir-pipe-box", "tag" : "div", "inner" : [
 		{"id" : "ccm-ir-pipe-description", "tag" : "table", "inner" : [
@@ -20,7 +20,7 @@ ccm.callback['ccm.ir-pipe_html.json']({
 			]}
 		]} ]},
 		{"id" : "ccm-ir-pipe-button-panel", "class" : "ccm-ir-pipe-box", "tag" : "div", "inner" : [
-			{"id" : "ccm-ir-pipe-render-button", "class" : "ccm-ir-pipe-button", "tag" : "button", "inner" : "render"}
+			{"id" : "ccm-ir-pipe-render-button", "class" : "ccm-ir-pipe-button", "tag" : "button", "type" : "button", "inner" : "render"}
 		]},
 		
 		{"id" : "ccm-ir-pipe-result", "class" : "ccm-ir-pipe-box", "tag" : "div"}

@@ -7,8 +7,8 @@ ccm.component( {
 	name: 'keycloud',
 
 	config: {
-		lib_tagcloud			: [ccm.load, 'http://mbasti.github.io/lib/jquery.tagcloud.js'],
-		store 					: [ccm.store, 'http://mbasti.github.io/json/ccm.textcorpus.json'],
+		lib_tagcloud			: [ccm.load, 'https://mbasti.github.io/lib/jquery.tagcloud.js'],
+		store 					: [ccm.store, 'https://mbasti.github.io/json/ccm.textcorpus.json'],
 		store_dataset 			: 'demo',
 		store_ranking_key		: 'demo',
 		store_matrix_key		: 'demo',

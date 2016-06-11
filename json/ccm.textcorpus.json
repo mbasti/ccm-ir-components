@@ -1,4 +1,4 @@
-{
+ccm.callback['ccm.textcorpus.json']({
 	"text1" : {
 		"key" : "text1",
 		"content" : [
@@ -83,4 +83,4 @@
 		]
 	}
 	
-}
+});

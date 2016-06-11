@@ -7,8 +7,8 @@ ccm.component( {
 	name: 'tfidf',
 
 	config: {
-		lib_graph 		: [ccm.load, 'http://mbasti.github.io/lib/sigma/sigma.min.js'],
-		store			: [ccm.store, 'http://mbasti.github.io/json/ccm.textcorpus.json'],
+		lib_graph 		: [ccm.load, 'https://mbasti.github.io/lib/sigma/sigma.min.js'],
+		store			: [ccm.store, 'https://mbasti.github.io/json/ccm.textcorpus.json'],
 		store_dataset	: 'demo',
 		store_src_key	: 'demo',
 		store_dst_key	: 'demo',
@@ -69,7 +69,7 @@ ccm.component( {
 				}
 				
 				// render 'sigma_graph'
-				if(self.render_element)
+				if(self.render_element) {
 					new sigma({
 						graph: sigma_graph,
 						container: self.render_element.selector.replace("#","")

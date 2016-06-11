@@ -9,9 +9,9 @@ ccm.component( {
 	config: {
 		jquery_ui_js	: [ccm.load, 'https://code.jquery.com/ui/1.11.4/jquery-ui.min.js'],
 		jquery_ui_css	: [ccm.load, 'https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css'],
-		html_template	: [ccm.store, 'http://mbasti.github.io/json/ccm.ir-pipe_html.json'],
-		style			: [ccm.load, 'http://mbasti.github.io/css/ccm.ir-pipe.css'],
-		store 			: [ccm.store, 'http://mbasti.github.io/json/ccm.ir-components.json'],
+		html_template	: [ccm.store, 'https://mbasti.github.io/json/ccm.ir-pipe_html.json'],
+		style			: [ccm.load, 'https://mbasti.github.io/css/ccm.ir-pipe.css'],
+		store 			: [ccm.store, 'https://mbasti.github.io/json/ccm.ir-components.json'],
 		store_dataset 	: 'default',
 		init_src_key 	: 'content'
 	},
@@ -21,10 +21,10 @@ ccm.component( {
 		var selectorRenderButton = "#ccm-ir-pipe-render-button";
 		var selectorAvailableList = "#ccm-ir-pipe-availableComponents";
 		var selectorSelectedList = "#ccm-ir-pipe-selectedComponents";
-		var selectorAllComponents = ".ccm-ir-pipe-components";
-		var selectorSelectedComponents = "#selectedComponents li";
+		var selectorAllComponents = ".ccm-ir-pipe-component";
+		var selectorSelectedComponents = "#ccm-ir-pipe-selectedComponents li";
 		var selectorDescResult = "#ccm-ir-pipe-descResult";
-		var selectorDescExpects = "ccm-ir-pipe-descExpects";
+		var selectorDescExpects = "#ccm-ir-pipe-descExpects";
 		var selectorDescPath = "#ccm-ir-pipe-descPath";
 		var selectorPipeResult = "#ccm-ir-pipe-result";
 		var colorSelected = "#F2F2F2";
@@ -52,7 +52,7 @@ ccm.component( {
 				
 				var componentNames = Object.keys(self.components);
 				for(var componentName of componentNames) {
-					var component_html = self.html.get('component');		
+					var component_html = self.html_template.get('component');		
 					component_html.value = componentName;
 					component_html.inner = componentName;
 					availableComponents.push(component_html);
@@ -70,7 +70,7 @@ ccm.component( {
 					connectWith: selectorAvailableList
 				});
 
-				$(selectorAllComponents.hover(
+				$(selectorAllComponents).hover(
 				
 					// hover over component
 					function() {
@@ -99,9 +99,12 @@ ccm.component( {
 				});
 
 				$(selectorRenderButton).click(function() {
+					
+					$(this).prop('disabled',true);
+					
 					selectedComponents = [];
 					var selection = document.getSelection();
-					console.log(selection);
+
 					if(selection.focusNode != null && selection.anchorNode != null) {
 						
 						var text = selection.focusNode.textContent.slice(selection.anchorOffset, selection.focusOffset);
@@ -141,11 +144,17 @@ ccm.component( {
 								);	
 								
 							});
+						} else {
+							$(selectorRenderButton).prop('disabled',false);
 						}
 						
+					} else {
+						$(selectorRenderButton).prop('disabled',false);
 					}
 					
 				});	
+
+				if(callback) callback();
 				
 			});
 			
@@ -176,6 +185,8 @@ ccm.component( {
 					selectedComponents[rendercount].config,
 					renderNext
 				);
+			} else {
+				$(selectorRenderButton).prop('disabled',false);
 			}
 		}
 		

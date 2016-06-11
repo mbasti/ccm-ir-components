@@ -7,8 +7,8 @@ ccm.component( {
 	name: 'stemmer',
 
 	config: {
-		lib_stemmer 	: [ccm.load, 'http://mbasti.github.io/lib/Snowball.min.js'],
-		store 			: [ccm.store, 'http://mbasti.github.io/json/ccm.textcorpus.json'],
+		lib_stemmer 	: [ccm.load, 'https://mbasti.github.io/lib/Snowball.min.js'],
+		store 			: [ccm.store, 'https://mbasti.github.io/json/ccm.textcorpus.json'],
 		store_dataset	: 'demo',
 		store_src_key	: 'demo',
 		store_dst_key	: 'demo',
