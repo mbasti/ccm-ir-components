@@ -1,10 +1,10 @@
 # CCM IR-Components
 
 ## Demo
-Open ```demo.html``` or [http://mbasti.github.io/demo.html](http://mbasti.github.io/demo.html)  in your browser for a demonstration.
+Open ```demo.html``` or [http://mbasti.github.io/ccm-ir-components/demo.html](http://mbasti.github.io/ccm-ir-components/demo.html)  in your browser for a demonstration.
 
 ## Bookmarklet
-Open ```bookmarklet.html``` or [http://mbasti.github.io/bookmarklet.html](http://mbasti.github.io/bookmarklet.html) in your browser and drag the button into your bookmarks.
+Open ```bookmarklet.html``` or [http://mbasti.github.io/ccm-ir-components/bookmarklet.html](http://mbasti.github.io/ccm-ir-components/bookmarklet.html) in your browser and drag the button into your bookmarks.
 
 ## Component Overview:
 | Component    | What it does     |
