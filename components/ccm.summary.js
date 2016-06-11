@@ -19,7 +19,7 @@ ccm.component( {
 	
 		this.render = function (callback) {
 			
-			this.store(this.store_dataset, function(data) {
+			this.store.get(this.store_dataset, function(data) {
 				
 				var documents = data[self.store_corpus_key];
 				var matrix = data[self.store_matrix_key];
