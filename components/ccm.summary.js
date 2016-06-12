@@ -42,10 +42,10 @@ ccm.component( {
 					mean /= documents.length;
 					pseudoDocument[word] = mean;
 				}
-
+				
 				var similarities = [];
 				for(var document of documents) {
-					similarities.push(centrality(pseudoDocument, document, matrix));
+					similarities.push(centrality(document));
 				}
 				
 				console.log(similarities);
