@@ -17,60 +17,61 @@ ccm.component( {
 		
 		var self = this;
 	
+		var matrix;
+		var pseudoDocument;
+		var words;
+		
 		this.render = function (callback) {
 			
 			this.store.get(this.store_dataset, function(data) {
 				
-				var documents = data[self.store_corpus_key];
-				var matrix = data[self.store_matrix_key];
-				var words = Object.keys(matrix[0]);
+				//var documents = data[self.store_corpus_key];
+				var documents = Object.keys(matrix);
+				matrix = data[self.store_matrix_key];
+				words = Object.keys(matrix[0]);
 				
 				console.log(matrix);
 				// create pseudo document
-				var pseudoDocument = new Object();
+				pseudoDocument = new Object();
 				
 				for(var word of words) {
 					var mean = 0;
-					console.log(word);
-					for(var document of Object.keys(matrix)) {
-						console.log(document);
+					for(var document of documents) {
 						mean += matrix[document][word];
 					}
 					mean /= documents.length;
 					pseudoDocument[word] = mean;
 				}
-			console.log('check');
+
 				var similarities = [];
-				for(var document of Object.keys(matrix)) {
-					
+				for(var document of documents) {
 					similarities.push(centrality(pseudoDocument, document, matrix));
 				}
 				
 				console.log(similarities);
 				
-				var docs = Object.keys(matrix);
-				docs.sort(function(document1, document2){
-					return centrality(pseudoDocument,document1,matrix) > centrality(pseudoDocument,document1,matrix);
+				documents.sort(function(document1, document2){
+					return centrality(document1) > centrality(document2);
 				});
 				
-				console.log(docs);
+				console.log(documents);
 				
 			});
 			
 		}
 		
-		var centrality = function(document1, document2, matrix) {
+		var centrality = function(document) {
 			var cosine;
 						
 			var dotProduct = 0;
-			for(var word of Object.keys(matrix[document1])) {
-				dotProduct += matrix[document1][word]*matrix[document2][word];
+			for(var word of words) {
+				dotProduct += pseudoDocument[word]*matrix[document][word];
 			}
 
 			var norm1 = 0, norm2 = 0;
-			for(var word of Object.keys(matrix[document1])) {
-				norm1 += matrix[document1][word]*matrix[document1][word];
-				norm2 += matrix[document2][word]*matrix[document2][word];
+			for(var word of words) {
+				norm1 += pseudoDocument[word]*pseudoDocument[word];
+				norm2 += matrix[document][word]*matrix[document][word];
 			}
 			norm1 = Math.sqrt(norm1);
 			norm2 = Math.sqrt(norm2);
