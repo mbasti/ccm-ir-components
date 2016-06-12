@@ -24,10 +24,22 @@ ccm.component( {
 
 				var documents = data[self.store_src_key];
 				var sentences = [];
-				for (var document of documents) {
+				var html_content = "";
+				for (var documentIndx in documents) {
+					
+					var document = documents[documentIndx];
+					
 					for(var sentence of document.match(/[^\.!\?]+[\.!\?]+/g)) {
 						sentences.push(sentence);
+						html_content += "<p>" + sentence + "</p>";
+						html_content += "<hr>";
 					}
+					
+				}
+				
+				// render tagged data
+				if(self.render_element) {
+					self.render_element.html(ccm.helper.html(html_content));
 				}
 				
 				// store sentences

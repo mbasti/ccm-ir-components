@@ -146,7 +146,7 @@
 	var color_green = '#006639';
 	var color_blue = '#0089b7';
 
-	var storyStore = [ccm.store, 'https://mbasti.github.io/ccm-ir-components/json/ccm.textcorpus.json'];
+	var contentStore = [ccm.store, 'https://mbasti.github.io/ccm-ir-components/json/ccm.textcorpus.json'];
 
 	function render() {
 
@@ -158,7 +158,7 @@
 		$("#ccm-keycloud").html("");
 		$("#ccm-tfidf").html("");
 
-		var selectedStory = $("#storylist option:selected").attr("value");
+		var selectedText = $("#storylist option:selected").attr("value");
 		var selectedcoocc_windowSize = $("#coocccoocc_windowSize option:selected").attr("value");
 		var selectedThreshold = $("#cooccThreshold option:selected").attr("value");
 		var selectedFilterCount = $("#cloudFilterCount option:selected").attr("value");
@@ -172,28 +172,29 @@
 		// render sentences
 		ccm.render(
 		'./components/ccm.sentence-splitter.js', {
-			render_element: $('#ccm-sentencs'),
-			store_dataset: selectedStory,
+			render_element: $('#ccm-sentences'),
+			store_dataset: selectedText,
 			store_src_key : 'content',
 			store_dst_key : 'splittedcontent',
-			color_noun : color_red,
-			color_adjective : color_green,
-			color_verb : color_blue,
-			store : storyStore
+			store : contentStore
 		}, function() {
+		
+		console.log('split done');
 		
 		// render pos-tags
 		ccm.render(
 		'./components/ccm.postagger.js', {
 			render_element: $('#ccm-postags'),
-			store_dataset: selectedStory,
+			store_dataset: selectedText,
 			store_src_key : 'splittedcontent',
 			store_dst_key : 'taggedcontent',
 			color_noun : color_red,
 			color_adjective : color_green,
 			color_verb : color_blue,
-			store : storyStore
+			store : contentStore
 		}, function() {
+			
+			console.log('pos done');
 			
 		// render cooccurrences
 		ccm.render(
@@ -202,61 +203,66 @@
 			coocc_windowSize : selectedcoocc_windowSize,
 			coocc_threshold : selectedThreshold,
 			coocc_wordtypes : selectedWordTypes,
-			store_dataset: selectedStory,
+			store_dataset: selectedText,
 			store_src_key : 'taggedcontent',
 			store_dst_key : 'cooccurrences',
 			color_noun : color_red,
 			color_adjective : color_green,
 			color_verb : color_blue,
-			store : storyStore
+			store : contentStore
 		}, function() {
+				
+				console.log('coocc done');
 				
 		// render rankings
 		ccm.render(
 		'./components/ccm.pagerank.js', {
 			render_element: $('#ccm-pagerank'),
-			store_dataset: selectedStory,
+			store_dataset: selectedText,
 			store_src_key : 'cooccurrences',
 			store_dst_key : 'ranking',
-			store : storyStore
+			store : contentStore
 		}, function() {
 					
+					
+					console.log('cloud done');
 		// render keycloud
 		ccm.render(
 		'./components/ccm.keycloud.js', {
 			render_element: $('#ccm-keycloud'),
 			cloud_renderLimit : selectedFilterCount,
 			cloud_mergeTerms : selectedMergeTerms,
-			store_dataset: selectedStory,
+			store_dataset: selectedText,
 			store_matrix_key : 'cooccurrences',
 			store_ranking_key : 'ranking',
-			store : storyStore
+			store : contentStore
 		}, function() {
 			
-			// render tfidf
-			ccm.render(
-			'./components/ccm.tfidf.js', {
-				render_element: $('#ccm-tfidf'),
-				store_dataset: selectedStory,
-				store_src_key : 'taggedcontent',
-				store_dst_key : 'tfidf',
-				store : storyStore	
-			}, function() {
+		// render tfidf
+		ccm.render(
+		'./components/ccm.tfidf.js', {
+			render_element: $('#ccm-tfidf'),
+			store_dataset: selectedText,
+			tfidf_wordtypes : selectedWordTypes,
+			store_src_key : 'taggedcontent',
+			store_dst_key : 'tfidf',
+			store : contentStore	
+		}, function() {
+		
+		
+		// render summary
+		ccm.render(
+		'./components/ccm.summary.js', {
+			render_element: $('#ccm-summary'),
+			store_dataset: selectedText,
+			store_corpus_key	: 'splittedcontent',
+			store_matrix_key	: 'tfidf',
+			store : contentStore	
+		}, function() {
 			
-			
-			// render summary
-			ccm.render(
-			'./components/ccm.summary.js', {
-				render_element: $('#ccm-summary'),
-				store_dataset: selectedStory,
-				store_corpus_key	: 'splittedcontent',
-				store_matrix_key	: 'tfidf',
-				store : storyStore	
-			}, function() {
+		$("#storybutton").attr("disabled",false);
 				
-				$("#storybutton").attr("disabled",false);
-				
-			}); }); }); }); }); }); });
+		}); }); }); }); }); }); });
 	
 	}
 

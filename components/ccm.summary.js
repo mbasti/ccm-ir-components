@@ -10,7 +10,8 @@ ccm.component( {
 		store 				: [ccm.store, 'https://mbasti.github.io/ccm-ir-components/json/ccm.textcorpus.json'],
 		store_dataset		: 'demo',
 		store_corpus_key	: 'demo',
-		store_matrix_key	: 'demo'
+		store_matrix_key	: 'demo',
+		compress_factor		: 0.3
 	},
 	  
 	Instance: function () {
@@ -24,8 +25,9 @@ ccm.component( {
 		this.render = function (callback) {
 			
 			this.store.get(this.store_dataset, function(data) {
-
+				
 				var corpus = data[self.store_corpus_key];
+				var summary_size = corpus.length*self.compress_factor;
 				matrix = data[self.store_matrix_key];
 				words = Object.keys(matrix[0]);
 				
@@ -43,10 +45,20 @@ ccm.component( {
 					pseudoDocument[word] = mean;
 				}
 				
+				// sort by centrality
 				documents.sort(function(document1, document2){
-					return centrality(document1) > centrality(document2);
+					return centrality(document1) - centrality(document2);
 				});
 				
+				// select by compression
+				documents = documents.slice(0,summary_size);
+				
+				// sort by appearance
+				documents.sort(function(document1, document2) {
+					return document1 - document2;
+				});
+				
+				// generate summary
 				var summary = "";
 				for(var document of documents) {
 					summary += corpus[document] + " ";

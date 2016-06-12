@@ -35,18 +35,18 @@ ccm.component( {
 		this.render = function(callback) {
 	
 			this.store.get(this.store_dataset, function(data) {
-				
+
 				var taggedCorpus = new Array();
 				var html_content = "";
-				
 				var documents = data[self.store_src_key];
 				
 				for (var documentIndx in documents) {
 					var document = documents[documentIndx];
-					
 					// generate pos-tags
 					var taggedWords = tagger.tag(lexer.lex(document));
 					taggedCorpus.push(taggedWords);
+					
+					html_content += "<p>";
 					
 					for(var taggedWord of taggedWords) {
 						var color = getColor(taggedWord);	
@@ -55,11 +55,8 @@ ccm.component( {
 						html_content += "</font>";
 					}
 					
-					html_content += "<p>" + html_content + "</p>";
-					
-					if(documentIndx < documents.length-1) {
-						html_content += "<hr>";
-					}
+					html_content += "</p>";
+					html_content += "<hr>";
 					
 				}
 				
