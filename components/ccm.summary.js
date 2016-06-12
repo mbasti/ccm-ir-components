@@ -26,9 +26,10 @@ ccm.component( {
 			this.store.get(this.store_dataset, function(data) {
 				console.log('render');
 				//var documents = data[self.store_corpus_key];
-				var documents = Object.keys(matrix);
 				matrix = data[self.store_matrix_key];
 				words = Object.keys(matrix[0]);
+				
+				var documents = Object.keys(matrix);
 				
 				console.log(matrix);
 				// create pseudo document
