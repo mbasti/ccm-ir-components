@@ -24,14 +24,13 @@ ccm.component( {
 		this.render = function (callback) {
 			
 			this.store.get(this.store_dataset, function(data) {
-				console.log('render');
-				//var documents = data[self.store_corpus_key];
+
+				var corpus = data[self.store_corpus_key];
 				matrix = data[self.store_matrix_key];
 				words = Object.keys(matrix[0]);
 				
 				var documents = Object.keys(matrix);
-				
-				console.log(matrix);
+
 				// create pseudo document
 				pseudoDocument = new Object();
 				
@@ -44,19 +43,25 @@ ccm.component( {
 					pseudoDocument[word] = mean;
 				}
 				
-				var similarities = [];
-				for(var document of documents) {
-					similarities.push(centrality(document));
-				}
-				
-				console.log(similarities);
-				
 				documents.sort(function(document1, document2){
 					return centrality(document1) > centrality(document2);
 				});
 				
-				console.log(documents);
+				var summary = "";
+				for(var document of documents) {
+					summary += corpus[document] + " ";
+				}
 				
+				// render tagged data
+				if(self.render_element) {
+					self.render_element.html(ccm.helper.html(summary));
+				}
+				
+				// store sentences
+				var storable = new Object();
+				storable['key'] = self.store_dataset;
+				storable[self.store_dst_key] = summary;
+				self.store.set(storable, callback);
 			});
 			
 		}

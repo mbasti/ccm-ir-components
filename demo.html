@@ -114,11 +114,11 @@
 	   <button id="storybutton" onClick="render()">render</button>
 	</div>
 	
+	<h2>Sentences</h2>
+	<div id="ccm-sentences" class="component"></div>
+	
 	<h2>POS-Tags</h2>
 	<div id="ccm-postags" class="component"></div>
-	
-	<h2>TF-IDF</h2>
-	<div id="ccm-tfidf" class="component"></div>
 	
 	<h2>Cooccurrence-Graph</h2>
 	<div id="ccm-cooccurrences" class="component"></div>
@@ -128,6 +128,14 @@
 	
 	<h2>Cloud</h2>
 	<div id="ccm-keycloud" class="component"></div>
+
+	<hr>
+
+	<h2>TF-IDF</h2>
+	<div id="ccm-tfidf" class="component"></div>
+
+	<h2>Summary</h2>
+	<div id="ccm-summary" class="component"></div>
 
 </body>
 
@@ -161,12 +169,25 @@
 			selectedWordTypes.push($(this).val());
 		});
 		
-		// render pos-tags
+		// render sentences
 		ccm.render(
-		'http://mbasti.github.io/ccm-ir-components/components/ccm.postagger.js', {
-			render_element: $('#ccm-postags'),
+		'./components/ccm.sentence-splitter.js', {
+			render_element: $('#ccm-sentencs'),
 			store_dataset: selectedStory,
 			store_src_key : 'content',
+			store_dst_key : 'splittedcontent',
+			color_noun : color_red,
+			color_adjective : color_green,
+			color_verb : color_blue,
+			store : storyStore
+		}, function() {
+		
+		// render pos-tags
+		ccm.render(
+		'./components/ccm.postagger.js', {
+			render_element: $('#ccm-postags'),
+			store_dataset: selectedStory,
+			store_src_key : 'splittedcontent',
 			store_dst_key : 'taggedcontent',
 			color_noun : color_red,
 			color_adjective : color_green,
@@ -176,7 +197,7 @@
 			
 		// render cooccurrences
 		ccm.render(
-		'http://mbasti.github.io/ccm-ir-components/components/ccm.cooccurrence.js', {
+		'./components/ccm.cooccurrence.js', {
 			render_element: $('#ccm-cooccurrences'),
 			coocc_windowSize : selectedcoocc_windowSize,
 			coocc_threshold : selectedThreshold,
@@ -192,7 +213,7 @@
 				
 		// render rankings
 		ccm.render(
-		'http://mbasti.github.io/ccm-ir-components/components/ccm.pagerank.js', {
+		'./components/ccm.pagerank.js', {
 			render_element: $('#ccm-pagerank'),
 			store_dataset: selectedStory,
 			store_src_key : 'cooccurrences',
@@ -202,7 +223,7 @@
 					
 		// render keycloud
 		ccm.render(
-		'http://mbasti.github.io/ccm-ir-components/components/ccm.keycloud.js', {
+		'./components/ccm.keycloud.js', {
 			render_element: $('#ccm-keycloud'),
 			cloud_renderLimit : selectedFilterCount,
 			cloud_mergeTerms : selectedMergeTerms,
@@ -214,7 +235,7 @@
 			
 			// render tfidf
 			ccm.render(
-			'http://mbasti.github.io/ccm-ir-components/components/ccm.tfidf.js', {
+			'./components/ccm.tfidf.js', {
 				render_element: $('#ccm-tfidf'),
 				store_dataset: selectedStory,
 				store_src_key : 'taggedcontent',
@@ -223,21 +244,19 @@
 			}, function() {
 			
 			
+			// render summary
 			ccm.render(
-			//'http://mbasti.github.io/ccm-ir-components/components/ccm.summary.js', {
 			'./components/ccm.summary.js', {
+				render_element: $('#ccm-summary'),
 				store_dataset: selectedStory,
-				store_corpus_key	: 'content',
+				store_corpus_key	: 'splittedcontent',
 				store_matrix_key	: 'tfidf',
 				store : storyStore	
 			}, function() {
-				$("#storybutton").attr("disabled",false);
-			});
 				
-			});
-			
-			
-		}); }); }); });
+				$("#storybutton").attr("disabled",false);
+				
+			}); }); }); }); }); });
 	
 	}
 
