@@ -24,7 +24,7 @@ ccm.component( {
 		this.render = function (callback) {
 			
 			this.store.get(this.store_dataset, function(data) {
-				
+				console.log('render');
 				//var documents = data[self.store_corpus_key];
 				var documents = Object.keys(matrix);
 				matrix = data[self.store_matrix_key];
