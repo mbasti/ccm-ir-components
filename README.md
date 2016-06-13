@@ -15,7 +15,7 @@ Open ```bookmarklet.html``` or [http://mbasti.github.io/ccm-ir-components/bookma
 | ```ccm.cooccurrence.js``` | generates from a pos-tagged textcorpus a cooccurrence/adjacency matrix |
 | ```ccm.tfidf-cosine-matrix.js``` | generates from a pos-tagged textcorpus a tf-idf/adjacency matrix for documents with the cosine similarity|
 | ```ccm.pagerank.js``` | generates a ranking for each node in an adjacency matrix |
-| ```ccm.ranking-summary.js``` | generatres from a summary text, based on tf-idf matrix|
+| ```ccm.ranking-summary.js``` | generatres from a summary text, based on a ranking |
 | ```ccm.keycloud.js``` | can be used with the cooccurrence- and pagerank-component to render keywords from a text as tagcloud|
 | ```ccm.ir-pipe.js``` | used [in the bookmarklet] for selection and composition of ir-components |
 
