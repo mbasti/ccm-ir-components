@@ -4,7 +4,7 @@
  */
 ccm.component( {
 
-	name: 'tfidf',
+	name: 'tfidf-cosine-matrix',
 
 	config: {
 		lib_graph 		: [ccm.load, 'https://mbasti.github.io/ccm-ir-components/lib/sigma/sigma.min.js'],
@@ -26,26 +26,26 @@ ccm.component( {
 				
 				var corpus = data[self.store_src_key];
 				var matrix = calculateTFIDFMatrix(corpus);
+				console.log(matrix);
+				var cosine_matrix = new Object();
 				
 				for (var document1 = 0; document1 < corpus.length; document1++) {
+					
+					if(!cosine_matrix[document1]) {
+						cosine_matrix[document1] = new Object(); 
+					}
+					
 					for (var document2 = document1+1; document2 < corpus.length; document2++) {
 
-						var cosine;
-						
-						var dotProduct = 0;
-						for(var word of Object.keys(matrix[document1])) {
-							dotProduct += matrix[document1][word]*matrix[document2][word];
-						}
+					if(!cosine_matrix[document2]) {
+						cosine_matrix[document2] = new Object(); 
+					}
 
-						var norm1 = 0, norm2 = 0;
-						for(var word of Object.keys(matrix[document1])) {
-							norm1 += matrix[document1][word]*matrix[document1][word];
-							norm2 += matrix[document2][word]*matrix[document2][word];
-						}
-						norm1 = Math.sqrt(norm1);
-						norm2 = Math.sqrt(norm2);
+						var cosine = cosine_similarity(document1, document2, matrix) * 100;
 						
-						cosine = dotProduct / (norm1 * norm2);
+						cosine_matrix[document1][document2] = cosine;
+						cosine_matrix[document2][document1] = cosine;
+						
 						var gnode_a = sigma_graph.nodes[document1];
 						var gnode_b = sigma_graph.nodes[document2];
 						
@@ -75,11 +75,11 @@ ccm.component( {
 						container: self.render_element.selector.replace("#","")
 					});
 				}
-				
+				console.log(cosine_matrix);
 				// store tf-idf matrix
 				var storable = new Object();
 				storable['key'] = self.store_dataset;
-				storable[self.store_dst_key] = matrix;
+				storable[self.store_dst_key] = cosine_matrix;
 				self.store.set(storable,callback);
 			});
 
@@ -129,7 +129,8 @@ ccm.component( {
 					}
 				}
 			}
-
+			console.log(matrix);
+			
 			// weight terms
 			var words = Object.keys(sumForWord);
 			for (var document = 0; document < corpus.length; document++) {
@@ -142,6 +143,27 @@ ccm.component( {
 			}
 
 			return matrix;
+		}
+
+		var cosine_similarity = function(document1, document2, matrix) {
+		
+			var cosine;			
+			var dotProduct = 0;
+			
+			for(var word of Object.keys(matrix[document1])) {
+				dotProduct += matrix[document1][word]*matrix[document2][word];
+			}
+
+			var norm1 = 0, norm2 = 0;
+			for(var word of Object.keys(matrix[document1])) {
+				norm1 += matrix[document1][word]*matrix[document1][word];
+				norm2 += matrix[document2][word]*matrix[document2][word];
+			}
+			norm1 = Math.sqrt(norm1);
+			norm2 = Math.sqrt(norm2);
+			
+			cosine = dotProduct / (norm1 * norm2);
+			return cosine;
 		}
 
 		var getCleanString = function(word) {

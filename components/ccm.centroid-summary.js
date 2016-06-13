@@ -4,14 +4,14 @@
  */
 ccm.component( {
   
-	name: 'summary',
+	name: 'centroid-summary',
 
 	config: {
 		store 				: [ccm.store, 'https://mbasti.github.io/ccm-ir-components/json/ccm.textcorpus.json'],
 		store_dataset		: 'demo',
 		store_corpus_key	: 'demo',
 		store_matrix_key	: 'demo',
-		compress_factor		: 0.3
+		compress_factor		: 0.2
 	},
 	  
 	Instance: function () {

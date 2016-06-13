@@ -225,7 +225,7 @@
 		}, function() {
 					
 					
-					console.log('cloud done');
+					console.log('ranking done');
 		// render keycloud
 		ccm.render(
 		'./components/ccm.keycloud.js', {
@@ -238,17 +238,28 @@
 			store : contentStore
 		}, function() {
 			
+			console.log('cloud done');
+			
 		// render tfidf
 		ccm.render(
-		'./components/ccm.tfidf.js', {
+		'./components/ccm.tfidf-cosine-matrix.js', {
 			render_element: $('#ccm-tfidf'),
 			store_dataset: selectedText,
-			tfidf_wordtypes : selectedWordTypes,
 			store_src_key : 'taggedcontent',
 			store_dst_key : 'tfidf',
-			store : contentStore	
+			store : contentStore,
+			tfidf_wordtypes : selectedWordTypes
 		}, function() {
 		
+		// render tfidf
+		ccm.render(
+		'./components/ccm.pagerank.js', {
+			store_dataset: selectedText,
+			store_src_key : 'tfidf',
+			store_dst_key : 'tfranking',
+			ranking_dumpingFactor : 0.5,
+			store : contentStore
+		}, function() {
 		
 		// render summary
 		ccm.render(
@@ -256,13 +267,13 @@
 			render_element: $('#ccm-summary'),
 			store_dataset: selectedText,
 			store_corpus_key	: 'splittedcontent',
-			store_matrix_key	: 'tfidf',
+			store_ranking_key	: 'tfranking',
 			store : contentStore	
 		}, function() {
 			
 		$("#storybutton").attr("disabled",false);
 				
-		}); }); }); }); }); }); });
+		}); }); }); }); }); }); }); });
 	
 	}
 

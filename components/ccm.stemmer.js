@@ -7,13 +7,13 @@ ccm.component( {
 	name: 'stemmer',
 
 	config: {
-		lib_lexer 		: [ccm.load, 'https://mbasti.github.io/ccm-ir-components/lib/jspos/lexer.js'],
-		lib_stemmer 	: [ccm.load, 'https://mbasti.github.io/ccm-ir-components/lib/Snowball.min.js'],
-		store 			: [ccm.store, 'https://mbasti.github.io/ccm-ir-components/json/ccm.textcorpus.json'],
-		store_dataset	: 'demo',
-		store_src_key	: 'demo',
-		store_dst_key	: 'demo',
-		language		: 'english'
+		lib_lexer 			: [ccm.load, 'https://mbasti.github.io/ccm-ir-components/lib/jspos/lexer.js'],
+		lib_stemmer 		: [ccm.load, 'https://mbasti.github.io/ccm-ir-components/lib/Snowball.min.js'],
+		store 				: [ccm.store, 'https://mbasti.github.io/ccm-ir-components/json/ccm.textcorpus.json'],
+		store_dataset		: 'demo',
+		store_src_key		: 'demo',
+		store_dst_key		: 'demo',
+		stemmer_language	: 'english'
 	},
 	  
 	Instance: function () {
@@ -22,7 +22,7 @@ ccm.component( {
 		var stemmer;
 
 		this.init = function(callback) {
-			stemmer = new Snowball(this.language);
+			stemmer = new Snowball(this.stemmer_language);
 			if(callback()) callback();
 		}
 
