@@ -10,11 +10,14 @@ Open ```bookmarklet.html``` or [http://mbasti.github.io/ccm-ir-components/bookma
 | Component    | What it does     |
 | ------------- |-------------|
 | ```ccm.stemmer.js``` | stemms the words from a textcorpus with a Snowball stemmer |
+| ```ccm.sentence-splitter.js``` | splits the textcorpus in sentences |
 | ```ccm.postagger.js``` | annotates a textcorpus with pos (part-of-speech)-tags |
 | ```ccm.cooccurrence.js``` | generates from a pos-tagged textcorpus a cooccurrence/adjacency matrix |
-| ```ccm.tfidf.js``` | generates from a pos-tagged textcorpus a tf-idf/adjacency matrix *TODO*|
-| ```ccm.summary.js``` | generatres from a summary text, based on tf-idf matrix *TODO*|
+| ```ccm.tfidf-cosine-matrix.js``` | generates from a pos-tagged textcorpus a tf-idf/adjacency matrix for documents with the cosine similarity|
 | ```ccm.pagerank.js``` | generates a ranking for each node in an adjacency matrix |
+| ```ccm.ranking-summary.js``` | generatres from a summary text, based on tf-idf matrix|
+| ```ccm.keycloud.js``` | can be used with the cooccurrence- and pagerank-component to render keywords from a text as tagcloud|
+| ```ccm.ir-pipe.js``` | used [in the bookmarklet] for selection and composition of ir-components |
 
 ## Links:
 * [ccm GitHub repo (mkaul)](https://github.com/mkaul/ccm-components)
