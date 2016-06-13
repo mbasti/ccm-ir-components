@@ -1,19 +1,31 @@
-ccm.callback['ccm.ir-components.json']({
+{
 	"default" : {
 		
 		"ccm-stemmer" : {
 			"path" : "https://mbasti.github.io/ccm-ir-components/components/ccm.stemmer.js",
 			"config" : {
-				
+				"store_src_key"		: "demo",
+				"store_dst_key"		: "demo"
 			},
 			"expects": "raw text",
 			"result" : "stemmed raw text"
+		},
+		
+		"ccm-sentence-splitter" : {
+			"path" : "https://mbasti.github.io/ccm-ir-components/components/ccm.sentence-splitter.js",
+			"config" : {
+				"store_src_key"		: "demo",
+				"store_dst_key"		: "demo"
+			},
+			"expects": "raw text",
+			"result" : "splitted raw text"
 		},
 
 		"ccm-postagger" : {
 			"path" : "https://mbasti.github.io/ccm-ir-components/components/ccm.postagger.js",
 			"config" : {
-				
+				"store_src_key"		: "demo",
+				"store_dst_key"		: "demo"
 			},
 			"expects": "raw text",
 			"result" : "pos-tagged text of the format [word, POS]"
@@ -22,19 +34,61 @@ ccm.callback['ccm.ir-components.json']({
 		"ccm-cooccurrence" : {
 			"path" : "https://mbasti.github.io/ccm-ir-components/components/ccm.cooccurrence.js",
 			"config" : {
-
+				"store_src_key"		: "demo",
+				"store_dst_key"		: "demo",
+				"coocc_wordtypes"	: ["nouns", "adjectives"],
+				"coocc_windowSize" 	: 2,
+				"coocc_threshold"	: 1
 			},
 			"expects": "pos-tagged text",
 			"result" : "cooccurrence adjacency matrix"
 		},
 
+		"ccm-tfidf-cosine-matrix" : {
+			"path" : "https://mbasti.github.io/ccm-ir-components/components/ccm.tfidf-cosine-matrix.js",
+			"config" : {
+				"store_src_key"		: "demo",
+				"store_dst_key"		: "demo",
+				"tfidf_wordtypes"	: ["nouns", "adjectives"]
+			},
+			"expects": "pos-tagged text",
+			"result" : "tfidf cosine adjacency matrix"
+		},
+
 		"ccm-pagerank" : {
 			"path" : "https://mbasti.github.io/ccm-ir-components/components/ccm.pagerank.js",
 			"config" : {
-
+				"store_src_key"					: "demo",
+				"store_dst_key"					: "demo",
+				"ranking_dumpingFactor"	 		: 0.85,
+				"ranking_convergenceThreshold"	: 0.0001
 			},
 			"expects": "adjacency matrix",
 			"result" : "ranking of the nodes in the matrix"
+		},
+		
+		"ccm-ranking-summary" : {
+			"path" : "https://mbasti.github.io/ccm-ir-components/components/ccm.ranking-summary.js",
+			"config" : {
+				"store_src_key"		: "demo",
+				"store_dst_key"		: "demo",
+				"compress_factor"	: 0.2
+			},
+			"expects": "raw text",
+			"result" : "stemmed raw text"
+		},
+		
+		"ccm-keycloud" : {
+			"path" : "https://mbasti.github.io/ccm-ir-components/components/ccm.keycloud.js",
+			"config" : {
+				"store_ranking_key"	: "demo",
+				"store_matrix_key"	: "demo",
+				"cloud_renderLimit" : 15,
+				"cloud_mergeTerms" 	: false
+			},
+			"expects": "raw text",
+			"result" : "stemmed raw text"
 		}
+		
 	}
-});
+}

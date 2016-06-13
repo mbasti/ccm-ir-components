@@ -59,16 +59,12 @@
 	font-size: 12pt;
 }
 
-#ccm-ir-pipe-descriptionWrapper {
+#ccm-ir-pipe-description {
 	border: none;
 	margin-left: 0px;
 }
 
-#ccm-ir-pipe-description {
-	margin-left: 0px;
-}
-
-#ccm-ir-pipe-descriptionWrapper th {
+#ccm-ir-pipe-description th {
 	margin-left: 0px;
 	padding-right: 10px;
 	text-align: right;
@@ -77,14 +73,14 @@
 	height: 40px;
 }
 
-#ccm-ir-pipe-descriptionWrapper tr {
+#ccm-ir-pipe-description tr {
 	margin: 0px;
 	width: 170px;
 	height: 40px;
 	font-size: 8pt;
 }
 
-#ccm-ir-pipe-descriptionWrapper td {
+#ccm-ir-pipe-description td {
 	text-align:left;
 }
 
@@ -113,13 +109,14 @@
 	padding-top: 6px;
 }
 
-#ccm-ir-pipe-result {
-
-}
-
 #ccm-ir-pipe-result li {
 	cursor: auto;
-	text-align : left;
+	text-align: left;
 	border: none;
 	padding:0px;
+}
+
+#ccm-ir-pipe-config {
+	text-align: left;
+	resize: none;
 }
