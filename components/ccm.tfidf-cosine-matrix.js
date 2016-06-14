@@ -26,7 +26,6 @@ ccm.component( {
 				
 				var corpus = data[self.store_src_key];
 				var matrix = calculateTFIDFMatrix(corpus);
-				console.log(matrix);
 				var cosine_matrix = new Object();
 				
 				for (var document1 = 0; document1 < corpus.length; document1++) {
@@ -75,7 +74,6 @@ ccm.component( {
 						container: self.render_element.selector.replace("#","")
 					});
 				}
-				console.log(cosine_matrix);
 				// store tf-idf matrix
 				var storable = new Object();
 				storable['key'] = self.store_dataset;
@@ -129,7 +127,6 @@ ccm.component( {
 					}
 				}
 			}
-			console.log(matrix);
 			
 			// weight terms
 			var words = Object.keys(sumForWord);
