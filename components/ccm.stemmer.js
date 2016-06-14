@@ -20,9 +20,11 @@ ccm.component( {
 	
 		var self = this;
 		var stemmer;
+		var lexer;
 
 		this.init = function(callback) {
 			stemmer = new Snowball(this.stemmer_language);
+			lexer = new Lexer();
 			if(callback()) callback();
 		}
 

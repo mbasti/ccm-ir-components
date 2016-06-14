@@ -108,12 +108,14 @@ ccm.component( {
 					
 					$(this).prop('disabled',true);
 					
+					saveConfig(prevSelectedComponent);
+					
 					selectedComponents = [];
 					var selection = document.getSelection();
-
+					
 					if(selection.focusNode != null && selection.anchorNode != null) {
 						
-						var text = selection.focusNode.textContent.slice(selection.anchorOffset, selection.focusOffset);
+						var text = selection.toString();
 						
 						// reset result div
 						$(selectorPipeResult).html("");
