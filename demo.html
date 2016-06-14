@@ -179,8 +179,6 @@
 			store : contentStore
 		}, function() {
 		
-		console.log('split done');
-		
 		// render pos-tags
 		ccm.render(
 		'./components/ccm.postagger.js', {
@@ -193,8 +191,6 @@
 			color_verb : color_blue,
 			store : contentStore
 		}, function() {
-			
-			console.log('pos done');
 			
 		// render cooccurrences
 		ccm.render(
@@ -212,8 +208,6 @@
 			store : contentStore
 		}, function() {
 				
-				console.log('coocc done');
-				
 		// render rankings
 		ccm.render(
 		'./components/ccm.pagerank.js', {
@@ -224,8 +218,6 @@
 			store : contentStore
 		}, function() {
 					
-					
-					console.log('ranking done');
 		// render keycloud
 		ccm.render(
 		'./components/ccm.keycloud.js', {
@@ -237,8 +229,6 @@
 			store_ranking_key : 'ranking',
 			store : contentStore
 		}, function() {
-			
-			console.log('cloud done');
 			
 		// render tfidf
 		ccm.render(
@@ -263,7 +253,7 @@
 		
 		// render summary
 		ccm.render(
-		'./components/ccm.summary.js', {
+		'./components/ccm.ranking-summary.js', {
 			render_element: $('#ccm-summary'),
 			store_dataset: selectedText,
 			store_corpus_key	: 'splittedcontent',
