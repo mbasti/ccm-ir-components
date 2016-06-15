@@ -11,6 +11,7 @@ ccm.component( {
 		store_dataset		: 'demo',
 		store_corpus_key	: 'demo',
 		store_ranking_key	: 'demo',
+		store_dst_key		: 'demo',
 		compress_factor		: 0.2
 	},
 	  
