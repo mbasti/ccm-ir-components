@@ -28,11 +28,17 @@ ccm.component( {
 				for (var documentIndx in documents) {
 					
 					var document = documents[documentIndx];
-					
-					for(var sentence of document.match(/[^\.!\?]+[\.!\?]+/g)) {
-						sentences.push(sentence);
-						html_content += "<p>" + sentence + "</p>";
-						html_content += "<hr>";
+					var sentence_matches = document.match(/[^\.!\?]+[\.!\?]+/g);
+					if(sentence_matches) {
+						for(var sentence of sentence_matches) {
+							sentences.push(sentence);
+							html_content += "<p>" + sentence + "</p>";
+							html_content += "<hr>";
+						}
+					} else {
+						// dont know what else todo, when the regex 
+						// doesnt match
+						sentences.push(document);
 					}
 					
 				}
