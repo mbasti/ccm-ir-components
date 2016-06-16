@@ -21,13 +21,12 @@
 	background: white;
 }
 
-.ccm-ir-pipe {
-	
-}
-
 #ccm-ir-pipe-component-arrow {
 	float: left;
-	margin-top: 6em;
+	margin-left: 10px;
+	margin-right: 10px;
+	margin-bottom: 100px;
+	margin-top: 80px;
 }
 
 #ccm-ir-pipe-button-panel {
@@ -39,10 +38,14 @@
 	vertical-align: middle;
 	width: 100px;
 	height: 30px;
-	margin: 10px;
+	margin-left: 10px;
+	margin-right: 10px;
+	margin-bottom: 100px;
+	margin-top: 80px;
 	border: thin solid grey;
 	font-family: Century Gothic,CenturyGothic,AppleGothic,sans-serif;
 	font: bold 15px;
+	float: left;
 }
 
 #ccm-ir-pipe-availableComponents {
@@ -88,14 +91,22 @@
 	text-align: left;
 }
 
-.ccm-ir-pipe-box {
+.ccm-ir-pipe-box-wrapper {
 	float: left;
-	list-style-type: none;
 	border : thin solid grey;
 	margin: 15px;
-	padding: 0px;
 	height: 140px;
+	padding: auto;
+	text-align: center;
 	width: 240px;
+}
+
+.ccm-ir-pipe-box {
+	list-style-type: none;
+	height: 100%;
+	width: 100%;
+	margin: auto;
+	padding: 0px;
 	overflow: auto;
 }
 
@@ -104,9 +115,9 @@
 	text-align: center;
 	vertical-align: middle;
 	height: 25px;
-	margin: 10px;
 	cursor : move;
-	padding-top: 6px;
+	margin: 6px;
+	padding-top: 3px;
 }
 
 #ccm-ir-pipe-result li {
@@ -119,4 +130,5 @@
 #ccm-ir-pipe-config {
 	text-align: left;
 	resize: none;
+	border: none;
 }

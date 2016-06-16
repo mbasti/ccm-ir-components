@@ -46,7 +46,7 @@ ccm.component( {
 			
 			var main = this.html_template.get('main');
 			var element = ccm.helper.element(this);
-			var availableComponents = main.inner[0].inner;
+			var availableComponents = main.inner[0].inner[1].inner;
 			
 			this.store.get(self.store_dataset, function(data) {
 				self.components = data;
