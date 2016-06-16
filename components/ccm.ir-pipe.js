@@ -13,7 +13,7 @@ ccm.component( {
 		style			: [ccm.load, './css/ccm.ir-pipe.css'],
 		store 			: [ccm.store, './json/ccm.ir-components.json'],
 		store_dataset 	: 'default',
-		init_src_key 	: 'content'
+		init_src_key 	: 'raw text'
 	},
 	  
 	Instance: function () {
