@@ -1,4 +1,4 @@
-ccm.callback['ccm.textcorpus.json']({
+ccm.callback['ccm.ir-pipe_html.json']({
   "main": {
     "inner": [
 		{"tag" : "fieldset", "class" : "ccm-ir-pipe-box-wrapper", "inner" : [
