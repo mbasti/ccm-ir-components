@@ -1,4 +1,4 @@
-{
+ccm.callback['ccm.textcorpus.json']({
 	"default" : {
 		
 		"ccm-stemmer" : {
@@ -93,4 +93,4 @@
 		}
 		
 	}
-}
+});

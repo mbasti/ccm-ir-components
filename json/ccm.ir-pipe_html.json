@@ -1,4 +1,4 @@
-{
+ccm.callback['ccm.textcorpus.json']({
   "main": {
     "inner": [
 		{"tag" : "fieldset", "class" : "ccm-ir-pipe-box-wrapper", "inner" : [
@@ -45,4 +45,4 @@
 	]},
 	
 	"component" : {"class" : "ccm-ir-pipe-component", "tag" : "li"}
-}
+});
