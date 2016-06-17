@@ -31,40 +31,42 @@ ccm.component( {
 	
 		this.render = function (callback) {
 
-			// filter rankings according to 'cloud_renderLimit'
-			self.store.get(self.store_dataset, function(data) {
+			var render_element = self.render_element;
 
-				var rankings = data[self.store_ranking_key];
-				var adjacencyMatrix = data[self.store_matrix_key];
-				
-				var selectedRanks = selectRanks(rankings);
-				
-				if(self.cloud_mergeTerms) {
-					selectedRanks = mergeRanks(selectedRanks, adjacencyMatrix);
-				}
+			if(render_element) {
+				// filter rankings according to 'cloud_renderLimit'
+				self.store.get(self.store_dataset, function(data) {
 
-				// randomize dataset so it looks better
-				var keys = Object.keys(selectedRanks);
-				var i = 0, j = 0, temp = null;
-				for (i = keys.length - 1; i > 0; i -= 1) {
-					j = Math.floor(Math.random() * (i + 1));
-					temp = keys[i];
-					keys[i] = keys[j];
-					keys[j] = temp;
-				}
+					var rankings = data[self.store_ranking_key];
+					var adjacencyMatrix = data[self.store_matrix_key];
+					
+					var selectedRanks = selectRanks(rankings);
+					
+					if(self.cloud_mergeTerms) {
+						selectedRanks = mergeRanks(selectedRanks, adjacencyMatrix);
+					}
 
-				// render selectedRanks
-				var render_element = self.render_element;
-				var div_id = self.render_element.selector.replace("#","") + "-cloud";
-				var html_structure = {tag: 'div', id: div_id, inner: []};
-				for (var key of keys){
-					html_structure.inner.push({tag:'a', rel:selectedRanks[key], inner: ' ' + key + ' '});
-				}
-				render_element.html(ccm.helper.html(html_structure));
-				render_element.find('#' + div_id + ' a').tagcloud();
+					// randomize dataset so it looks better
+					var keys = Object.keys(selectedRanks);
+					var i = 0, j = 0, temp = null;
+					for (i = keys.length - 1; i > 0; i -= 1) {
+						j = Math.floor(Math.random() * (i + 1));
+						temp = keys[i];
+						keys[i] = keys[j];
+						keys[j] = temp;
+					}
 
-			});
+					// render selectedRanks
+					var div_id = self.render_element.selector.replace("#","") + "-cloud";
+					var html_structure = {tag: 'div', id: div_id, inner: []};
+					for (var key of keys){
+						html_structure.inner.push({tag:'a', rel:selectedRanks[key], inner: ' ' + key + ' '});
+					}
+					render_element.html(ccm.helper.html(html_structure));
+					render_element.find('#' + div_id + ' a').tagcloud();
 
+				});
+			}
 			if (callback) callback();
 		}
 

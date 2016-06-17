@@ -130,8 +130,6 @@ ccm.component( {
 							var component = ccm.helper.clone(self.components[componentName]);
 							component.config.store = contentStore;
 							component.config.store_dataset = self.store_dataset;
-							//component.config.store_src_key = prev_src_key;
-							//component.config.store_dst_key = componentName;
 							prev_src_key = componentName;
 							selectedComponents.push(component);
 						});
