@@ -7,10 +7,10 @@ ccm.component( {
 	name: 'postagger',
 
 	config: {
-		lib_lexer 		: [ccm.load, 'https://mbasti.github.io/lib/jspos/lexer.js'],
-		lib_lexicon 	: [ccm.load, 'https://mbasti.github.io/lib/jspos/lexicon.js'],
-		lib_postagger	: [ccm.load, 'https://mbasti.github.io/lib/jspos/POSTagger.js'],
-		store 			: [ccm.store, 'https://mbasti.github.io/json/ccm.textcorpus.json'],
+		lib_lexer 		: [ccm.load, 'https://mbasti.github.io/ccm-ir-components/lib/jspos/lexer.js'],
+		lib_lexicon 	: [ccm.load, 'https://mbasti.github.io/ccm-ir-components/lib/jspos/lexicon.js'],
+		lib_postagger	: [ccm.load, 'https://mbasti.github.io/ccm-ir-components/lib/jspos/POSTagger.js'],
+		store 			: [ccm.store, 'https://mbasti.github.io/ccm-ir-components/json/ccm.textcorpus.json'],
 		store_dataset 	: 'demo',
 		store_src_key 	: 'demo',
 		store_dst_key	: 'demo',
@@ -35,24 +35,28 @@ ccm.component( {
 		this.render = function(callback) {
 	
 			this.store.get(this.store_dataset, function(data) {
-				
+
 				var taggedCorpus = new Array();
 				var html_content = "";
+				var documents = data[self.store_src_key];
 				
-				for (var document of data[self.store_src_key]) {
-					
+				for (var documentIndx in documents) {
+					var document = documents[documentIndx];
 					// generate pos-tags
 					var taggedWords = tagger.tag(lexer.lex(document));
 					taggedCorpus.push(taggedWords);
 					
 					html_content += "<p>";
+					
 					for(var taggedWord of taggedWords) {
 						var color = getColor(taggedWord);	
 						html_content += "<font color=" + color + ">";
 						html_content += taggedWord[0] + " ";
 						html_content += "</font>";
 					}
+					
 					html_content += "</p>";
+					html_content += "<hr>";
 					
 				}
 				

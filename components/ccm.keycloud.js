@@ -7,8 +7,8 @@ ccm.component( {
 	name: 'keycloud',
 
 	config: {
-		lib_tagcloud			: [ccm.load, 'https://mbasti.github.io/lib/jquery.tagcloud.js'],
-		store 					: [ccm.store, 'https://mbasti.github.io/json/ccm.textcorpus.json'],
+		lib_tagcloud			: [ccm.load, 'https://mbasti.github.io/ccm-ir-components/lib/jquery.tagcloud.js'],
+		store 					: [ccm.store, 'https://mbasti.github.io/ccm-ir-components/json/ccm.textcorpus.json'],
 		store_dataset 			: 'demo',
 		store_ranking_key		: 'demo',
 		store_matrix_key		: 'demo',
@@ -31,40 +31,42 @@ ccm.component( {
 	
 		this.render = function (callback) {
 
-			// filter rankings according to 'cloud_renderLimit'
-			self.store.get(self.store_dataset, function(data) {
+			var render_element = self.render_element;
 
-				var rankings = data[self.store_ranking_key];
-				var adjacencyMatrix = data[self.store_matrix_key];
-				
-				var selectedRanks = selectRanks(rankings);
-				
-				if(self.cloud_mergeTerms) {
-					selectedRanks = mergeRanks(selectedRanks, adjacencyMatrix);
-				}
+			if(render_element) {
+				// filter rankings according to 'cloud_renderLimit'
+				self.store.get(self.store_dataset, function(data) {
 
-				// randomize dataset so it looks better
-				var keys = Object.keys(selectedRanks);
-				var i = 0, j = 0, temp = null;
-				for (i = keys.length - 1; i > 0; i -= 1) {
-					j = Math.floor(Math.random() * (i + 1));
-					temp = keys[i];
-					keys[i] = keys[j];
-					keys[j] = temp;
-				}
+					var rankings = data[self.store_ranking_key];
+					var adjacencyMatrix = data[self.store_matrix_key];
+					
+					var selectedRanks = selectRanks(rankings);
+					
+					if(self.cloud_mergeTerms) {
+						selectedRanks = mergeRanks(selectedRanks, adjacencyMatrix);
+					}
 
-				// render selectedRanks
-				var render_element = self.render_element;
-				var div_id = self.render_element.selector.replace("#","") + "-cloud";
-				var html_structure = {tag: 'div', id: div_id, inner: []};
-				for (var key of keys){
-					html_structure.inner.push({tag:'a', rel:selectedRanks[key], inner: ' ' + key + ' '});
-				}
-				render_element.html(ccm.helper.html(html_structure));
-				render_element.find('#' + div_id + ' a').tagcloud();
+					// randomize dataset so it looks better
+					var keys = Object.keys(selectedRanks);
+					var i = 0, j = 0, temp = null;
+					for (i = keys.length - 1; i > 0; i -= 1) {
+						j = Math.floor(Math.random() * (i + 1));
+						temp = keys[i];
+						keys[i] = keys[j];
+						keys[j] = temp;
+					}
 
-			});
+					// render selectedRanks
+					var div_id = self.render_element.selector.replace("#","") + "-cloud";
+					var html_structure = {tag: 'div', id: div_id, inner: []};
+					for (var key of keys){
+						html_structure.inner.push({tag:'a', rel:selectedRanks[key], inner: ' ' + key + ' '});
+					}
+					render_element.html(ccm.helper.html(html_structure));
+					render_element.find('#' + div_id + ' a').tagcloud();
 
+				});
+			}
 			if (callback) callback();
 		}
 
@@ -74,7 +76,7 @@ ccm.component( {
 			var keys = Object.keys(rankings);
 			var selectedRanks = new Object();
 			keys.sort(function(word_a, word_b){return rankings[word_a] <= rankings[word_b]});
-			keys = keys.slice(0,self.cloud_renderLimit-1);
+			keys = keys.slice(0,self.cloud_renderLimit);
 			for(var key of keys) {
 				selectedRanks[key] = rankings[key];
 			}

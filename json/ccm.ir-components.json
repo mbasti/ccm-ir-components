@@ -2,39 +2,95 @@ ccm.callback['ccm.ir-components.json']({
 	"default" : {
 		
 		"ccm-stemmer" : {
-			"path" : "https://mbasti.github.io/components/ccm.stemmer.js",
+			"path" : "https://mbasti.github.io/ccm-ir-components/components/ccm.stemmer.js",
 			"config" : {
-				
+				"store_src_key"		: "raw text",
+				"store_dst_key"		: "raw text"
 			},
 			"expects": "raw text",
-			"result" : "stemmed raw text"
+			"result" : "raw text"
+		},
+		
+		"ccm-sentence-splitter" : {
+			"path" : "https://mbasti.github.io/ccm-ir-components/components/ccm.sentence-splitter.js",
+			"config" : {
+				"store_src_key"		: "raw text",
+				"store_dst_key"		: "raw text"
+			},
+			"expects": "raw text",
+			"result" : "raw text"
 		},
 
 		"ccm-postagger" : {
-			"path" : "https://mbasti.github.io/components/ccm.postagger.js",
+			"path" : "https://mbasti.github.io/ccm-ir-components/components/ccm.postagger.js",
 			"config" : {
-				
+				"store_src_key"		: "raw text",
+				"store_dst_key"		: "pos-tagged text"
 			},
 			"expects": "raw text",
-			"result" : "pos-tagged text of the format [word, POS]"
+			"result" : "pos-tagged text"
 		},
 		
 		"ccm-cooccurrence" : {
-			"path" : "https://mbasti.github.io/components/ccm.cooccurrence.js",
+			"path" : "https://mbasti.github.io/ccm-ir-components/components/ccm.cooccurrence.js",
 			"config" : {
-
+				"store_src_key"		: "pos-tagged text",
+				"store_dst_key"		: "adjacency-matrix",
+				"coocc_wordtypes"	: ["nouns", "adjectives"],
+				"coocc_windowSize" 	: 2,
+				"coocc_threshold"	: 1
 			},
 			"expects": "pos-tagged text",
-			"result" : "cooccurrence adjacency matrix"
+			"result" : "adjacency-matrix"
+		},
+
+		"ccm-tfidf-cosine-matrix" : {
+			"path" : "https://mbasti.github.io/ccm-ir-components/components/ccm.tfidf-cosine-matrix.js",
+			"config" : {
+				"store_src_key"		: "pos-tagged text",
+				"store_dst_key"		: "adjacency-matrix",
+				"tfidf_wordtypes"	: ["nouns", "adjectives"]
+			},
+			"expects": "pos-tagged text",
+			"result" : "adjacency-matrix"
 		},
 
 		"ccm-pagerank" : {
-			"path" : "https://mbasti.github.io/components/ccm.pagerank.js",
+			"path" : "https://mbasti.github.io/ccm-ir-components/components/ccm.pagerank.js",
 			"config" : {
-
+				"store_src_key"					: "adjacency-matrix",
+				"store_dst_key"					: "ranking",
+				"ranking_dumpingFactor"	 		: 0.85,
+				"ranking_convergenceThreshold"	: 0.0001
 			},
-			"expects": "adjacency matrix",
-			"result" : "ranking of the nodes in the matrix"
+			"expects": "adjacency-matrix",
+			"result" : "ranking"
+		},
+		
+		"ccm-ranking-summary" : {
+			"path" : "https://mbasti.github.io/ccm-ir-components/components/ccm.ranking-summary.js",
+			"config" : {
+				"store_src_key"		: "ranking",
+				"store_corpus_key"	: "raw text",
+				"store_ranking_key"	: "ranking",
+				"store_dst_key"		: "summary",
+				"compress_factor"	: 0.2
+			},
+			"expects": "raw text; ranking",
+			"result" : "summary"
+		},
+		
+		"ccm-keycloud" : {
+			"path" : "https://mbasti.github.io/ccm-ir-components/components/ccm.keycloud.js",
+			"config" : {
+				"store_ranking_key"	: "ranking",
+				"store_matrix_key"	: "adjacency-matrix",
+				"cloud_renderLimit" : 15,
+				"cloud_mergeTerms" 	: false
+			},
+			"expects": "adjacency-matrix; ranking",
+			"result" : "-"
 		}
+		
 	}
 });

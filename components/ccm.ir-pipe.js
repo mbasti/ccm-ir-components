@@ -9,11 +9,11 @@ ccm.component( {
 	config: {
 		jquery_ui_js	: [ccm.load, 'https://code.jquery.com/ui/1.11.4/jquery-ui.min.js'],
 		jquery_ui_css	: [ccm.load, 'https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css'],
-		html_template	: [ccm.store, 'https://mbasti.github.io/json/ccm.ir-pipe_html.json'],
-		style			: [ccm.load, 'https://mbasti.github.io/css/ccm.ir-pipe.css'],
-		store 			: [ccm.store, 'https://mbasti.github.io/json/ccm.ir-components.json'],
+		html_template	: [ccm.store, 'https://mbasti.github.io/ccm-ir-components/json/ccm.ir-pipe_html.json'],
+		style			: [ccm.load, 'https://mbasti.github.io/ccm-ir-components/css/ccm.ir-pipe.css'],
+		store 			: [ccm.store, 'https://mbasti.github.io/ccm-ir-components/json/ccm.ir-components.json'],
 		store_dataset 	: 'default',
-		init_src_key 	: 'content'
+		init_src_key 	: 'raw text'
 	},
 	  
 	Instance: function () {
@@ -27,6 +27,7 @@ ccm.component( {
 		var selectorDescExpects = "#ccm-ir-pipe-descExpects";
 		var selectorDescPath = "#ccm-ir-pipe-descPath";
 		var selectorPipeResult = "#ccm-ir-pipe-result";
+		var selectorConfig = "#ccm-ir-pipe-config";
 		var colorSelected = "#F2F2F2";
 		var colorUnSelected = "#c0d6e4";
 		
@@ -45,7 +46,7 @@ ccm.component( {
 			
 			var main = this.html_template.get('main');
 			var element = ccm.helper.element(this);
-			var availableComponents = main.inner[0].inner;
+			var availableComponents = main.inner[0].inner[1].inner;
 			
 			this.store.get(self.store_dataset, function(data) {
 				self.components = data;
@@ -84,6 +85,7 @@ ccm.component( {
 							updateComponentColorUnselected(this);
 							if(prevSelectedComponent) {
 								updateDescription(prevSelectedComponent);
+								//saveConfig(prevSelectedComponent);
 							}
 						}
 					}
@@ -91,9 +93,13 @@ ccm.component( {
 
 				$(selectorAllComponents).mousedown(function() {
 					if(this != prevSelectedComponent) {
+						if(prevSelectedComponent) {
+							updateComponentColorUnselected(prevSelectedComponent);
+							saveConfig(prevSelectedComponent);
+						}
 						updateDescription(this);
+						updateConfig(this);
 						// hover will update the color for 'this'
-						updateComponentColorUnselected(prevSelectedComponent);
 						prevSelectedComponent = this;
 					}
 				});
@@ -102,12 +108,18 @@ ccm.component( {
 					
 					$(this).prop('disabled',true);
 					
+					// save selected componente config, which will normally
+					// saved by hoover actions..
+					if(prevSelectedComponent) {
+						saveConfig(prevSelectedComponent);
+					}
+				
 					selectedComponents = [];
 					var selection = document.getSelection();
-
-					if(selection.focusNode != null && selection.anchorNode != null) {
+					
+					if(selection != null && selection.toString().length > 0) {
 						
-						var text = selection.focusNode.textContent.slice(selection.anchorOffset, selection.focusOffset);
+						var text = selection.toString();
 						
 						// reset result div
 						$(selectorPipeResult).html("");
@@ -118,8 +130,6 @@ ccm.component( {
 							var component = ccm.helper.clone(self.components[componentName]);
 							component.config.store = contentStore;
 							component.config.store_dataset = self.store_dataset;
-							component.config.store_src_key = prev_src_key;
-							component.config.store_dst_key = componentName;
 							prev_src_key = componentName;
 							selectedComponents.push(component);
 						});
@@ -167,6 +177,22 @@ ccm.component( {
 			$(selectorDescPath).html(selectedComponent.path);
 			$(selectorDescExpects).html(selectedComponent.expects);
 			$(selectorDescResult).html(selectedComponent.result);
+		}
+		
+		var updateConfig = function(jquerySelector) {
+			var selectedComponent = self.components[$(jquerySelector).attr("value")];
+			$(selectorConfig).val(JSON.stringify(selectedComponent.config));
+		}
+		
+		var saveConfig = function(jquerySelector) {
+			var selectedComponent = self.components[$(jquerySelector).attr("value")];
+			var oldConfig = selectedComponent.config;
+			
+			try {
+				selectedComponent.config = JSON.parse($(selectorConfig).val());
+			} catch(err) {
+				selectedComponent.config = oldConfig;
+			} 
 		}
 		
 		var updateComponentColorSelected = function(component) {

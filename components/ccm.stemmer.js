@@ -7,21 +7,24 @@ ccm.component( {
 	name: 'stemmer',
 
 	config: {
-		lib_stemmer 	: [ccm.load, 'https://mbasti.github.io/lib/Snowball.min.js'],
-		store 			: [ccm.store, 'https://mbasti.github.io/json/ccm.textcorpus.json'],
-		store_dataset	: 'demo',
-		store_src_key	: 'demo',
-		store_dst_key	: 'demo',
-		language		: 'english'
+		lib_lexer 			: [ccm.load, 'https://mbasti.github.io/ccm-ir-components/lib/jspos/lexer.js'],
+		lib_stemmer 		: [ccm.load, 'https://mbasti.github.io/ccm-ir-components/lib/Snowball.min.js'],
+		store 				: [ccm.store, 'https://mbasti.github.io/ccm-ir-components/json/ccm.textcorpus.json'],
+		store_dataset		: 'demo',
+		store_src_key		: 'demo',
+		store_dst_key		: 'demo',
+		stemmer_language	: 'english'
 	},
 	  
 	Instance: function () {
 	
 		var self = this;
 		var stemmer;
+		var lexer;
 
 		this.init = function(callback) {
-			stemmer = new Snowball(this.language);
+			stemmer = new Snowball(this.stemmer_language);
+			lexer = new Lexer();
 			if(callback()) callback();
 		}
 
@@ -32,10 +35,13 @@ ccm.component( {
 				var stemmedContent = new Array();	
 				var html_content = "";
 				
-				for (var document of data[self.store_src_key]) {
+				var documents = data[self.store_src_key];
+				
+				for (var documentIndx in documents) {
+					var document = documents[documentIndx];
 					
 					var stemmedDocument = "";
-					for(var word of document.split(/ +/)) {
+					for(var word of lexer.lex(document)) {
 						stemmer.setCurrent(word);
 						stemmer.stem();
 						stemmedDocument += stemmer.getCurrent() + " ";
@@ -43,6 +49,10 @@ ccm.component( {
 					stemmedContent.push(stemmedDocument);
 					
 					html_content += "<p>" + stemmedDocument + "</p>";
+					
+					if(documentIndx < documents.length-1) {
+						html_content += "<hr>";
+					}
 				}
 
 				// render stemmed data
