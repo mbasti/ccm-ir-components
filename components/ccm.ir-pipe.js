@@ -108,12 +108,16 @@ ccm.component( {
 					
 					$(this).prop('disabled',true);
 					
-					saveConfig(prevSelectedComponent);
-					
+					// save selected componente config, which will normally
+					// saved by hoover actions..
+					if(prevSelectedComponent) {
+						saveConfig(prevSelectedComponent);
+					}
+				
 					selectedComponents = [];
 					var selection = document.getSelection();
 					
-					if(selection.focusNode != null && selection.anchorNode != null) {
+					if(selection != null && selection.toString().length > 0) {
 						
 						var text = selection.toString();
 						
