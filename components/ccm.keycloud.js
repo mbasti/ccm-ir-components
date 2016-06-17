@@ -76,7 +76,7 @@ ccm.component( {
 			var keys = Object.keys(rankings);
 			var selectedRanks = new Object();
 			keys.sort(function(word_a, word_b){return rankings[word_a] <= rankings[word_b]});
-			keys = keys.slice(0,self.cloud_renderLimit-1);
+			keys = keys.slice(0,self.cloud_renderLimit);
 			for(var key of keys) {
 				selectedRanks[key] = rankings[key];
 			}
