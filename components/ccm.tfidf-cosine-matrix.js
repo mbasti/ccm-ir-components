@@ -33,15 +33,17 @@ ccm.component( {
 					if(!cosine_matrix[document1]) {
 						cosine_matrix[document1] = new Object(); 
 					}
-					
+
 					for (var document2 = document1+1; document2 < corpus.length; document2++) {
 
-					if(!cosine_matrix[document2]) {
-						cosine_matrix[document2] = new Object(); 
-					}
+						if(!cosine_matrix[document2]) {
+							cosine_matrix[document2] = new Object(); 
+						}
 
-						var cosine = cosine_similarity(document1, document2, matrix) * 100;
-						
+						// min: -1, max: 1
+						// scale the similarity bigger for better usage...
+						var cosine = (cosine_similarity(document1, document2, matrix)+1)*100;
+
 						cosine_matrix[document1][document2] = cosine;
 						cosine_matrix[document2][document1] = cosine;
 						
@@ -96,7 +98,7 @@ ccm.component( {
 					sigma_graph.nodes.push({
 						id: document,
 						label: 'document ' + document,
-						size: 10,
+						size: 1,
 						x: Math.random(),
 						y: Math.random(),
 						color: 'black'
