@@ -41,6 +41,7 @@ ccm.component( {
 		var selectedComponents;
 		var contentStore = ccm.store();	
 		var rendercount = 0;
+		var startTime;
 		
 		this.render = function(callback) {
 			
@@ -136,6 +137,9 @@ ccm.component( {
 					
 						if(selectedComponents.length > 0) {
 							
+							// save start time
+							startTime = new Date().getTime();
+							
 							// configure that last component should actually render
 							selectedComponents[selectedComponents.length-1].config.render_element = $(selectorPipeResult);
 							
@@ -212,6 +216,9 @@ ccm.component( {
 					renderNext
 				);
 			} else {
+				var end = new Date().getTime();
+				var time = end - startTime;
+				console.log('ccm IR-Pipeline execution time: ' + time);
 				$(selectorRenderButton).prop('disabled',false);
 			}
 		}
